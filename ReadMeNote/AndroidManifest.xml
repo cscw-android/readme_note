@@ -38,6 +38,10 @@
             android:name="com.example.readmenote.ShareActivity"
             android:label="@string/title_activity_share" >
         </activity>
+        <activity
+            android:name="com.example.readmenote.ThingDetail"
+            android:label="@string/title_activity_share" >
+        </activity>
     </application>
 
 </manifest>
