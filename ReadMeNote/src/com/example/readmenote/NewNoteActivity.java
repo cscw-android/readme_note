@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,16 +28,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NewNoteActivity extends Activity {
 
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
 	final int MOOD = 1;
+	final int GESTURE = 2;
 	final int CAMERA = 98;//传过去的resultCode
 	final int PICTURE = 99;
 	Bitmap bitmap = null;//Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
-	EditText user_detail;
+	EditText user_detail,user_title;
 
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
@@ -117,6 +120,7 @@ public class NewNoteActivity extends Activity {
 	
 
 	public void initialize_button_variables() {
+		user_title = (EditText) findViewById(R.id.user_title);
 		user_detail = (EditText) findViewById(R.id.user_detail);
 		addnote_save = (ImageButton) findViewById(R.id.gallery_menu_save);
 		addnote_picture = (ImageButton) findViewById(R.id.gallery_menu_picture);
@@ -204,7 +208,10 @@ public class NewNoteActivity extends Activity {
 		addnote_painting.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				Toast gesture_toast = Toast.makeText(getApplicationContext(), "请涂鸦,单次点击只能涂鸦一次哦~亲^_^", 7000);
+				gesture_toast.show();
+				Intent intent = new Intent(NewNoteActivity.this,AddNote_painting.class);
+				startActivityForResult(intent, GESTURE);
 			}
 		});
 
@@ -223,14 +230,31 @@ public class NewNoteActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == MOOD) {//心情图标
+			Bundle b = data.getExtras();
+			String imageId = b.getString("imageId");
+			addnote_moodTagging
+					.setImageResource(addnote_moodTagging_itemSource[Integer
+							.parseInt(imageId)]);
+		}
+		if(requestCode == GESTURE){
+			AddNote_painting painting = new AddNote_painting();
+			Bitmap bitmap = painting.getBitmap();
+			//接下来的代码跟上面的注释是一样的，不累赘注释
+			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,bitmap);
+			SpannableString spannableString = new SpannableString("[local]"+ 1 + "[/local]");
+			spannableString.setSpan(imageSpan, 0,"[local]1[local]".length() + 1,
+			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			int index = user_detail.getSelectionStart(); 
+			Editable edit_text = user_detail.getEditableText();
+			if (index < 0 || index >= edit_text.length()) {
+			edit_text.append(spannableString);
+			} else {
+				edit_text.insert(index, spannableString);
+					}
+		}
 		if (resultCode == RESULT_OK) {
-			if (requestCode == MOOD) {//心情图标
-				Bundle b = data.getExtras();
-				String imageId = b.getString("imageId");
-				addnote_moodTagging
-						.setImageResource(addnote_moodTagging_itemSource[Integer
-								.parseInt(imageId)]);
-			}
+			
 			if (requestCode == PICTURE) {//选择添加相册里的图片
 				Uri uri = data.getData();
 				// 将Image转为Bitmap
@@ -296,6 +320,7 @@ public class NewNoteActivity extends Activity {
 				}
 
 			}
+			
 
 		}
 	}
