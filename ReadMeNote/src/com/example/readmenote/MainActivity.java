@@ -29,52 +29,52 @@ public class MainActivity extends TabActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// È«ÆÁÏÔÊ¾
+		// å…¨å±æ˜¾ç¤º
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		// »ñÈ¡µ±Ç°Ê±¼äµÄ·½·¨
+		// è·å–å½“å‰æ—¶é—´çš„æ–¹æ³•
 		settime();
-		// »ñÈ¡¸ÃactivityÀïµÄtabhost
+		// è·å–è¯¥activityé‡Œçš„tabhost
 		tabhost = getTabHost();
 		button1 = (RadioButton) findViewById(R.id.tab1);
 		button2 = (RadioButton) findViewById(R.id.tab2);
 		button3 = (RadioButton) findViewById(R.id.tab3);
 
-		// ÕâÀïĞÂ½¨3¸öµÄIntentÓÃÓÚActivityµÄÇĞ»»
+		// è¿™é‡Œæ–°å»º3ä¸ªçš„Intentç”¨äºActivityçš„åˆ‡æ¢
 		my_note_intent = new Intent(this, MyNoteActivity.class);
 		new_note_intent = new Intent(this, NewNoteActivity.class);
 		share_intent = new Intent(this, ShareActivity.class);
 
-		// Ã¿Ò»¸ö±êÇ©µÄÑù×Ó
+		// æ¯ä¸€ä¸ªæ ‡ç­¾çš„æ ·å­
 		View myTab = (View) LayoutInflater.from(this).inflate(R.layout.tabmim,
 				null);
 		TextView text0 = (TextView) myTab.findViewById(R.id.tab_label);
 		ImageView img0 = (ImageView) myTab.findViewById(R.id.imageView1);
-		text0.setText("ÎÒµÄ±Ê¼Ç");
+		text0.setText("æˆ‘çš„ç¬”è®°");
 		img0.setImageResource(R.drawable.my_note);
 
 		View newTab = (View) LayoutInflater.from(this).inflate(R.layout.tabmim,
 				null);
 		TextView text1 = (TextView) newTab.findViewById(R.id.tab_label);
 		ImageView img1 = (ImageView) newTab.findViewById(R.id.imageView1);
-		text1.setText("Ìí¼Ó±Ê¼Ç");
+		text1.setText("æ·»åŠ ç¬”è®°");
 		img1.setImageResource(R.drawable.new_note);
 
 		View shareTab = (View) LayoutInflater.from(this).inflate(
 				R.layout.tabmim, null);
 		TextView text2 = (TextView) shareTab.findViewById(R.id.tab_label);
 		ImageView img2 = (ImageView) shareTab.findViewById(R.id.imageView1);
-		text2.setText("·ÖÏí±Ê¼Ç");
+		text2.setText("åˆ†äº«ç¬”è®°");
 		img2.setImageResource(R.drawable.share);
 
-		// ÏòtabhostÀïÌí¼Ótab
+		// å‘tabhosté‡Œæ·»åŠ tab
 		tabhost.addTab(tabhost.newTabSpec("TAB1").setIndicator(myTab)
 				.setContent(my_note_intent));
 		tabhost.addTab(tabhost.newTabSpec("TAB2").setIndicator(newTab)
 				.setContent(new_note_intent));
 		tabhost.addTab(tabhost.newTabSpec("TAB3").setIndicator(shareTab)
 				.setContent(share_intent));
-		// ¸ø¸÷¸ö°´Å¥ÉèÖÃ¼àÌı
+		// ç»™å„ä¸ªæŒ‰é’®è®¾ç½®ç›‘å¬
 		button1.setOnCheckedChangeListener(this);
 		button2.setOnCheckedChangeListener(this);
 		button3.setOnCheckedChangeListener(this);
@@ -100,11 +100,11 @@ public class MainActivity extends TabActivity implements
 		}
 	}
 
-	// »ñÈ¡Ê±¼äµÄ·½·¨
+	// è·å–æ—¶é—´çš„æ–¹æ³•
 	private void settime() {
-		// TODO Auto-generated method stub yyyyÄêMMÔÂddÈÕ E hh:mm:ss
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyÄêMMÔÂddÈÕ  E  ");
-		Date curDate = new Date(System.currentTimeMillis());// »ñÈ¡µ±Ç°Ê±¼ä
+		// TODO Auto-generated method stub yyyyå¹´MMæœˆddæ—¥ E hh:mm:ss
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyå¹´MMæœˆddæ—¥  E  ");
+		Date curDate = new Date(System.currentTimeMillis());// è·å–å½“å‰æ—¶é—´
 		String str = formatter.format(curDate);
 		time_textview = (TextView) findViewById(R.id.time);
 		time_textview.setText(str);

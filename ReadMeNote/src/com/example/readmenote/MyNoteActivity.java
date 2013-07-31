@@ -36,18 +36,18 @@ public class MyNoteActivity extends Activity {
 		setContentView(R.layout.activity_my_note);
 		gridView = (GridView) findViewById(R.id.gridView1);
 		sv = (SearchView) findViewById(R.id.sv);
-		// ÉèÖÃ¸ÃsearchviewÊÇ·ñËõĞ¡ÎªÍ¼±ê
+		// è®¾ç½®è¯¥searchviewæ˜¯å¦ç¼©å°ä¸ºå›¾æ ‡
 		sv.setIconifiedByDefault(true);
-		// ÉèÖÃ¸ÃsearchviewÊÇ·ñÏÔÊ¾ËÑË÷°´Å¥
+		// è®¾ç½®è¯¥searchviewæ˜¯å¦æ˜¾ç¤ºæœç´¢æŒ‰é’®
 		sv.setSubmitButtonEnabled(true);
-		sv.setQueryHint(" ²éÕÒ");
+		sv.setQueryHint(" æŸ¥æ‰¾");
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		for (int i = 0; i < 10; i++) {
-			map.put("title", "ÎÒµÄ±Ê¼Ç");
+			map.put("title", "æˆ‘çš„ç¬”è®°");
 			map.put("text",
-					"ÒòÎªÍ»·¢ÆæÏë£¬·¢ÏÖÍøÉÏµÄÀı×ÓµÄÍø¸ñ²¼¾Ö£¬Ö»ÓĞÍ¼Æ¬µÄÊµÀı£¬Ã»ÓĞ¼ÓÎÄ×ÖËµÃ÷£¡ ºóÀ´ÕÒµ½¸öÊÇÀ´×Ô¡¶AndroidºËĞÄ¼¼ÊõÓëÊµÀıÏê½â¡·Ò»ÊéµÄÊµÀı £¬Ê¹ÓÃµÄÊÊÅäÊÇSimpleAdapter£¬¶øÎÒÏëÓÃ¼Ì³ĞBaseAdapterÀà£¬ÖØĞ´getView·½·¨.¾­¹ı×Ô¼ºµÄ×ÊÁÏµÄ²éÔÄÓëµ÷ÊÔ £¬Íê³ÉÁË¸öĞ¡Àı×Ó£»");
+					"å› ä¸ºçªå‘å¥‡æƒ³ï¼Œå‘ç°ç½‘ä¸Šçš„ä¾‹å­çš„ç½‘æ ¼å¸ƒå±€ï¼Œåªæœ‰å›¾ç‰‡çš„å®ä¾‹ï¼Œæ²¡æœ‰åŠ æ–‡å­—è¯´æ˜ï¼ åæ¥æ‰¾åˆ°ä¸ªæ˜¯æ¥è‡ªã€ŠAndroidæ ¸å¿ƒæŠ€æœ¯ä¸å®ä¾‹è¯¦è§£ã€‹ä¸€ä¹¦çš„å®ä¾‹ ï¼Œä½¿ç”¨çš„é€‚é…æ˜¯SimpleAdapterï¼Œè€Œæˆ‘æƒ³ç”¨ç»§æ‰¿BaseAdapterç±»ï¼Œé‡å†™getViewæ–¹æ³•.ç»è¿‡è‡ªå·±çš„èµ„æ–™çš„æŸ¥é˜…ä¸è°ƒè¯• ï¼Œå®Œæˆäº†ä¸ªå°ä¾‹å­ï¼›");
 			map.put("image", R.drawable.sb3);
 			list.add(map);
 		}
@@ -63,7 +63,7 @@ public class MyNoteActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(MyNoteActivity.this, "Äãµã»÷ÁË" + arg2 + "¸ö",
+				Toast.makeText(MyNoteActivity.this, "ä½ ç‚¹å‡»äº†" + arg2 + "ä¸ª",
 						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(MyNoteActivity.this, detail.class);
 				startActivity(intent);
@@ -76,7 +76,7 @@ public class MyNoteActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				Toast.makeText(MyNoteActivity.this, "ÄãÑ¡ÔñÁË" + arg2 + "¸ç¸ç¸ç",
+				Toast.makeText(MyNoteActivity.this, "ä½ é€‰æ‹©äº†" + arg2 + "å“¥å“¥å“¥",
 						Toast.LENGTH_SHORT).show();
 			}
 

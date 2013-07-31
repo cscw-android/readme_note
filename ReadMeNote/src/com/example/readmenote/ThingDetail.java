@@ -37,36 +37,36 @@ public class ThingDetail extends Activity {
 		button2 =(Button)findViewById(R.id.but_thing);
 		listView = (ListView)findViewById(R.id.listView_thing);
 		textView = (TextView)findViewById(R.id.thing_text);
-		//»ñµÃÏµÍ³µÄsd¿¨Ä¿Â¼
+		//è·å¾—ç³»ç»Ÿçš„sdå¡ç›®å½•
 		File root = new File("/mnt/sdcard/");
 		if(root.exists()){
 			currentParent = root;
 			currentFiles = root.listFiles();
-			//Ê¹ÓÃµ±Ç°Ä¿Â¼À´Ìî³älist
+			//ä½¿ç”¨å½“å‰ç›®å½•æ¥å¡«å……list
 			inflateListView(currentFiles);
 		}
-		//ÎªlistÉèÖÃµ¥»÷ÊÂ¼ş
+		//ä¸ºlistè®¾ç½®å•å‡»äº‹ä»¶
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// Èç¹ûÓÃ»§µã»÷ÁËÎÄ¼ş£¬Ö±½Ó·µ»Ø£¬²»×öÈÎºÎ´¦Àí
+				// å¦‚æœç”¨æˆ·ç‚¹å‡»äº†æ–‡ä»¶ï¼Œç›´æ¥è¿”å›ï¼Œä¸åšä»»ä½•å¤„ç†
 				if(currentFiles[arg2].isFile()) return;
-				//»ñÈ¡ÓÃ»§µã»÷µÄÎÄ¼şÏÂµÄËùÓĞÎÄ¼ş
+				//è·å–ç”¨æˆ·ç‚¹å‡»çš„æ–‡ä»¶ä¸‹çš„æ‰€æœ‰æ–‡ä»¶
 				File[] tmp = currentFiles[arg2].listFiles();
 				if(tmp == null || tmp.length == 0){
-					Toast.makeText(ThingDetail.this, "Ã»ÓĞÎÄ¼şÅ¶", Toast.LENGTH_LONG).show();
+					Toast.makeText(ThingDetail.this, "æ²¡æœ‰æ–‡ä»¶å“¦", Toast.LENGTH_LONG).show();
 				}else{
 					currentParent = currentFiles[arg2];
 					currentFiles = tmp;
-					//ÔÙ´Î¸üĞÂlist
+					//å†æ¬¡æ›´æ–°list
 					inflateListView(currentFiles);
 				}
 				
 			}
 		});
-		//°´Å¥µÄ×÷ÓÃÊÇ·µ»ØÉÏÒ»¼¶Ä¿Â¼
+		//æŒ‰é’®çš„ä½œç”¨æ˜¯è¿”å›ä¸Šä¸€çº§ç›®å½•
 		button2.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -74,10 +74,10 @@ public class ThingDetail extends Activity {
 				// TODO Auto-generated method stub
 				try{
 					if(!currentParent.getCanonicalPath().equalsIgnoreCase("/mnt/sdcard/")){
-						//»ñÈ¡ÉÏÒ»¼¶Ä¿Â¼
+						//è·å–ä¸Šä¸€çº§ç›®å½•
 						currentParent = currentParent.getParentFile();
 						currentFiles = currentParent.listFiles();
-						//¸üĞÂlist
+						//æ›´æ–°list
 						inflateListView(currentFiles);
 					}
 				}catch(IOException e){
@@ -89,12 +89,12 @@ public class ThingDetail extends Activity {
 		});
 	}
 	private void inflateListView(File[] files) {
-		// ´´½¨Ò»¸öList¼¯ºÏ£¬ÔªËØÊÇMap
+		// åˆ›å»ºä¸€ä¸ªListé›†åˆï¼Œå…ƒç´ æ˜¯Map
 		List<Map<String,Object>> listItems = new ArrayList<Map<String,Object>>();
 		for(int i = 0;i<files.length;i++){
 			Map<String,Object> listItem = new HashMap<String,Object>();
 			if(files[i].isDirectory()){
-				//Èç¹ûµ±Ç°ÊÇÎÄ¼ş¼Ğ£¬ÔòÏÔÊ¾folderÍ¼±ê
+				//å¦‚æœå½“å‰æ˜¯æ–‡ä»¶å¤¹ï¼Œåˆ™æ˜¾ç¤ºfolderå›¾æ ‡
 				listItem.put("picture", R.drawable.folder);
 			}else{
 				listItem.put("picture", R.drawable.file);
@@ -107,7 +107,7 @@ public class ThingDetail extends Activity {
 				R.layout.lines,new String[]{"fileName","picture"},new int[]{R.id.filesname,R.id.image_name});
 		listView.setAdapter(simpleAdapter);
 		try {
-			textView.setText("µ±Ç°Â·¾¶Îª"+currentParent.getCanonicalPath());
+			textView.setText("å½“å‰è·¯å¾„ä¸º"+currentParent.getCanonicalPath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-import addnote.function.Photo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,9 +33,9 @@ public class NewNoteActivity extends Activity {
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
 	final int MOOD = 1;
-	final int CAMERA = 98;//´«¹ıÈ¥µÄresultCode
+	final int CAMERA = 98;//ä¼ è¿‡å»çš„resultCode
 	final int PICTURE = 99;
-	Bitmap bitmap = null;//BitmapÊÇAndroidÏµÍ³ÖĞµÄÍ¼Ïñ´¦ÀíµÄ×îÖØÒªÀàÖ®Ò»,ÓÃÓÚºóÃæµÄÍ¼Æ¬°´Å¥´¦Àí
+	Bitmap bitmap = null;//Bitmapæ˜¯Androidç³»ç»Ÿä¸­çš„å›¾åƒå¤„ç†çš„æœ€é‡è¦ç±»ä¹‹ä¸€,ç”¨äºåé¢çš„å›¾ç‰‡æŒ‰é’®å¤„ç†
 	EditText user_detail;
 
 	private ImageButton addnote_save, addnote_picture, addnote_record,
@@ -99,9 +98,9 @@ public class NewNoteActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_new_note);
 		
-		// ³õÊ¼»¯±äÁ¿button±äÁ¿
+		// åˆå§‹åŒ–å˜é‡buttonå˜é‡
 		initialize_button_variables();
-		// ¹ØÓÚ°´¼üµÄÉèÖÃ
+		// å…³äºæŒ‰é”®çš„è®¾ç½®
 		button_set();
 		addnote_moodTagging = (ImageButton) findViewById(R.id.addnote_moodTagging);
 		addnote_moodTagging.setOnClickListener(new OnClickListener() {
@@ -143,26 +142,26 @@ public class NewNoteActivity extends Activity {
 				final Dialog choose = new Dialog(NewNoteActivity.this,
 						R.style.draw_dialog);
 				choose.setContentView(R.layout.addnote_picture);
-				// ÉèÖÃ±³¾°Ä£ºı²ÎÊı
+				// è®¾ç½®èƒŒæ™¯æ¨¡ç³Šå‚æ•°
 				WindowManager.LayoutParams winlp = choose.getWindow()
 						.getAttributes();
 				winlp.alpha = 0.9f; // 0.0-1.0
 				choose.getWindow().setAttributes(winlp);
-				choose.show();// ÏÔÊ¾µ¯³ö¿ò
-				//ÉùÃ÷dialogÀïÃæµÄÁ½¸ö°´Å¥
+				choose.show();// æ˜¾ç¤ºå¼¹å‡ºæ¡†
+				//å£°æ˜dialogé‡Œé¢çš„ä¸¤ä¸ªæŒ‰é’®
 				ImageButton choose_camera, choose_picture;
 
 				choose_camera = (ImageButton) choose
 						.findViewById(R.id.choose_camera);
 				choose_picture = (ImageButton) choose
 						.findViewById(R.id.choose_picture);
-				//·Ö±ğÉèÖÃ¼àÌıÆ÷
+				//åˆ†åˆ«è®¾ç½®ç›‘å¬å™¨
 				choose_camera.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						// ´ò¿ªÏµÍ³µÄÏà»úµÄintent action Óï¾ä
+						// æ‰“å¼€ç³»ç»Ÿçš„ç›¸æœºçš„intent action è¯­å¥
 						Intent camera = new Intent(
 								MediaStore.ACTION_IMAGE_CAPTURE);
 						startActivityForResult(camera, CAMERA);
@@ -173,11 +172,11 @@ public class NewNoteActivity extends Activity {
 
 					@Override
 					public void onClick(View v) {
-						// ´ò¿ªÊÖ»úÏà²áµÄintent actionÓï¾ä
+						// æ‰“å¼€æ‰‹æœºç›¸å†Œçš„intent actionè¯­å¥
 						Intent intent = new Intent();
 						intent.setType("image/*");
 						intent.setAction(Intent.ACTION_GET_CONTENT);
-						// È¡µÃÕÕÆ¬ºó·µ»Ø±¾½çÃæ
+						// å–å¾—ç…§ç‰‡åè¿”å›æœ¬ç•Œé¢
 						startActivityForResult(intent, PICTURE);
 					}
 				});
@@ -225,46 +224,46 @@ public class NewNoteActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			if (requestCode == MOOD) {//ĞÄÇéÍ¼±ê
+			if (requestCode == MOOD) {//å¿ƒæƒ…å›¾æ ‡
 				Bundle b = data.getExtras();
 				String imageId = b.getString("imageId");
 				addnote_moodTagging
 						.setImageResource(addnote_moodTagging_itemSource[Integer
 								.parseInt(imageId)]);
 			}
-			if (requestCode == PICTURE) {//Ñ¡ÔñÌí¼ÓÏà²áÀïµÄÍ¼Æ¬
+			if (requestCode == PICTURE) {//é€‰æ‹©æ·»åŠ ç›¸å†Œé‡Œçš„å›¾ç‰‡
 				Uri uri = data.getData();
-				// ½«Image×ªÎªBitmap
+				// å°†Imageè½¬ä¸ºBitmap
 				ContentResolver cr = this.getContentResolver();
 
 				try {
-					// Bitmap¿ÉÒÔ»ñÈ¡Í¼ÏñÎÄ¼şĞÅÏ¢£¬½øĞĞÍ¼Ïñ¼ôÇĞ¡¢Ğı×ª¡¢Ëõ·ÅµÈ²Ù×÷£¬²¢¿ÉÒÔÖ¸¶¨¸ñÊ½±£´æÍ¼ÏñÎÄ¼ş¡£
-					// ÓÃInputStream²úÉúBitmap
+					// Bitmapå¯ä»¥è·å–å›¾åƒæ–‡ä»¶ä¿¡æ¯ï¼Œè¿›è¡Œå›¾åƒå‰ªåˆ‡ã€æ—‹è½¬ã€ç¼©æ”¾ç­‰æ“ä½œï¼Œå¹¶å¯ä»¥æŒ‡å®šæ ¼å¼ä¿å­˜å›¾åƒæ–‡ä»¶ã€‚
+					// ç”¨InputStreamäº§ç”ŸBitmap
 					Bitmap bitmapfirst = BitmapFactory.decodeStream(cr
 							.openInputStream(uri));
-					// ¸Ä³ÉËõÂÔÍ¼£¬±ä³É×Ô¼ºÏëÒªµÄ´óĞ¡£¬ÏÂÃæÓĞÕâ¸ö·½·¨
+					// æ”¹æˆç¼©ç•¥å›¾ï¼Œå˜æˆè‡ªå·±æƒ³è¦çš„å¤§å°ï¼Œä¸‹é¢æœ‰è¿™ä¸ªæ–¹æ³•
 					bitmap = resizeImage(bitmapfirst, 200, 200);
-					// ½«bitmapÏÔÊ¾ÔÚ±¾½çÃæµÄImageViewÀïÃæ
+					// å°†bitmapæ˜¾ç¤ºåœ¨æœ¬ç•Œé¢çš„ImageViewé‡Œé¢
 					// img1.setImageBitmap(bitmap);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// ÔÚEditTextÖĞÏÔÊ¾Í¼Æ¬µÄ·½·¨ImageSpan
-				// ¸ù¾İBitmap¶ÔÏó´´½¨ImageSpan¶ÔÏó
+				// åœ¨EditTextä¸­æ˜¾ç¤ºå›¾ç‰‡çš„æ–¹æ³•ImageSpan
+				// æ ¹æ®Bitmapå¯¹è±¡åˆ›å»ºImageSpanå¯¹è±¡
 				ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,
 						bitmap);
-				// ´´½¨Ò»¸öSpannableString¶ÔÏó£¬ÒÔ±ã²åÈëÓÃImageSpan¶ÔÏó·â×°µÄÍ¼Ïñ
-				// (À¨ºÅÀïÃæµÄÎÒ²»¶®"[local]"+1+"[/local]")
+				// åˆ›å»ºä¸€ä¸ªSpannableStringå¯¹è±¡ï¼Œä»¥ä¾¿æ’å…¥ç”¨ImageSpanå¯¹è±¡å°è£…çš„å›¾åƒ
+				// (æ‹¬å·é‡Œé¢çš„æˆ‘ä¸æ‡‚"[local]"+1+"[/local]")
 				SpannableString spannableString = new SpannableString("[local]"
 						+ 1 + "[/local]");
-				// ÓÃImageSpan¶ÔÏóÌæ»»face ²ÎÊı£¨ÒªÌæ»»µÄÄÚÈİ£¬´ÓµÚ¼¸¸ö¿ªÊ¼£¬µÚ¼¸¸ö½áÊø£¬[5,10)£¬°üÀ¨5
-				// £¬²»°üÀ¨10£¬×îºóÒ»¸öÊÇ¹æ·¶µÄ²ÎÊı£©
+				// ç”¨ImageSpanå¯¹è±¡æ›¿æ¢face å‚æ•°ï¼ˆè¦æ›¿æ¢çš„å†…å®¹ï¼Œä»ç¬¬å‡ ä¸ªå¼€å§‹ï¼Œç¬¬å‡ ä¸ªç»“æŸï¼Œ[5,10)ï¼ŒåŒ…æ‹¬5
+				// ï¼Œä¸åŒ…æ‹¬10ï¼Œæœ€åä¸€ä¸ªæ˜¯è§„èŒƒçš„å‚æ•°ï¼‰
 				spannableString.setSpan(imageSpan, 0,
 						"[local]1[local]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				// ½«Ñ¡ÔñµÄÍ¼Æ¬×·¼Óµ½EditTextÖĞ¹â±êËùÔÚÎ»ÖÃ
-				int index = user_detail.getSelectionStart(); // »ñÈ¡¹â±êËùÔÚÎ»ÖÃ
+				// å°†é€‰æ‹©çš„å›¾ç‰‡è¿½åŠ åˆ°EditTextä¸­å…‰æ ‡æ‰€åœ¨ä½ç½®
+				int index = user_detail.getSelectionStart(); // è·å–å…‰æ ‡æ‰€åœ¨ä½ç½®
 				Editable edit_text = user_detail.getEditableText();
 				if (index < 0 || index >= edit_text.length()) {
 					edit_text.append(spannableString);
@@ -273,12 +272,12 @@ public class NewNoteActivity extends Activity {
 				}
 
 			}
-			if (requestCode == CAMERA) {//Ñ¡ÔñÅÄÕÕ
-				// È¡µÃIntentÖĞµÄBundle¶ÔÏó
+			if (requestCode == CAMERA) {//é€‰æ‹©æ‹ç…§
+				// å–å¾—Intentä¸­çš„Bundleå¯¹è±¡
 				Bundle extras = data.getExtras();
-				// ·µ»ØÏà»úµÄÊı¾İ£¬²¢ÇÒ×ª»»ÎªBitmapÀàĞÍ
+				// è¿”å›ç›¸æœºçš„æ•°æ®ï¼Œå¹¶ä¸”è½¬æ¢ä¸ºBitmapç±»å‹
 				Bitmap bitmapfirst1 = (Bitmap) extras.get("data");
-				// ¸úÉÏÃæµÄÒ»Ñù
+				// è·Ÿä¸Šé¢çš„ä¸€æ ·
 				bitmap = resizeImage(bitmapfirst1, 200, 200);
 				ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,
 						bitmap);
@@ -287,8 +286,8 @@ public class NewNoteActivity extends Activity {
 				spannableString.setSpan(imageSpan, 0,
 						"[local]1[local]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				// ½«Ñ¡ÔñµÄÍ¼Æ¬×·¼Óµ½EditTextÖĞ¹â±êËùÔÚÎ»ÖÃ
-				int index = user_detail.getSelectionStart(); // »ñÈ¡¹â±êËùÔÚÎ»ÖÃ
+				// å°†é€‰æ‹©çš„å›¾ç‰‡è¿½åŠ åˆ°EditTextä¸­å…‰æ ‡æ‰€åœ¨ä½ç½®
+				int index = user_detail.getSelectionStart(); // è·å–å…‰æ ‡æ‰€åœ¨ä½ç½®
 				Editable edit_text = user_detail.getEditableText();
 				if (index < 0 || index >= edit_text.length()) {
 					edit_text.append(spannableString);
@@ -302,23 +301,23 @@ public class NewNoteActivity extends Activity {
 	}
 
 
-   //½«Í¼Æ¬°´±ÈÀı±ä³ÉËõÂÔÍ¼µÄ·½·¨
+   //å°†å›¾ç‰‡æŒ‰æ¯”ä¾‹å˜æˆç¼©ç•¥å›¾çš„æ–¹æ³•
 	private Bitmap resizeImage(Bitmap bitmapfirst, int newWidth, int newHeight) {
 		int width = bitmapfirst.getWidth();
 		int height = bitmapfirst.getHeight();
-		// ¶¨ÒåÓû×ª»»³ÉµÄ¿í¡¢¸ß
+		// å®šä¹‰æ¬²è½¬æ¢æˆçš„å®½ã€é«˜
 		// int newWidth = 200;
 		// int newHeight = 200;
-		// ¼ÆËã¿í¡¢¸ßËõ·ÅÂÊ
+		// è®¡ç®—å®½ã€é«˜ç¼©æ”¾ç‡
 		float scanleWidth = (float) newWidth / width;
 		float scanleHeight = (float) newHeight / height;
-		// ´´½¨²Ù×÷Í¼Æ¬ÓÃµÄmatrix¶ÔÏó Matrix
+		// åˆ›å»ºæ“ä½œå›¾ç‰‡ç”¨çš„matrixå¯¹è±¡ Matrix
 		Matrix matrix = new Matrix();
-		// Ëõ·ÅÍ¼Æ¬
+		// ç¼©æ”¾å›¾ç‰‡
 		matrix.postScale(scanleWidth, scanleHeight);
-		// Ğı×ªÍ¼Æ¬
+		// æ—‹è½¬å›¾ç‰‡
 		// matrix.postRotate(90);
-		// ´´½¨ĞÂµÄÍ¼Æ¬Bitmap
+		// åˆ›å»ºæ–°çš„å›¾ç‰‡Bitmap
 		Bitmap resizedBitmap = Bitmap.createBitmap(bitmapfirst, 0, 0, width,
 				height, matrix, true);
 		return resizedBitmap;

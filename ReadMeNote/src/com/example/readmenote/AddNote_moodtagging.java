@@ -16,7 +16,7 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 public class AddNote_moodtagging extends Activity {
-	// 主菜单的布局
+	// 涓昏彍鍗曠殑甯冨眬
 	GridView moodtagging_grid;
 	int[] main_menu_itemSource = new int[] { R.drawable.appkefu_f000,
 			R.drawable.appkefu_f011, R.drawable.appkefu_f001,
