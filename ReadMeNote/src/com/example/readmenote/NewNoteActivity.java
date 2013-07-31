@@ -1,24 +1,41 @@
 package com.example.readmenote;
 
 import java.io.FileNotFoundException;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
+import com.iflytek.speech.ErrorCode;
+import com.iflytek.speech.ISpeechModule;
+import com.iflytek.speech.InitListener;
+import com.iflytek.speech.RecognizerListener;
+import com.iflytek.speech.RecognizerResult;
+import com.iflytek.speech.SpeechConstant;
+import com.iflytek.speech.SpeechRecognizer;
+import com.iflytek.speech.SpeechUtility;
+import com.iflytek.speech.util.ApkInstaller;
+import com.iflytek.speech.util.JsonParser;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -35,15 +52,23 @@ public class NewNoteActivity extends Activity {
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
 	final int MOOD = 1;
+
 	final int GESTURE = 2;
-	final int CAMERA = 98;//传过去的resultCode
+	final int CAMERA = 98;// 传过去的resultCode
+
 	final int PICTURE = 99;
-	Bitmap bitmap = null;//Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
-	EditText user_detail,user_title;
+
+	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
+	EditText user_detail, user_title;
 
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
 	private ImageButton addnote_painting, addnote_addthing;
+
+	protected static final String TAG = "IatDemo";
+	// 这是语音部分的请求码
+	private static final int REQUEST_CODE_SEARCH = 817;
+	private Toast mToast;
 
 	int[] addnote_moodTagging_itemSource = new int[] { R.drawable.appkefu_f000,
 			R.drawable.appkefu_f011, R.drawable.appkefu_f001,
@@ -100,12 +125,13 @@ public class NewNoteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_new_note);
-		
+
 		// 初始化变量button变量
 		initialize_button_variables();
 		// 关于按键的设置
 		button_set();
 		addnote_moodTagging = (ImageButton) findViewById(R.id.addnote_moodTagging);
+
 		addnote_moodTagging.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -115,9 +141,58 @@ public class NewNoteActivity extends Activity {
 				startActivityForResult(intent, MOOD);
 			}
 		});
-	}
 
-	
+		// 检测是否安装了讯飞语音服务
+		if (SpeechUtility.getUtility(this).queryAvailableEngines() == null
+				|| SpeechUtility.getUtility(this).queryAvailableEngines().length <= 0) {
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			dialog.setMessage(getString(R.string.download_confirm_msg));
+			dialog.setNegativeButton(R.string.dialog_cancel_button, null);
+			dialog.setPositiveButton(getString(R.string.dialog_confirm_button),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialoginterface,
+								int i) {
+							String url = SpeechUtility.getUtility(
+									NewNoteActivity.this).getComponentUrl();
+							String assetsApk = "SpeechService_1.0.1017.apk";
+							processInstall(NewNoteActivity.this, url, assetsApk);
+						}
+					});
+			dialog.show();
+			return;
+		}
+		// 设置申请到的应用appid
+		SpeechUtility.getUtility(this).setAppid("51ece17f");
+		// 初始化识别对象
+		SpeechRecognizer mIat = new SpeechRecognizer(this, mInitListener);
+		mToast = Toast.makeText(this, "", Toast.LENGTH_LONG);
+		// 转写会话
+		mIat.setParameter(SpeechConstant.PARAMS, "asr_ptt=1");
+		mIat.startListening(mRecognizerListener);
+		// 转写会话停止
+		mIat.stopListening(mRecognizerListener);
+		// 转写会话取消
+		mIat.cancel(mRecognizerListener);
+
+		// 转写的结果返回Editext
+		((EditText) findViewById(R.id.user_detail)).setText("");
+		// 为语音按钮设置单击事件监听器
+		addnote_recordinput.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				// 指定action，调用讯飞的对话默认窗口
+				intent.setAction("com.iflytek.speech.action.voiceinput");
+				intent.putExtra(SpeechConstant.PARAMS, "asr_ptt=0");
+				intent.putExtra(SpeechConstant.VAD_EOS, "1000");
+				// 设置弹出框的两个按钮的名称
+				intent.putExtra("title_done", "确定");
+				intent.putExtra("title_cancle", "取消");
+				startActivityForResult(intent, REQUEST_CODE_SEARCH);
+			}
+		});
+
+	}
 
 	public void initialize_button_variables() {
 		user_title = (EditText) findViewById(R.id.user_title);
@@ -129,8 +204,6 @@ public class NewNoteActivity extends Activity {
 		addnote_painting = (ImageButton) findViewById(R.id.gallery_menu_painting);
 		addnote_addthing = (ImageButton) findViewById(R.id.gallery_menu_add_thing);
 	}
-
-	
 
 	public void button_set() {
 		addnote_save.setOnClickListener(new OnClickListener() {
@@ -152,14 +225,14 @@ public class NewNoteActivity extends Activity {
 				winlp.alpha = 0.9f; // 0.0-1.0
 				choose.getWindow().setAttributes(winlp);
 				choose.show();// 显示弹出框
-				//声明dialog里面的两个按钮
+				// 声明dialog里面的两个按钮
 				ImageButton choose_camera, choose_picture;
 
 				choose_camera = (ImageButton) choose
 						.findViewById(R.id.choose_camera);
 				choose_picture = (ImageButton) choose
 						.findViewById(R.id.choose_picture);
-				//分别设置监听器
+				// 分别设置监听器
 				choose_camera.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -169,7 +242,7 @@ public class NewNoteActivity extends Activity {
 						Intent camera = new Intent(
 								MediaStore.ACTION_IMAGE_CAPTURE);
 						startActivityForResult(camera, CAMERA);
-						
+
 					}
 				});
 				choose_picture.setOnClickListener(new OnClickListener() {
@@ -184,12 +257,10 @@ public class NewNoteActivity extends Activity {
 						startActivityForResult(intent, PICTURE);
 					}
 				});
-				
 
 			}
 		});
-		
-		
+
 		addnote_record.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -198,19 +269,32 @@ public class NewNoteActivity extends Activity {
 			}
 		});
 
+		// 转写的结果返回Editext
+		((EditText) findViewById(R.id.user_detail)).setText("");
+		// 为语音按钮设置单击事件监听器
 		addnote_recordinput.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				Intent intent = new Intent();
+				// 指定action，调用讯飞的对话默认窗口
+				intent.setAction("com.iflytek.speech.action.voiceinput");
+				intent.putExtra(SpeechConstant.PARAMS, "asr_ptt=0");
+				intent.putExtra(SpeechConstant.VAD_EOS, "1000");
+				// 设置弹出框的两个按钮的名称
+				intent.putExtra("title_done", "确定");
+				intent.putExtra("title_cancle", "取消");
+				startActivityForResult(intent, REQUEST_CODE_SEARCH);
 			}
 		});
 
 		addnote_painting.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast gesture_toast = Toast.makeText(getApplicationContext(), "请涂鸦,单次点击只能涂鸦一次哦~亲^_^", 7000);
+				Toast gesture_toast = Toast.makeText(getApplicationContext(),
+						"请涂鸦,单次点击只能涂鸦一次哦~亲^_^", 7000);
 				gesture_toast.show();
-				Intent intent = new Intent(NewNoteActivity.this,AddNote_painting.class);
+				Intent intent = new Intent(NewNoteActivity.this,
+						AddNote_painting.class);
 				startActivityForResult(intent, GESTURE);
 			}
 		});
@@ -218,44 +302,51 @@ public class NewNoteActivity extends Activity {
 		addnote_addthing.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(NewNoteActivity.this,ThingDetail.class);
+				Intent intent = new Intent(NewNoteActivity.this,
+						ThingDetail.class);
 				startActivity(intent);
-				
-				
+
 			}
 		});
 
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == MOOD) {//心情图标
+
+		if (requestCode == MOOD) {// 心情图标
 			Bundle b = data.getExtras();
 			String imageId = b.getString("imageId");
 			addnote_moodTagging
 					.setImageResource(addnote_moodTagging_itemSource[Integer
 							.parseInt(imageId)]);
+
 		}
-		if(requestCode == GESTURE){
+		if (requestCode == GESTURE) {
 			AddNote_painting painting = new AddNote_painting();
 			Bitmap bitmap = painting.getBitmap();
-			//接下来的代码跟上面的注释是一样的，不累赘注释
-			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,bitmap);
-			SpannableString spannableString = new SpannableString("[local]"+ 1 + "[/local]");
-			spannableString.setSpan(imageSpan, 0,"[local]1[local]".length() + 1,
-			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			int index = user_detail.getSelectionStart(); 
+			// 接下来的代码跟上面的注释是一样的，不累赘注释
+			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this, bitmap);
+			SpannableString spannableString = new SpannableString("[local]" + 1
+					+ "[/local]");
+			spannableString.setSpan(imageSpan, 0,
+					"[local]1[local]".length() + 1,
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			int index = user_detail.getSelectionStart();
 			Editable edit_text = user_detail.getEditableText();
 			if (index < 0 || index >= edit_text.length()) {
-			edit_text.append(spannableString);
+				edit_text.append(spannableString);
 			} else {
 				edit_text.insert(index, spannableString);
-					}
+			}
+
 		}
 		if (resultCode == RESULT_OK) {
-			
-			if (requestCode == PICTURE) {//选择添加相册里的图片
+
+			if (requestCode == PICTURE) {// 选择添加相册里的图片
+
 				Uri uri = data.getData();
 				// 将Image转为Bitmap
 				ContentResolver cr = this.getContentResolver();
@@ -296,7 +387,7 @@ public class NewNoteActivity extends Activity {
 				}
 
 			}
-			if (requestCode == CAMERA) {//选择拍照
+			if (requestCode == CAMERA) {// 选择拍照
 				// 取得Intent中的Bundle对象
 				Bundle extras = data.getExtras();
 				// 返回相机的数据，并且转换为Bitmap类型
@@ -320,13 +411,22 @@ public class NewNoteActivity extends Activity {
 				}
 
 			}
-			
+
+			// 语音部分结果的取得
+			if (requestCode == REQUEST_CODE_SEARCH) {
+				// 取得识别的字符串
+				ArrayList<String> results = data
+						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				String res = results.get(0);
+				EditText editor = ((EditText) findViewById(R.id.user_detail));
+				String text = editor.getText().toString() + res;
+				editor.setText(text);
+			}
 
 		}
 	}
 
-
-   //将图片按比例变成缩略图的方法
+	// 将图片按比例变成缩略图的方法
 	private Bitmap resizeImage(Bitmap bitmapfirst, int newWidth, int newHeight) {
 		int width = bitmapfirst.getWidth();
 		int height = bitmapfirst.getHeight();
@@ -347,4 +447,107 @@ public class NewNoteActivity extends Activity {
 				height, matrix, true);
 		return resizedBitmap;
 	}
+
+	// 语音部分结果的取得
+
+	/**
+	 * 初期化监听器。
+	 */
+	// 语音监听器
+	private InitListener mInitListener = new InitListener() {
+
+		@Override
+		public void onInit(ISpeechModule module, int code) {
+			Log.d(TAG, "SpeechRecognizer init() code = " + code);
+			if (code == ErrorCode.SUCCESS) {
+				// findViewById(R.id.iat_recognize_bind).setEnabled(true);
+				addnote_recordinput.setEnabled(true);
+			}
+		}
+	};
+
+	/**
+	 * 识别回调。
+	 */
+	// 转写回调的一系列回调方法
+	private RecognizerListener mRecognizerListener = new RecognizerListener.Stub() {
+
+		@Override
+		// 录音音量回调
+		public void onVolumeChanged(int v) throws RemoteException {
+			showTip("onVolumeChanged：" + v);
+		}
+
+		@Override
+		// 录音开始回调
+		public void onBeginOfSpeech() throws RemoteException {
+			// TODO Auto-generated method stub
+			showTip("onBeginOfSpeech");
+		}
+
+		@Override
+		// 录音结束回调
+		public void onEndOfSpeech() throws RemoteException {
+			// TODO Auto-generated method stub
+			showTip("onEndOfSpeech");
+		}
+
+		@Override
+		// 错误回调
+		public void onError(int errorCode) throws RemoteException {
+			// TODO Auto-generated method stub
+			showTip("onError Code：" + errorCode);
+		}
+
+		// 语音转写结果回调
+		@Override
+		public void onResult(final RecognizerResult result, boolean arg1)
+				throws RemoteException {
+			// TODO Auto-generated method stub
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					if (null != result) {
+						// 显示
+						Log.d(TAG,
+								"recognizer result：" + result.getResultString());
+						String iattext = JsonParser.parseIatResult(result
+								.getResultString());
+						EditText editor = ((EditText) findViewById(R.id.user_detail));
+						String text = editor.getText().toString() + iattext;
+						editor.setText(text);
+					} else {
+						Log.d(TAG, "recognizer result : null");
+						showTip("无识别结果");
+					}
+				}
+			});
+		}
+	};
+
+	// 安装语音组件
+	protected void processInstall(NewNoteActivity newNoteActivity, String url,
+			String assetsApk) {
+		// TODO Auto-generated method stub
+		// 直接下载方式
+		// ApkInstaller.openDownloadWeb(context, url);
+		// 本地安装方式
+		if (!ApkInstaller.installFromAssets(newNoteActivity, assetsApk)) {
+			Toast.makeText(NewNoteActivity.this, "安装失败", Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	// 语音部分公用的一个提示方法
+	protected void showTip(final String str) {
+		// TODO Auto-generated method stub
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mToast.setText(str);
+				mToast.show();
+			}
+		});
+	}
+
 }
