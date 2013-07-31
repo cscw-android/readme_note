@@ -51,11 +51,10 @@ public class NewNoteActivity extends Activity {
 
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
+	// 传过去的resultCode
 	final int MOOD = 1;
-
 	final int GESTURE = 2;
-	final int CAMERA = 98;// 传过去的resultCode
-
+	final int CAMERA = 98;
 	final int PICTURE = 99;
 
 	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
