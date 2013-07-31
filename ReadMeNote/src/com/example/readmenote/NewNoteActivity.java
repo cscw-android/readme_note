@@ -141,25 +141,6 @@ public class NewNoteActivity extends Activity {
 			}
 		});
 
-		// 检测是否安装了讯飞语音服务
-		if (SpeechUtility.getUtility(this).queryAvailableEngines() == null
-				|| SpeechUtility.getUtility(this).queryAvailableEngines().length <= 0) {
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-			dialog.setMessage(getString(R.string.download_confirm_msg));
-			dialog.setNegativeButton(R.string.dialog_cancel_button, null);
-			dialog.setPositiveButton(getString(R.string.dialog_confirm_button),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialoginterface,
-								int i) {
-							String url = SpeechUtility.getUtility(
-									NewNoteActivity.this).getComponentUrl();
-							String assetsApk = "SpeechService_1.0.1017.apk";
-							processInstall(NewNoteActivity.this, url, assetsApk);
-						}
-					});
-			dialog.show();
-			return;
-		}
 		// 设置申请到的应用appid
 		SpeechUtility.getUtility(this).setAppid("51ece17f");
 		// 初始化识别对象
@@ -172,25 +153,6 @@ public class NewNoteActivity extends Activity {
 		mIat.stopListening(mRecognizerListener);
 		// 转写会话取消
 		mIat.cancel(mRecognizerListener);
-
-		// 转写的结果返回Editext
-		((EditText) findViewById(R.id.user_detail)).setText("");
-		// 为语音按钮设置单击事件监听器
-		addnote_recordinput.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				// 指定action，调用讯飞的对话默认窗口
-				intent.setAction("com.iflytek.speech.action.voiceinput");
-				intent.putExtra(SpeechConstant.PARAMS, "asr_ptt=0");
-				intent.putExtra(SpeechConstant.VAD_EOS, "1000");
-				// 设置弹出框的两个按钮的名称
-				intent.putExtra("title_done", "确定");
-				intent.putExtra("title_cancle", "取消");
-				startActivityForResult(intent, REQUEST_CODE_SEARCH);
-			}
-		});
-
 	}
 
 	public void initialize_button_variables() {
@@ -268,12 +230,36 @@ public class NewNoteActivity extends Activity {
 			}
 		});
 
-		// 转写的结果返回Editext
-		((EditText) findViewById(R.id.user_detail)).setText("");
 		// 为语音按钮设置单击事件监听器
 		addnote_recordinput.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// 检测是否安装了讯飞语音服务
+				if (SpeechUtility.getUtility(NewNoteActivity.this)
+						.queryAvailableEngines() == null
+						|| SpeechUtility.getUtility(NewNoteActivity.this)
+								.queryAvailableEngines().length <= 0) {
+					AlertDialog.Builder dialog = new AlertDialog.Builder(
+							NewNoteActivity.this);
+					dialog.setMessage(getString(R.string.download_confirm_msg));
+					dialog.setNegativeButton(R.string.dialog_cancel_button,
+							null);
+					dialog.setPositiveButton(
+							getString(R.string.dialog_confirm_button),
+							new DialogInterface.OnClickListener() {
+								public void onClick(
+										DialogInterface dialoginterface, int i) {
+									String url = SpeechUtility.getUtility(
+											NewNoteActivity.this)
+											.getComponentUrl();
+									String assetsApk = "SpeechService_1.0.1017.apk";
+									processInstall(NewNoteActivity.this, url,
+											assetsApk);
+								}
+							});
+					dialog.show();
+					return;
+				}
 				Intent intent = new Intent();
 				// 指定action，调用讯飞的对话默认窗口
 				intent.setAction("com.iflytek.speech.action.voiceinput");
@@ -315,7 +301,8 @@ public class NewNoteActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == MOOD) {// 心情图标
+		if (requestCode == MOOD) {
+			// 心情图标
 			Bundle b = data.getExtras();
 			String imageId = b.getString("imageId");
 			addnote_moodTagging
@@ -417,11 +404,11 @@ public class NewNoteActivity extends Activity {
 				ArrayList<String> results = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 				String res = results.get(0);
+				// 语音转写的结果返回的Editext
 				EditText editor = ((EditText) findViewById(R.id.user_detail));
 				String text = editor.getText().toString() + res;
 				editor.setText(text);
 			}
-
 		}
 	}
 
@@ -446,8 +433,6 @@ public class NewNoteActivity extends Activity {
 				height, matrix, true);
 		return resizedBitmap;
 	}
-
-	// 语音部分结果的取得
 
 	/**
 	 * 初期化监听器。
@@ -530,7 +515,7 @@ public class NewNoteActivity extends Activity {
 		// TODO Auto-generated method stub
 		// 直接下载方式
 		// ApkInstaller.openDownloadWeb(context, url);
-		// 本地安装方式
+		// 本地安装方式的方法
 		if (!ApkInstaller.installFromAssets(newNoteActivity, assetsApk)) {
 			Toast.makeText(NewNoteActivity.this, "安装失败", Toast.LENGTH_SHORT)
 					.show();
