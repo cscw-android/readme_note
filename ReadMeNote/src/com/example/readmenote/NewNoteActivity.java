@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import com.example.database.Note;
+import com.example.database.NoteDBManger;
 import com.iflytek.speech.ErrorCode;
 import com.iflytek.speech.ISpeechModule;
 import com.iflytek.speech.InitListener;
@@ -18,6 +20,7 @@ import com.iflytek.speech.util.ApkInstaller;
 import com.iflytek.speech.util.JsonParser;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.MediaStore;
@@ -25,6 +28,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -56,7 +60,7 @@ public class NewNoteActivity extends Activity {
 	final int GESTURE = 2;
 	final int CAMERA = 98;
 	final int PICTURE = 99;
-
+	Note note = new Note();
 	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
 	EditText user_detail, user_title;
 
@@ -170,10 +174,15 @@ public class NewNoteActivity extends Activity {
 		addnote_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				SqliteTask sqliteTask = new SqliteTask(NewNoteActivity.this);
+				note.setTitle(null);
+				sqliteTask.execute(note);
 			}
 		});
 
+		/**
+		 * 
+		 */
 		addnote_picture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -226,9 +235,11 @@ public class NewNoteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
+				
 			}
 		});
+		
+		
 
 		// 为语音按钮设置单击事件监听器
 		addnote_recordinput.setOnClickListener(new OnClickListener() {
@@ -532,6 +543,51 @@ public class NewNoteActivity extends Activity {
 				mToast.show();
 			}
 		});
+	}
+	/**
+	 * 
+	 * @author 海文
+	 * 异步保存数据
+	 *
+	 */
+	class SqliteTask extends AsyncTask{
+
+		@Override
+		protected void onPostExecute(Object result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Toast.makeText(NewNoteActivity.this
+					, result.toString() 
+					, 4000)
+					.show();
+		}
+
+		Context context;
+		public SqliteTask(Context ctx){
+			context = ctx;
+		}
+		
+		@Override
+		protected Object doInBackground(Object... arg0) {
+			// TODO Auto-generated method stub
+			Note note = (Note)arg0[0];
+			int id = 0;
+			note.setId(id++);
+			String result;
+			System.out.println(note.getId());
+			try{
+			NoteDBManger noteDBManger = new NoteDBManger(context);
+			noteDBManger.open();
+			noteDBManger.addnote(note);
+			result = "保存成功";
+			
+			}catch(Exception e){
+				e.printStackTrace();
+				result = "保存失败";
+			}
+			return result;
+		}
+		
 	}
 
 }
