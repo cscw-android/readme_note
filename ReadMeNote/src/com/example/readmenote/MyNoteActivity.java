@@ -36,9 +36,9 @@ public class MyNoteActivity extends Activity {
 		setContentView(R.layout.activity_my_note);
 		gridView = (GridView) findViewById(R.id.gridView1);
 		sv = (SearchView) findViewById(R.id.sv);
-		// 设置该searchview是否缩小为图标
+		 //设置该searchview是否缩小为图标
 		sv.setIconifiedByDefault(true);
-		// 设置该searchview是否显示搜索按钮
+		 //设置该searchview是否显示搜索按钮
 		sv.setSubmitButtonEnabled(true);
 		sv.setQueryHint(" 查找");
 

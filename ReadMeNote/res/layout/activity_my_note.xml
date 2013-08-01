@@ -28,4 +28,5 @@
         android:numColumns="2"
         android:verticalSpacing="10sp" >
     </GridView>
+
 </RelativeLayout>
