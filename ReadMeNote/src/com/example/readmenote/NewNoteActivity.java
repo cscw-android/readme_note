@@ -35,6 +35,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.Spannable;
@@ -61,6 +62,7 @@ public class NewNoteActivity extends Activity {
 	// 传过去的resultCode
 	final int MOOD = 1;
 	final int GESTURE = 2;
+	final int RECORD = 3;
 	final int CAMERA = 98;
 	final int PICTURE = 99;
 
@@ -245,7 +247,7 @@ public class NewNoteActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(NewNoteActivity.this,AddNote_record.class);
-				startActivity(intent);
+				startActivityForResult(intent, RECORD);
 			}
 		});
 		
@@ -381,6 +383,25 @@ public class NewNoteActivity extends Activity {
 			}
 
 		}
+		if (requestCode == RECORD) {
+			AddNote_record record = new  AddNote_record();
+			int saveornot = record.getnew_saveornot();
+			if(saveornot == 1){
+			
+			Editable eb = user_detail.getEditableText();
+			//获得光标所在位置
+			int startPosition = user_detail.getSelectionStart();
+			SpannableString ss = new SpannableString( "onmoso" );
+			//定义插入图片
+			Drawable drawable = getResources().getDrawable(R.drawable.record_img);
+			ss.setSpan(new ImageSpan(drawable,ImageSpan.ALIGN_BASELINE), 0 , ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			drawable.setBounds(2 , 0 , drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+			//插入图片
+			eb.insert(startPosition, ss);
+			saveornot =0;
+			}
+		}
+
 		if (resultCode == RESULT_OK) {
 
 			if (requestCode == PICTURE) {// 选择添加相册里的图片

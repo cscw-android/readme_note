@@ -149,10 +149,11 @@ public final class R {
         public static final int new_note=0x7f02007d;
         public static final int new_note_edittext=0x7f02007e;
         public static final int read_me_text=0x7f02007f;
-        public static final int sb3=0x7f020080;
-        public static final int share=0x7f020081;
-        public static final int super_mono_3d_part2_42=0x7f020082;
-        public static final int tab_front_ic=0x7f020083;
+        public static final int record_img=0x7f020080;
+        public static final int sb3=0x7f020081;
+        public static final int share=0x7f020082;
+        public static final int super_mono_3d_part2_42=0x7f020083;
+        public static final int tab_front_ic=0x7f020084;
     }
     public static final class id {
         public static final int RelativeLayout_Item=0x7f080014;
