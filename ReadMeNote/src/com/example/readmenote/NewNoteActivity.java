@@ -293,7 +293,7 @@ public class NewNoteActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(NewNoteActivity.this,
 						ThingDetail.class);
-				startActivityForResult(intent,THING);
+				startActivityForResult(intent, THING);
 
 			}
 		});
@@ -304,35 +304,37 @@ public class NewNoteActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if( requestCode == THING && resultCode == THING){
-			//把传过来的东西拿出来
-			//Toast.makeText(NewNoteActivity.this, "放了", Toast.LENGTH_SHORT).show();
-			Bundle bundle=data.getExtras();
+		if (requestCode == THING && resultCode == THING) {
+			// 把传过来的东西拿出来
+			// Toast.makeText(NewNoteActivity.this, "放了",
+			// Toast.LENGTH_SHORT).show();
+			Bundle bundle = data.getExtras();
 			String name = bundle.getString("name");
 			String path = bundle.getString("path");
-			//设置字体的颜色
-			SpannableString ss = new SpannableString("你所添加的文件名字是:"+name);
-			 ss.setSpan(new ForegroundColorSpan(Color.RED), 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			 SpannableString ss1 = new SpannableString("你所添加的文件路径是"+path); 
-			 ss1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ss1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			
+			// 设置字体的颜色
+			SpannableString ss = new SpannableString("你所添加的文件名字是:" + name);
+			ss.setSpan(new ForegroundColorSpan(Color.RED), 0, ss.length(),
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			SpannableString ss1 = new SpannableString("你所添加的文件路径是" + path);
+			ss1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ss1.length(),
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
 			// 将选择的图片追加到EditText中光标所在位置
 			int index = user_detail.getSelectionStart(); // 获取光标所在位置
 			Editable edit_text = user_detail.getEditableText();
 			if (index < 0 || index >= edit_text.length()) {
-			edit_text.append(ss);
+				edit_text.append(ss);
 			} else {
-			edit_text.insert(index, ss);
+				edit_text.insert(index, ss);
 			}
 			int index1 = user_detail.getSelectionStart(); // 获取光标所在位置
 			Editable edit_text1 = user_detail.getEditableText();
 			if (index1 < 0 || index1 >= edit_text1.length()) {
-			edit_text1.append(ss1);
+				edit_text1.append(ss1);
 			} else {
-			edit_text1.insert(index, ss1);
+				edit_text1.insert(index, ss1);
 			}
 		}
-		
 
 		if (requestCode == MOOD) {
 			// 心情图标
@@ -363,7 +365,6 @@ public class NewNoteActivity extends Activity {
 
 		}
 		if (resultCode == RESULT_OK) {
-			
 
 			if (requestCode == PICTURE) {// 选择添加相册里的图片
 
@@ -440,11 +441,14 @@ public class NewNoteActivity extends Activity {
 				String res = results.get(0);
 				// 语音转写的结果返回的Editext
 				EditText editor = ((EditText) findViewById(R.id.user_detail));
-				String text = editor.getText().toString() + res;
+				/**String text = editor.getText().toString() + iattext;
 				editor.setText(text);
+				setText()方法与append()方法的区别。即s=s+a-->s.append(a)的区别
+				append方法用来累积字符串的,用途是当需要大量的字符串拼接时使用  
+				  优点效率比+=要高很多 （+=内存中是相当于创建副本重新赋值，StringBuffer是指针的引用）
+				 */
+				editor.append(res);
 			}
-			
-			
 
 		}
 	}
@@ -535,8 +539,13 @@ public class NewNoteActivity extends Activity {
 						String iattext = JsonParser.parseIatResult(result
 								.getResultString());
 						EditText editor = ((EditText) findViewById(R.id.user_detail));
-						String text = editor.getText().toString() + iattext;
+						/**String text = editor.getText().toString() + iattext;
 						editor.setText(text);
+						setText()方法与append()方法的区别。即s=s+a-->s.append(a)的区别
+						append方法用来累积字符串的,用途是当需要大量的字符串拼接时使用  
+						  优点效率比+=要高很多 （+=内存中是相当于创建副本重新赋值，StringBuffer是指针的引用）
+						 */
+						editor.append(iattext);
 					} else {
 						Log.d(TAG, "recognizer result : null");
 						showTip("无识别结果");
