@@ -34,6 +34,9 @@ public class Constants {
 			//用户名
 			public static final String user_name = "user_name";
 		
+			//心情
+			public static final String mood = "mood";
+			
 			/**标题*/
 			public static final String note_TITLE = "noteTitle";
 			//图片

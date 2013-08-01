@@ -75,7 +75,7 @@ public class NewNoteActivity extends Activity {
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
 	private ImageButton addnote_painting, addnote_addthing;
-
+	 
 	protected static final String TAG = "IatDemo";
 	// 这是语音部分的请求码
 	private static final int REQUEST_CODE_SEARCH = 817;
@@ -141,18 +141,7 @@ public class NewNoteActivity extends Activity {
 		initialize_button_variables();
 		// 关于按键的设置
 		button_set();
-		addnote_moodTagging = (ImageButton) findViewById(R.id.addnote_moodTagging);
-
-		addnote_moodTagging.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(NewNoteActivity.this,
-						AddNote_moodtagging.class);
-				startActivityForResult(intent, MOOD);
-			}
-		});
-
+		
 		// 设置申请到的应用appid
 		SpeechUtility.getUtility(this).setAppid("51ece17f");
 		// 初始化识别对象
@@ -168,6 +157,7 @@ public class NewNoteActivity extends Activity {
 	}
 
 	public void initialize_button_variables() {
+		addnote_moodTagging = (ImageButton) findViewById(R.id.addnote_moodTagging);
 		user_title = (EditText) findViewById(R.id.user_title);
 		user_detail = (EditText) findViewById(R.id.user_detail);
 		addnote_save = (ImageButton) findViewById(R.id.gallery_menu_save);
@@ -179,6 +169,17 @@ public class NewNoteActivity extends Activity {
 	}
 
 	public void button_set() {
+		
+		addnote_moodTagging.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(NewNoteActivity.this,
+						AddNote_moodtagging.class);
+				startActivityForResult(intent, MOOD);
+			}
+		});
+		
 		addnote_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

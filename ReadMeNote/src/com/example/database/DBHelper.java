@@ -19,6 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ Constants.NotesListTable.TABLE_NAME + " ("
 			+ Constants.NotesListTable.ID + " integer primary key, "
 			+ Constants.NotesListTable.user_name + " text, "
+			+ Constants.NotesListTable.mood + " blog, "
 			+ Constants.NotesListTable.note_TITLE + " text, "
 			+ Constants.NotesListTable.addnote_picture + " blog, "
 			+ Constants.NotesListTable.addnote_record + " blog, "
