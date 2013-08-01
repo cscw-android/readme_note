@@ -68,8 +68,12 @@ public class NewNoteActivity extends Activity {
 
 	final int THING = 56;
 
-
-	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
+	String res = null;
+	String name_appendix = null;
+	String path_appendix = null;
+	String imageId = null;//心情图标id
+	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
+	Bitmap bitmap_painting = null;//涂鸦图片
 	EditText user_detail, user_title;
 
 	private ImageButton addnote_save, addnote_picture, addnote_record,
@@ -326,13 +330,13 @@ public class NewNoteActivity extends Activity {
 			// Toast.makeText(NewNoteActivity.this, "放了",
 			// Toast.LENGTH_SHORT).show();
 			Bundle bundle = data.getExtras();
-			String name = bundle.getString("name");
-			String path = bundle.getString("path");
+			 name_appendix = bundle.getString("name");//附件名称
+			 path_appendix = bundle.getString("path");//附件路径
 			// 设置字体的颜色
-			SpannableString ss = new SpannableString("你所添加的文件名字是:" + name);
+			SpannableString ss = new SpannableString("你所添加的文件名字是:" + name_appendix);
 			ss.setSpan(new ForegroundColorSpan(Color.RED), 0, ss.length(),
 					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			SpannableString ss1 = new SpannableString("你所添加的文件路径是" + path);
+			SpannableString ss1 = new SpannableString("你所添加的文件路径是" + path_appendix);
 			ss1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ss1.length(),
 					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -356,7 +360,7 @@ public class NewNoteActivity extends Activity {
 		if (requestCode == MOOD) {
 			// 心情图标
 			Bundle b = data.getExtras();
-			String imageId = b.getString("imageId");
+		    imageId = b.getString("imageId");//心情图标id
 			addnote_moodTagging
 					.setImageResource(addnote_moodTagging_itemSource[Integer
 							.parseInt(imageId)]);
@@ -364,9 +368,9 @@ public class NewNoteActivity extends Activity {
 		}
 		if (requestCode == GESTURE) {
 			AddNote_painting painting = new AddNote_painting();
-			Bitmap bitmap = painting.getBitmap();
+		    bitmap_painting = painting.getBitmap();//涂鸦的图片
 			// 接下来的代码跟上面的注释是一样的，不累赘注释
-			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this, bitmap);
+			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this, bitmap_painting);
 			SpannableString spannableString = new SpannableString("[local]" + 1
 					+ "[/local]");
 			spannableString.setSpan(imageSpan, 0,
@@ -385,7 +389,7 @@ public class NewNoteActivity extends Activity {
 
 			if (requestCode == PICTURE) {// 选择添加相册里的图片
 
-				Uri uri = data.getData();
+				Uri uri = data.getData();//相册 图片的位置
 				// 将Image转为Bitmap
 				ContentResolver cr = this.getContentResolver();
 
@@ -395,7 +399,7 @@ public class NewNoteActivity extends Activity {
 					Bitmap bitmapfirst = BitmapFactory.decodeStream(cr
 							.openInputStream(uri));
 					// 改成缩略图，变成自己想要的大小，下面有这个方法
-					bitmap = resizeImage(bitmapfirst, 200, 200);
+					bitmap = resizeImage(bitmapfirst, 200, 200);//相册图片的缩略图
 					// 将bitmap显示在本界面的ImageView里面
 					// img1.setImageBitmap(bitmap);
 				} catch (FileNotFoundException e) {
@@ -431,7 +435,7 @@ public class NewNoteActivity extends Activity {
 				// 返回相机的数据，并且转换为Bitmap类型
 				Bitmap bitmapfirst1 = (Bitmap) extras.get("data");
 				// 跟上面的一样
-				bitmap = resizeImage(bitmapfirst1, 200, 200);
+				bitmap = resizeImage(bitmapfirst1, 200, 200);//照相后图像的缩略图
 				ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,
 						bitmap);
 				SpannableString spannableString = new SpannableString("[local]"
@@ -455,7 +459,7 @@ public class NewNoteActivity extends Activity {
 				// 取得识别的字符串
 				ArrayList<String> results = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-				String res = results.get(0);
+				 res = results.get(0);//语音文本
 				// 语音转写的结果返回的Editext
 				EditText editor = ((EditText) findViewById(R.id.user_detail));
 				/**String text = editor.getText().toString() + iattext;
