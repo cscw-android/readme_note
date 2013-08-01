@@ -76,6 +76,7 @@ public class AddNote_record extends Activity {
 			record_toast.show();
 			saveornot = 0;
 		} else {
+			new_saveornot = 0;
 			Toast record_toast = Toast.makeText(getApplicationContext(),
 					"无录音保存", 7000);
 			record_toast.show();
@@ -157,7 +158,7 @@ public class AddNote_record extends Activity {
 		mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
 		mFileName += "/"
 				+ "ReadMe"
-				+ new DateFormat().format("yyyyMMdd_hhmmss",
+				+ new DateFormat().format("yyyyMMdd_hhmmss",//以ReadMe+时间命名保存在根目录
 						Calendar.getInstance(Locale.CHINA)) + ".amr";
 	}
 
@@ -193,6 +194,7 @@ public class AddNote_record extends Activity {
 				record_toast.show();
 				saveornot = 0;
 			} else {
+				new_saveornot = 0;
 				Toast record_toast = Toast.makeText(getApplicationContext(),
 						"无录音保存", 7000);
 				record_toast.show();
