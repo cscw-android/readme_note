@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    
 
     <application
         android:allowBackup="true"
@@ -54,6 +54,10 @@
         </activity>
         <activity
             android:name="com.example.readmenote.AddNote_painting"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+        <activity
+            android:name="com.example.readmenote.AddNote_record"
             android:theme="@android:style/Theme.Translucent" >
         </activity>
     </application>

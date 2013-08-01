@@ -230,6 +230,8 @@ public class NewNoteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(NewNoteActivity.this,AddNote_record.class);
+				startActivity(intent);
 
 			}
 		});
