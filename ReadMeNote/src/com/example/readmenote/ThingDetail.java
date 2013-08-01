@@ -9,6 +9,8 @@ import java.util.Map;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +30,7 @@ public class ThingDetail extends Activity {
 	TextView textView;
 	File currentParent;
 	File[] currentFiles;
+	final int THING = 56;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +54,13 @@ public class ThingDetail extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// 如果用户点击了文件，直接返回，不做任何处理
-				if(currentFiles[arg2].isFile()) return;
+				// 如果用户点击了文件，弹出对话框
+				if(currentFiles[arg2].isFile()) 
+					addThing(currentFiles[arg2]);
 				//获取用户点击的文件下的所有文件
 				File[] tmp = currentFiles[arg2].listFiles();
 				if(tmp == null || tmp.length == 0){
-					Toast.makeText(ThingDetail.this, "没有文件哦", Toast.LENGTH_LONG).show();
+					//Toast.makeText(ThingDetail.this, "没有文件哦", Toast.LENGTH_LONG).show();
 				}else{
 					currentParent = currentFiles[arg2];
 					currentFiles = tmp;
@@ -65,6 +69,46 @@ public class ThingDetail extends Activity {
 				}
 				
 			}
+
+			private void addThing(final File file) {
+				// TODO Auto-generated method stub
+				 new AlertDialog.Builder(ThingDetail.this).
+						setIcon(R.drawable.super_mono_3d_part2_42).setTitle("确定添加此附件？").
+						setPositiveButton("确定", new DialogInterface.OnClickListener() {
+							
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// 得到添加的附件的名字和路径
+								
+								String name = file.getName();
+								String path = file.getPath();
+								Toast.makeText(ThingDetail.this, "你已经成功添加"+file.getName(), Toast.LENGTH_SHORT).show();
+								Intent intent = getIntent();
+								//将要传递的内容放在bundle里面
+								
+								Bundle bundle = new Bundle();
+								bundle.putString("name", name);
+								bundle.putString("path", path);
+								intent.putExtras(bundle);
+								ThingDetail.this.setResult(THING, intent);
+								ThingDetail.this.finish();
+								
+								
+								
+							}
+						}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								Toast.makeText(ThingDetail.this, "你未添加"+file.getName(), Toast.LENGTH_SHORT).show();
+								
+							}
+						}).show();
+				
+			}
+
 		});
 		//按钮的作用是返回上一级目录
 		button2.setOnClickListener(new OnClickListener() {

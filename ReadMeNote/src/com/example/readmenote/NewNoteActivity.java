@@ -29,11 +29,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +59,7 @@ public class NewNoteActivity extends Activity {
 	final int GESTURE = 2;
 	final int CAMERA = 98;
 	final int PICTURE = 99;
+	final int THING = 56;
 
 	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理
 	EditText user_detail, user_title;
@@ -289,7 +293,7 @@ public class NewNoteActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(NewNoteActivity.this,
 						ThingDetail.class);
-				startActivity(intent);
+				startActivityForResult(intent,THING);
 
 			}
 		});
@@ -300,6 +304,35 @@ public class NewNoteActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		if( requestCode == THING && resultCode == THING){
+			//把传过来的东西拿出来
+			//Toast.makeText(NewNoteActivity.this, "放了", Toast.LENGTH_SHORT).show();
+			Bundle bundle=data.getExtras();
+			String name = bundle.getString("name");
+			String path = bundle.getString("path");
+			//设置字体的颜色
+			SpannableString ss = new SpannableString("你所添加的文件名字是:"+name);
+			 ss.setSpan(new ForegroundColorSpan(Color.RED), 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 SpannableString ss1 = new SpannableString("你所添加的文件路径是"+path); 
+			 ss1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ss1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			
+			// 将选择的图片追加到EditText中光标所在位置
+			int index = user_detail.getSelectionStart(); // 获取光标所在位置
+			Editable edit_text = user_detail.getEditableText();
+			if (index < 0 || index >= edit_text.length()) {
+			edit_text.append(ss);
+			} else {
+			edit_text.insert(index, ss);
+			}
+			int index1 = user_detail.getSelectionStart(); // 获取光标所在位置
+			Editable edit_text1 = user_detail.getEditableText();
+			if (index1 < 0 || index1 >= edit_text1.length()) {
+			edit_text1.append(ss1);
+			} else {
+			edit_text1.insert(index, ss1);
+			}
+		}
+		
 
 		if (requestCode == MOOD) {
 			// 心情图标
@@ -330,6 +363,7 @@ public class NewNoteActivity extends Activity {
 
 		}
 		if (resultCode == RESULT_OK) {
+			
 
 			if (requestCode == PICTURE) {// 选择添加相册里的图片
 
@@ -409,6 +443,9 @@ public class NewNoteActivity extends Activity {
 				String text = editor.getText().toString() + res;
 				editor.setText(text);
 			}
+			
+			
+
 		}
 	}
 
