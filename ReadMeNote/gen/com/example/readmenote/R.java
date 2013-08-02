@@ -158,9 +158,8 @@ public final class R {
     public static final class id {
         public static final int RelativeLayout_Item=0x7f080014;
         public static final int ScrollView1=0x7f08000b;
-        public static final int action_settings=0x7f080024;
+        public static final int action_settings=0x7f080023;
         public static final int addnote_moodTagging=0x7f080008;
-        public static final int but_thing=0x7f080022;
         public static final int choose_camera=0x7f080017;
         public static final int choose_picture=0x7f080018;
         public static final int choose_text=0x7f080016;
@@ -175,20 +174,20 @@ public final class R {
         public static final int gridView1=0x7f080007;
         public static final int gridview=0x7f080013;
         public static final int image=0x7f08001e;
-        public static final int imageView1=0x7f08001f;
+        public static final int imageView1=0x7f080021;
         public static final int image_name=0x7f08001a;
         public static final int item_image=0x7f080015;
         public static final int linearLayout2=0x7f080005;
-        public static final int listView_thing=0x7f080023;
+        public static final int listView1=0x7f080020;
         public static final int main_radio=0x7f08000c;
         public static final int sv=0x7f080006;
         public static final int tab1=0x7f080002;
         public static final int tab2=0x7f080003;
         public static final int tab3=0x7f080004;
         public static final int tab_group=0x7f080001;
-        public static final int tab_label=0x7f080020;
+        public static final int tab_label=0x7f080022;
         public static final int text=0x7f08001c;
-        public static final int thing_text=0x7f080021;
+        public static final int text_ni=0x7f08001f;
         public static final int time=0x7f080000;
         public static final int title=0x7f08001d;
         public static final int user_detail=0x7f08000a;
@@ -205,8 +204,8 @@ public final class R {
         public static final int gesture_dialog=0x7f030007;
         public static final int lines=0x7f030008;
         public static final int note_show=0x7f030009;
-        public static final int tabmim=0x7f03000a;
-        public static final int thing_detail=0x7f03000b;
+        public static final int path_test=0x7f03000a;
+        public static final int tabmim=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f070000;
