@@ -21,7 +21,7 @@ public class NoteDBManger {
 	public NoteDBManger(Context c) {
 		context = c;
 		dbHelper = new DBHelper(c, Constants.DATABASE_NAME, null,
-				Constants.Version);
+				Constants.VERSION);
 	}
 
 	/**
@@ -61,7 +61,19 @@ public class NoteDBManger {
 
 		try {
 			ContentValues contentValues = new ContentValues();
-			contentValues.put(Constants.NotesListTable.ID, note.getId());
+			contentValues.put(Constants.NotesListTable.ID, note.getNote_id());
+			contentValues.put(Constants.NotesListTable.USER_NAME, note.getUser_name());
+			contentValues.put(Constants.NotesListTable.MOOD, note.getMood());
+			contentValues.put(Constants.NotesListTable.NOTE_TITLE, note.getNoteTitle());
+			contentValues.put(Constants.NotesListTable.ADDNOTE_PICTURE, note.getAddnote_picture());
+			contentValues.put(Constants.NotesListTable.ADDNOTE_RECORD, note.getAddnote_record());
+			contentValues.put(Constants.NotesListTable.ADDNOTE_RECORDINPUT, note.getAddnote_recordinput());
+			contentValues.put(Constants.NotesListTable.ADDNOTE_PAINTING, note.getAddnote_painting());
+			contentValues.put(Constants.NotesListTable.NAME_APPENDIX, note.getName_appendix());
+			contentValues.put(Constants.NotesListTable.PATH_APPENDIX, note.getPath_appendix());
+			contentValues.put(Constants.NotesListTable.NOTE_SUMMARY, note.getNoteSummary());
+			contentValues.put(Constants.NotesListTable.NOTE_TIME, note.getNoteTime());
+			
 			
 			return db.insert(Constants.NotesListTable.TABLE_NAME, null,
 					contentValues);
@@ -132,12 +144,12 @@ public class NoteDBManger {
 
 		try {
 			ContentValues contentValues = new ContentValues();
-			contentValues.put(Constants.NotesListTable.ID, note.getId());
-			contentValues.put(Constants.NotesListTable.addnote_picture,
+			contentValues.put(Constants.NotesListTable.ID, note.getNote_id());
+			contentValues.put(Constants.NotesListTable.ADDNOTE_PICTURE,
 					note.getAddnote_picture());
-			contentValues.put(Constants.NotesListTable.note_SUMMARY, note.getSummary());
+			contentValues.put(Constants.NotesListTable.NOTE_SUMMARY, note.getNoteSummary());
 			return db.update(Constants.NotesListTable.TABLE_NAME, contentValues,
-					Constants.NotesListTable.addnote_picture+"=?", whereArgs);
+					Constants.NotesListTable.ADDNOTE_PICTURE+"=?", whereArgs);
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 			return -1;

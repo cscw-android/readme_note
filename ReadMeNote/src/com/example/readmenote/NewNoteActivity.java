@@ -1,11 +1,10 @@
 package com.example.readmenote;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import com.example.database.Note;
 import com.example.database.NoteDBManger;
 import com.iflytek.speech.ErrorCode;
@@ -28,6 +27,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +35,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
@@ -57,6 +58,7 @@ import android.widget.Toast;
 
 public class NewNoteActivity extends Activity {
 
+	Context context = this;
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
 	// 传过去的resultCode
@@ -70,9 +72,9 @@ public class NewNoteActivity extends Activity {
 
 	final int THING = 56;
 
-	String res = null;
-	String name_appendix = null;
-	String path_appendix = null;
+	String res = null;//语音文本
+	String name_appendix = null;//附件名称
+	String path_appendix = null;//附件路径
 	String imageId = null;//心情图标id
 	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
 	Bitmap bitmap_painting = null;//涂鸦图片
@@ -190,7 +192,6 @@ public class NewNoteActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				SqliteTask sqliteTask = new SqliteTask(NewNoteActivity.this);
-				note.setTitle(null);
 				sqliteTask.execute(note);
 			}
 		});
@@ -648,15 +649,26 @@ public class NewNoteActivity extends Activity {
 		protected Object doInBackground(Object... arg0) {
 			// TODO Auto-generated method stub
 			Note note = (Note)arg0[0];
-			int id = 0;
-			note.setId(id++);
+			int id = 1;
 			String result;
-			System.out.println(note.getId());
+			note.setNote_id(id++);
+			note.setAddnote_painting(NewNoteActivity.this.changeBitmap(bitmap_painting));
+			note.setAddnote_picture(NewNoteActivity.this.changeBitmap(bitmap));
+			note.setAddnote_record(null);
+			note.setAddnote_recordinput(res);
+			note.setMood(imageId);
+			note.setName_appendix(name_appendix);
+			note.setNoteSummary(null);
+			note.setNoteTime(null);
+			note.setNoteTitle(user_title.getText().toString());
+			note.setPath_appendix(path_appendix);
+			note.setUser_name(null);
+			
 			try{
-			NoteDBManger noteDBManger = new NoteDBManger(context);
-			noteDBManger.open();
-			noteDBManger.addnote(note);
-			result = "保存成功";
+				NoteDBManger noteDBManger = new NoteDBManger(context);
+				noteDBManger.open();
+				noteDBManger.addnote(note);
+				result = "保存成功";
 			
 			}catch(Exception e){
 				e.printStackTrace();
@@ -665,6 +677,13 @@ public class NewNoteActivity extends Activity {
 			return result;
 		}
 		
+	}
+	
+	public byte[] changeBitmap(Bitmap bmp){
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bmp.compress(CompressFormat.JPEG, 85, baos);
+		byte[] bytes = baos.toByteArray();
+		return bytes;
 	}
 
 }

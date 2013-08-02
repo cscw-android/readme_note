@@ -18,20 +18,21 @@ public class DBHelper extends SQLiteOpenHelper {
 	private final String NotesListTable = "create table "
 			+ Constants.NotesListTable.TABLE_NAME + " ("
 			+ Constants.NotesListTable.ID + " integer primary key, "
-			+ Constants.NotesListTable.user_name + " text, "
-			+ Constants.NotesListTable.mood + " blog, "
-			+ Constants.NotesListTable.note_TITLE + " text, "
-			+ Constants.NotesListTable.addnote_picture + " blog, "
-			+ Constants.NotesListTable.addnote_record + " blog, "
-			+ Constants.NotesListTable.addnote_recordinput + " text, "
-			+ Constants.NotesListTable.addnote_painting + " blog, "
-			+ Constants.NotesListTable.addnote_addthing + " text, "			
-			+ Constants.NotesListTable.note_SUMMARY + " text, "
-			+ Constants.NotesListTable.note_TIME + " text)";
+			+ Constants.NotesListTable.USER_NAME + " text, "
+			+ Constants.NotesListTable.MOOD + " blog, "
+			+ Constants.NotesListTable.NOTE_TITLE + " text, "
+			+ Constants.NotesListTable.ADDNOTE_PICTURE + " blog, "
+			+ Constants.NotesListTable.ADDNOTE_RECORD + " blog, "
+			+ Constants.NotesListTable.ADDNOTE_RECORDINPUT + " text, "
+			+ Constants.NotesListTable.ADDNOTE_PAINTING + " blog, "
+			+ Constants.NotesListTable.NAME_APPENDIX + " text, "
+			+ Constants.NotesListTable.PATH_APPENDIX + " text, "
+			+ Constants.NotesListTable.NOTE_SUMMARY + " text, "
+			+ Constants.NotesListTable.NOTE_TIME + " text)";
 
 	public DBHelper(Context context, String name, CursorFactory factory,
 			int version) {
-		super(context, Constants.DATABASE_NAME, null, Constants.Version);
+		super(context, Constants.DATABASE_NAME, null, Constants.VERSION);
 	}
 
 	@Override
