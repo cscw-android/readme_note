@@ -84,6 +84,7 @@ public class ThingDetail extends ListActivity {
 	}
 
 	private void addThing(final File file) {
+		
 				// TODO Auto-generated method stub
 				new AlertDialog.Builder(ThingDetail.this)
 						.setIcon(R.drawable.super_mono_3d_part2_42)
@@ -107,6 +108,7 @@ public class ThingDetail extends ListActivity {
 										Bundle bundle = new Bundle();
 										bundle.putString("name", name);
 										bundle.putString("path", path);
+										bundle.putSerializable("file", file);
 										intent.putExtras(bundle);
 										ThingDetail.this.setResult(THING,
 												intent);
