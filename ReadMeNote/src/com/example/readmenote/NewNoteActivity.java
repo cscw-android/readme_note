@@ -2,11 +2,13 @@ package com.example.readmenote;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import com.example.database.Note;
 import com.example.database.NoteDBManger;
+
 import com.iflytek.speech.ErrorCode;
 import com.iflytek.speech.ISpeechModule;
 import com.iflytek.speech.InitListener;
@@ -18,6 +20,8 @@ import com.iflytek.speech.SpeechUtility;
 import com.iflytek.speech.util.ApkInstaller;
 import com.iflytek.speech.util.JsonParser;
 
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,22 +72,35 @@ public class NewNoteActivity extends Activity {
 	final int CAMERA = 98;
 	final int PICTURE = 99;
 
+	Button record_button1, record_button2, record_button3, record_button4,
+			record_button5, record_button6, record_button7, record_button8,
+			record_button9, record_button10;
+	boolean record_or_add = false; // ture代表是 录音，flase是添加附件
+	int i = 0;// 用来判断 是第几个按钮
+	int record_int = 0;// 判断是第几个录音
+	int addthing_int = 0;// 判断是第几个附件
+	MediaPlayer mPlayer = null;
+	private static String record_filename1 = null, record_filename2 = null,
+			record_filename3, record_filename4, record_filename5,
+			record_filename6, record_filename7, record_filename8,
+			record_filename9, record_filename10;
+
 	Note note = new Note();
 
 	final int THING = 56;
 
-	String res = null;//语音文本
-	String name_appendix = null;//附件名称
-	String path_appendix = null;//附件路径
-	String imageId = null;//心情图标id
+	String res = null;// 语音文本
+	String name_appendix = null;// 附件名称
+	String path_appendix = null;// 附件路径
+	String imageId = null;// 心情图标id
 	Bitmap bitmap = null;// Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
-	Bitmap bitmap_painting = null;//涂鸦图片
+	Bitmap bitmap_painting = null;// 涂鸦图片
 	EditText user_detail, user_title;
 
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
 	private ImageButton addnote_painting, addnote_addthing;
-	 
+
 	protected static final String TAG = "IatDemo";
 	// 这是语音部分的请求码
 	private static final int REQUEST_CODE_SEARCH = 817;
@@ -149,7 +166,7 @@ public class NewNoteActivity extends Activity {
 		initialize_button_variables();
 		// 关于按键的设置
 		button_set();
-		
+
 		// 设置申请到的应用appid
 		SpeechUtility.getUtility(this).setAppid("51ece17f");
 		// 初始化识别对象
@@ -177,7 +194,7 @@ public class NewNoteActivity extends Activity {
 	}
 
 	public void button_set() {
-		
+
 		addnote_moodTagging.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -187,7 +204,7 @@ public class NewNoteActivity extends Activity {
 				startActivityForResult(intent, MOOD);
 			}
 		});
-		
+
 		addnote_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -251,12 +268,11 @@ public class NewNoteActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(NewNoteActivity.this,AddNote_record.class);
+				Intent intent = new Intent(NewNoteActivity.this,
+						AddNote_record.class);
 				startActivityForResult(intent, RECORD);
 			}
 		});
-		
-		
 
 		// 为语音按钮设置单击事件监听器
 		addnote_recordinput.setOnClickListener(new OnClickListener() {
@@ -333,13 +349,15 @@ public class NewNoteActivity extends Activity {
 			// Toast.makeText(NewNoteActivity.this, "放了",
 			// Toast.LENGTH_SHORT).show();
 			Bundle bundle = data.getExtras();
-			 name_appendix = bundle.getString("name");//附件名称
-			 path_appendix = bundle.getString("path");//附件路径
+			name_appendix = bundle.getString("name");// 附件名称
+			path_appendix = bundle.getString("path");// 附件路径
 			// 设置字体的颜色
-			SpannableString ss = new SpannableString("你所添加的文件名字是:" + name_appendix);
+			SpannableString ss = new SpannableString("你所添加的文件名字是:"
+					+ name_appendix);
 			ss.setSpan(new ForegroundColorSpan(Color.RED), 0, ss.length(),
 					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			SpannableString ss1 = new SpannableString("你所添加的文件路径是" + path_appendix);
+			SpannableString ss1 = new SpannableString("你所添加的文件路径是"
+					+ path_appendix);
 			ss1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ss1.length(),
 					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -363,7 +381,7 @@ public class NewNoteActivity extends Activity {
 		if (requestCode == MOOD) {
 			// 心情图标
 			Bundle b = data.getExtras();
-		    imageId = b.getString("imageId");//心情图标id
+			imageId = b.getString("imageId");// 心情图标id
 			addnote_moodTagging
 					.setImageResource(addnote_moodTagging_itemSource[Integer
 							.parseInt(imageId)]);
@@ -371,9 +389,10 @@ public class NewNoteActivity extends Activity {
 		}
 		if (requestCode == GESTURE) {
 			AddNote_painting painting = new AddNote_painting();
-		    bitmap_painting = painting.getBitmap();//涂鸦的图片
+			bitmap_painting = painting.getBitmap();// 涂鸦的图片
 			// 接下来的代码跟上面的注释是一样的，不累赘注释
-			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this, bitmap_painting);
+			ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,
+					bitmap_painting);
 			SpannableString spannableString = new SpannableString("[local]" + 1
 					+ "[/local]");
 			spannableString.setSpan(imageSpan, 0,
@@ -389,29 +408,36 @@ public class NewNoteActivity extends Activity {
 
 		}
 		if (requestCode == RECORD) {
-			AddNote_record record = new  AddNote_record();
-			int saveornot = record.getnew_saveornot();
-			if(saveornot == 1){
-			
-			Editable eb = user_detail.getEditableText();
-			//获得光标所在位置
-			int startPosition = user_detail.getSelectionStart();
-			SpannableString ss = new SpannableString( "onmoso" );
-			//定义插入图片
-			Drawable drawable = getResources().getDrawable(R.drawable.record_img);
-			ss.setSpan(new ImageSpan(drawable,ImageSpan.ALIGN_BASELINE), 0 , ss.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			drawable.setBounds(2 , 0 , drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-			//插入图片
-			eb.insert(startPosition, ss);
-			saveornot =0;
+			i++;//判断一共10次中的第几次
+			if(i>=11){
+				Toast record_toast = Toast.makeText(getApplicationContext(),
+						"只能添加10个附件或者录音哦~！", 7000);
+				record_toast.show();
 			}
+			record_or_add = true;//判断为录音
+			 Bundle b = data.getExtras();
+			 String filename = b.getString("file");
+			switch (i){
+			case 1 : record_filename1 = b.getString("file");break;
+			case 2 : record_filename2 = b.getString("file");break;
+			case 3 : record_filename3 = b.getString("file");break;
+			case 4 : record_filename4 = b.getString("file");break;
+			case 5 : record_filename5 = b.getString("file");break;
+			case 6 : record_filename6 = b.getString("file");break;
+			case 7 : record_filename7 = b.getString("file");break;
+			case 8 : record_filename8 = b.getString("file");break;
+			case 9 : record_filename9 = b.getString("file");break;
+			case 10 : record_filename10 = b.getString("file");break;
+			default :break;
+			}
+			record_button(i, filename);
 		}
 
 		if (resultCode == RESULT_OK) {
 
 			if (requestCode == PICTURE) {// 选择添加相册里的图片
 
-				Uri uri = data.getData();//相册 图片的位置
+				Uri uri = data.getData();// 相册 图片的位置
 				// 将Image转为Bitmap
 				ContentResolver cr = this.getContentResolver();
 
@@ -421,7 +447,7 @@ public class NewNoteActivity extends Activity {
 					Bitmap bitmapfirst = BitmapFactory.decodeStream(cr
 							.openInputStream(uri));
 					// 改成缩略图，变成自己想要的大小，下面有这个方法
-					bitmap = resizeImage(bitmapfirst, 200, 200);//相册图片的缩略图
+					bitmap = resizeImage(bitmapfirst, 200, 200);// 相册图片的缩略图
 					// 将bitmap显示在本界面的ImageView里面
 					// img1.setImageBitmap(bitmap);
 				} catch (FileNotFoundException e) {
@@ -457,7 +483,7 @@ public class NewNoteActivity extends Activity {
 				// 返回相机的数据，并且转换为Bitmap类型
 				Bitmap bitmapfirst1 = (Bitmap) extras.get("data");
 				// 跟上面的一样
-				bitmap = resizeImage(bitmapfirst1, 200, 200);//照相后图像的缩略图
+				bitmap = resizeImage(bitmapfirst1, 200, 200);// 照相后图像的缩略图
 				ImageSpan imageSpan = new ImageSpan(NewNoteActivity.this,
 						bitmap);
 				SpannableString spannableString = new SpannableString("[local]"
@@ -481,14 +507,15 @@ public class NewNoteActivity extends Activity {
 				// 取得识别的字符串
 				ArrayList<String> results = data
 						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-				 res = results.get(0);//语音文本
+				res = results.get(0);// 语音文本
 				// 语音转写的结果返回的Editext
 				EditText editor = ((EditText) findViewById(R.id.user_detail));
-				/**String text = editor.getText().toString() + iattext;
-				editor.setText(text);
-				setText()方法与append()方法的区别。即s=s+a-->s.append(a)的区别
-				append方法用来累积字符串的,用途是当需要大量的字符串拼接时使用  
-				  优点效率比+=要高很多 （+=内存中是相当于创建副本重新赋值，StringBuffer是指针的引用）
+				/**
+				 * String text = editor.getText().toString() + iattext;
+				 * editor.setText(text);
+				 * setText()方法与append()方法的区别。即s=s+a-->s.append(a)的区别
+				 * append方法用来累积字符串的,用途是当需要大量的字符串拼接时使用 优点效率比+=要高很多
+				 * （+=内存中是相当于创建副本重新赋值，StringBuffer是指针的引用）
 				 */
 				editor.append(res);
 			}
@@ -582,11 +609,12 @@ public class NewNoteActivity extends Activity {
 						String iattext = JsonParser.parseIatResult(result
 								.getResultString());
 						EditText editor = ((EditText) findViewById(R.id.user_detail));
-						/**String text = editor.getText().toString() + iattext;
-						editor.setText(text);
-						setText()方法与append()方法的区别。即s=s+a-->s.append(a)的区别
-						append方法用来累积字符串的,用途是当需要大量的字符串拼接时使用  
-						  优点效率比+=要高很多 （+=内存中是相当于创建副本重新赋值，StringBuffer是指针的引用）
+						/**
+						 * String text = editor.getText().toString() + iattext;
+						 * editor.setText(text);
+						 * setText()方法与append()方法的区别。即s=s+a-->s.append(a)的区别
+						 * append方法用来累积字符串的,用途是当需要大量的字符串拼接时使用 优点效率比+=要高很多
+						 * （+=内存中是相当于创建副本重新赋值，StringBuffer是指针的引用）
 						 */
 						editor.append(iattext);
 					} else {
@@ -622,37 +650,37 @@ public class NewNoteActivity extends Activity {
 			}
 		});
 	}
+
 	/**
 	 * 
-	 * @author 海文
-	 * 异步保存数据
-	 *
+	 * @author 海文 异步保存数据
+	 * 
 	 */
-	class SqliteTask extends AsyncTask{
+	class SqliteTask extends AsyncTask {
 
 		@Override
 		protected void onPostExecute(Object result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			Toast.makeText(NewNoteActivity.this
-					, result.toString() 
-					, 4000)
+			Toast.makeText(NewNoteActivity.this, result.toString(), 4000)
 					.show();
 		}
 
 		Context context;
-		public SqliteTask(Context ctx){
+
+		public SqliteTask(Context ctx) {
 			context = ctx;
 		}
-		
+
 		@Override
 		protected Object doInBackground(Object... arg0) {
 			// TODO Auto-generated method stub
-			Note note = (Note)arg0[0];
+			Note note = (Note) arg0[0];
 			int id = 1;
 			String result;
 			note.setNote_id(id++);
-			note.setAddnote_painting(NewNoteActivity.this.changeBitmap(bitmap_painting));
+			note.setAddnote_painting(NewNoteActivity.this
+					.changeBitmap(bitmap_painting));
 			note.setAddnote_picture(NewNoteActivity.this.changeBitmap(bitmap));
 			note.setAddnote_record(null);
 			note.setAddnote_recordinput(res);
@@ -663,27 +691,274 @@ public class NewNoteActivity extends Activity {
 			note.setNoteTitle(user_title.getText().toString());
 			note.setPath_appendix(path_appendix);
 			note.setUser_name(null);
-			
-			try{
+
+			try {
 				NoteDBManger noteDBManger = new NoteDBManger(context);
 				noteDBManger.open();
 				noteDBManger.addnote(note);
 				result = "保存成功";
-			
-			}catch(Exception e){
+
+			} catch (Exception e) {
 				e.printStackTrace();
 				result = "保存失败";
 			}
 			return result;
 		}
-		
+
 	}
-	
-	public byte[] changeBitmap(Bitmap bmp){
+
+	public byte[] changeBitmap(Bitmap bmp) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bmp.compress(CompressFormat.JPEG, 85, baos);
 		byte[] bytes = baos.toByteArray();
 		return bytes;
+	}
+
+	private void button_gone() {// 按钮初始化及设置不可见
+		record_button1 = (Button) findViewById(R.id.record_button_1);
+		record_button2 = (Button) findViewById(R.id.record_button_2);
+		record_button3 = (Button) findViewById(R.id.record_button_3);
+		record_button4 = (Button) findViewById(R.id.record_button_4);
+		record_button5 = (Button) findViewById(R.id.record_button_5);
+		record_button6 = (Button) findViewById(R.id.record_button_6);
+		record_button7 = (Button) findViewById(R.id.record_button_7);
+		record_button8 = (Button) findViewById(R.id.record_button_8);
+		record_button9 = (Button) findViewById(R.id.record_button_9);
+		record_button10 = (Button) findViewById(R.id.record_button_10);
+		record_button1.setVisibility(View.GONE);
+		record_button2.setVisibility(View.GONE);
+		record_button3.setVisibility(View.GONE);
+		record_button4.setVisibility(View.GONE);
+		record_button5.setVisibility(View.GONE);
+		record_button6.setVisibility(View.GONE);
+		record_button7.setVisibility(View.GONE);
+		record_button8.setVisibility(View.GONE);
+		record_button9.setVisibility(View.GONE);
+		record_button10.setVisibility(View.GONE);
+
+	}
+
+	private void record_button(int i, String filename) {// 判断是在哪个按钮
+
+		switch (i) {
+		case 1: {
+
+			record_button1.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button1.setText("录音" + record_int);
+				add_record(record_button1, filename);
+			} else {
+				addthing_int++;
+				record_button1.setText("附件" + addthing_int);
+				add_thing(record_button1, filename);
+			}
+			break;
+		}
+		case 2: {
+
+			record_button2.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button2.setText("录音" + record_int);
+				add_record(record_button2, filename);
+			} else {
+				addthing_int++;
+				record_button2.setText("附件" + addthing_int);
+				add_thing(record_button2, filename);
+			}
+			break;
+		}
+		case 3: {
+
+			record_button3.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button3.setText("录音" + record_int);
+				add_record(record_button3, filename);
+			} else {
+				addthing_int++;
+				record_button3.setText("附件" + addthing_int);
+				add_thing(record_button3, filename);
+			}
+			break;
+		}
+		case 4: {
+
+			record_button4.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button4.setText("录音" + record_int);
+				add_record(record_button4, filename);
+			} else {
+				addthing_int++;
+				record_button4.setText("附件" + addthing_int);
+				add_thing(record_button4, filename);
+			}
+			break;
+		}
+		case 5: {
+
+			record_button5.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button5.setText("录音" + record_int);
+				add_record(record_button5, filename);
+			} else {
+				addthing_int++;
+				record_button5.setText("附件" + addthing_int);
+				add_thing(record_button5, filename);
+			}
+			break;
+		}
+		case 6: {
+
+			record_button6.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button6.setText("录音" + record_int);
+				add_record(record_button6, filename);
+			} else {
+				addthing_int++;
+				record_button6.setText("附件" + addthing_int);
+				add_thing(record_button6, filename);
+			}
+			break;
+		}
+		case 7: {
+
+			record_button7.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button7.setText("录音" + record_int);
+				add_record(record_button7, filename);
+			} else {
+				addthing_int++;
+				record_button7.setText("附件" + addthing_int);
+				add_thing(record_button7, filename);
+			}
+			break;
+		}
+		case 8: {
+
+			record_button8.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button8.setText("录音" + record_int);
+				add_record(record_button8, filename);
+			} else {
+				addthing_int++;
+				record_button8.setText("附件" + addthing_int);
+				add_thing(record_button8, filename);
+			}
+			break;
+		}
+		case 9: {
+
+			record_button9.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button9.setText("录音" + record_int);
+				add_record(record_button9, filename);
+			} else {
+				addthing_int++;
+				record_button9.setText("附件" + addthing_int);
+				add_thing(record_button9, filename);
+			}
+			break;
+		}
+		case 10: {
+
+			record_button10.setVisibility(View.VISIBLE);
+
+			if (record_or_add == true) {
+				record_int++;
+				record_button10.setText("录音" + record_int);
+				add_record(record_button10, filename);
+			} else {
+				addthing_int++;
+				record_button10.setText("附件" + addthing_int);
+				add_thing(record_button10, filename);
+			}
+			break;
+		}
+
+		default:
+			break;
+		}
+	}
+
+	private void add_thing(Button button, String filename) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void add_record(Button button, final String filename) {
+		// TODO Auto-generated method stub
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Toast record_toast = Toast.makeText(getApplicationContext(),
+						"我是单击按钮", 7000);
+				record_toast.show();
+				// TODO Auto-generated method stub
+				mPlayer = new MediaPlayer();
+				try {
+
+					mPlayer.setDataSource(filename);
+
+					mPlayer.prepare();
+
+					mPlayer.start();
+
+				} catch (IllegalArgumentException e) {
+
+					e.printStackTrace();
+
+				} catch (IllegalStateException e) {
+
+					e.printStackTrace();
+
+				} catch (IOException e) {
+
+					e.printStackTrace();
+
+				}
+
+				mPlayer.setOnCompletionListener(new OnCompletionListener() {
+
+					@Override
+					public void onCompletion(MediaPlayer mp) {
+
+						mPlayer.release();
+
+					}
+
+				});
+
+			}
+		});
+
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		if (mPlayer != null) {
+			mPlayer.release();
+			mPlayer = null;
+		}
 	}
 
 }
