@@ -166,7 +166,8 @@ public class NewNoteActivity extends Activity {
 		initialize_button_variables();
 		// 关于按键的设置
 		button_set();
-
+		//让 录音附件按钮 
+		button_gone();
 		// 设置申请到的应用appid
 		SpeechUtility.getUtility(this).setAppid("51ece17f");
 		// 初始化识别对象
