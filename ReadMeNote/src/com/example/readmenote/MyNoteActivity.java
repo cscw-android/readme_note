@@ -47,14 +47,15 @@ public class MyNoteActivity extends Activity {
 		for (int i = 0; i < 10; i++) {
 			map.put("title", "我的笔记");
 			map.put("text",
-					"因为突发奇想，发现网上的例子的网格布局，只有图片的实例，没有加文字说明！ 后来找到个是来自《Android核心技术与实例详解》一书的实例 ，使用的适配是SimpleAdapter，而我想用继承BaseAdapter类，重写getView方法.经过自己的资料的查阅与调试 ，完成了个小例子；");
+					"限制放2行文字或者。。放两行试一试，大家好哈哈哈哈，加油↖(^ω^)↗到两行没呢？");
 			map.put("image", R.drawable.sb3);
+			map.put("date", "时间");
 			list.add(map);
 		}
 
 		SimpleAdapter simpleAdapter = new SimpleAdapter(MyNoteActivity.this,
 				list, R.layout.note_show, new String[] { "title", "text",
-						"image" }, new int[] { R.id.title, R.id.text,
+						"image","date" }, new int[] { R.id.title, R.id.text,
 						R.id.image });
 		gridView.setAdapter(simpleAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
