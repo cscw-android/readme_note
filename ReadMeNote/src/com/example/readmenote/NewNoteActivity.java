@@ -778,11 +778,12 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button1.setText("录音" + record_int);
+				//record_button1.setText("录音" + record_int);
+				record_button1.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button1, filename);
 			} else {
 				addthing_int++;
-				record_button1.setText("附件" + addthing_int);
+				record_button1.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button1, filename,file_get);
 			}
 			break;
@@ -793,11 +794,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button2.setText("录音" + record_int);
+				record_button2.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button2, filename);
 			} else {
 				addthing_int++;
-				record_button2.setText("附件" + addthing_int);
+				record_button2.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button2, filename,file_get);
 			}
 			break;
@@ -808,11 +809,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button3.setText("录音" + record_int);
+				record_button3.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button3, filename);
 			} else {
 				addthing_int++;
-				record_button3.setText("附件" + addthing_int);
+				record_button3.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button3, filename,file_get);
 			}
 			break;
@@ -823,11 +824,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button4.setText("录音" + record_int);
+				record_button4.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button4, filename);
 			} else {
 				addthing_int++;
-				record_button4.setText("附件" + addthing_int);
+				record_button4.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button4, filename,file_get);
 			}
 			break;
@@ -838,11 +839,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button5.setText("录音" + record_int);
+				record_button5.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button5, filename);
 			} else {
 				addthing_int++;
-				record_button5.setText("附件" + addthing_int);
+				record_button5.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button5, filename,file_get);
 			}
 			break;
@@ -853,11 +854,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button6.setText("录音" + record_int);
+				record_button6.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button6, filename);
 			} else {
 				addthing_int++;
-				record_button6.setText("附件" + addthing_int);
+				record_button6.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button6, filename,file_get);
 			}
 			break;
@@ -868,11 +869,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button7.setText("录音" + record_int);
+				record_button7.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button7, filename);
 			} else {
 				addthing_int++;
-				record_button7.setText("附件" + addthing_int);
+				record_button7.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button7, filename,file_get);
 			}
 			break;
@@ -883,11 +884,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button8.setText("录音" + record_int);
+				record_button8.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button8, filename);
 			} else {
 				addthing_int++;
-				record_button8.setText("附件" + addthing_int);
+				record_button8.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button8, filename,file_get);
 			}
 			break;
@@ -898,11 +899,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button9.setText("录音" + record_int);
+				record_button9.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button9, filename);
 			} else {
 				addthing_int++;
-				record_button9.setText("附件" + addthing_int);
+				record_button9.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button9, filename,file_get);
 			}
 			break;
@@ -913,11 +914,11 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				record_button10.setText("录音" + record_int);
+				record_button10.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button10, filename);
 			} else {
 				addthing_int++;
-				record_button10.setText("附件" + addthing_int);
+				record_button10.setBackgroundResource(R.drawable.attach_document);
 				add_thing(record_button10, filename,file_get);
 			}
 			break;
