@@ -221,6 +221,7 @@ public class NewNoteActivity extends Activity {
 				
 				SqliteTask sqliteTask = new SqliteTask(NewNoteActivity.this);
 				sqliteTask.execute(note);
+				
 			}
 		});
 
@@ -778,7 +779,6 @@ public class NewNoteActivity extends Activity {
 
 			if (record_or_add == true) {
 				record_int++;
-				//record_button1.setText("录音" + record_int);
 				record_button1.setBackgroundResource(R.drawable.microphone);
 				add_record(record_button1, filename);
 			} else {
@@ -944,6 +944,7 @@ public class NewNoteActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
+						indexx = 0;
 						indexx = which;
 						
 					}
@@ -1019,7 +1020,7 @@ private String getMINEType(File f) {
 			@Override
 			public void onClick(View arg0) {
 				Toast record_toast = Toast.makeText(getApplicationContext(),
-						"我是单击按钮", 7000);
+						"播放录音", 7000);
 				record_toast.show();
 				// TODO Auto-generated method stub
 				mPlayer = new MediaPlayer();

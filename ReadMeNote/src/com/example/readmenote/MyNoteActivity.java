@@ -58,11 +58,9 @@ public class MyNoteActivity extends Activity {
 		sv.setSubmitButtonEnabled(true);
 		sv.setQueryHint(" 查找");
 		getData();
-		
-		SimpleAdapter simpleAdapter = new SimpleAdapter(MyNoteActivity.this,
-				list, R.layout.note_show, new String[] { "title", "text",
-						"image","date" }, new int[] { R.id.title, R.id.text,
-						R.id.image ,R.id.date_gridview});
+		simpleAdapter = new SimpleAdapter(MyNoteActivity.this, list,
+				R.layout.note_show, new String[] { "title", "text", "image"},
+				new int[] { R.id.title, R.id.text, R.id.image });
 
 		gridView.setAdapter(simpleAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {

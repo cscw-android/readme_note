@@ -161,12 +161,11 @@ public final class R {
     public static final class id {
         public static final int RelativeLayout_Item=0x7f080023;
         public static final int ScrollView1=0x7f08000f;
-        public static final int action_settings=0x7f080032;
+        public static final int action_settings=0x7f080031;
         public static final int addnote_moodTagging=0x7f08000c;
         public static final int choose_camera=0x7f080026;
         public static final int choose_picture=0x7f080027;
         public static final int choose_text=0x7f080025;
-        public static final int date_gridview=0x7f08002e;
         public static final int filesname=0x7f08002a;
         public static final int gallery_menu_add_thing=0x7f080021;
         public static final int gallery_menu_painting=0x7f080020;
@@ -182,7 +181,7 @@ public final class R {
         public static final int image_name=0x7f080029;
         public static final int item_image=0x7f080024;
         public static final int linearLayout2=0x7f080009;
-        public static final int listView1=0x7f080030;
+        public static final int listView1=0x7f08002f;
         public static final int main_radio=0x7f08001b;
         public static final int record_button_1=0x7f080011;
         public static final int record_button_10=0x7f08001a;
@@ -202,10 +201,10 @@ public final class R {
         public static final int tab2=0x7f080007;
         public static final int tab3=0x7f080008;
         public static final int tab_group=0x7f080005;
-        public static final int tab_label=0x7f080031;
+        public static final int tab_label=0x7f080030;
         public static final int text=0x7f08002b;
         public static final int textView1=0x7f080003;
-        public static final int text_ni=0x7f08002f;
+        public static final int text_ni=0x7f08002e;
         public static final int time=0x7f080004;
         public static final int title=0x7f08002c;
         public static final int user_detail=0x7f08000e;
