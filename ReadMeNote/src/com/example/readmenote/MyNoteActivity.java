@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.Menu;
 
 import java.util.ArrayList;
@@ -12,9 +14,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.database.BitMapTools;
+import com.example.database.Constants;
+import com.example.database.Note;
+import com.example.database.NoteDBManger;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,40 +39,36 @@ import android.widget.Toast;
 public class MyNoteActivity extends Activity {
 	GridView gridView;
 	private SearchView sv;
+	private final String TAG = "MyNoteActivity";
+	private NoteDBManger noteDBManger;
+	
+	SimpleAdapter simpleAdapter = null;
+	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_note);
 		gridView = (GridView) findViewById(R.id.gridView1);
+		noteDBManger = new NoteDBManger(this);
 		sv = (SearchView) findViewById(R.id.sv);
-		 //设置该searchview是否缩小为图标
+		// 设置该searchview是否缩小为图标
 		sv.setIconifiedByDefault(true);
-		 //设置该searchview是否显示搜索按钮
+		// 设置该searchview是否显示搜索按钮
 		sv.setSubmitButtonEnabled(true);
 		sv.setQueryHint(" 查找");
+		getData();
+		simpleAdapter = new SimpleAdapter(MyNoteActivity.this, list,
+				R.layout.note_show, new String[] { "title", "text", "image" },
+				new int[] { R.id.title, R.id.text, R.id.image });
 
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		for (int i = 0; i < 10; i++) {
-			map.put("title", "我的笔记");
-			map.put("text",
-					"因为突发奇想，发现网上的例子的网格布局，只有图片的实例，没有加文字说明！ 后来找到个是来自《Android核心技术与实例详解》一书的实例 ，使用的适配是SimpleAdapter，而我想用继承BaseAdapter类，重写getView方法.经过自己的资料的查阅与调试 ，完成了个小例子；");
-			map.put("image", R.drawable.sb3);
-			list.add(map);
-		}
-
-		SimpleAdapter simpleAdapter = new SimpleAdapter(MyNoteActivity.this,
-				list, R.layout.note_show, new String[] { "title", "text",
-						"image" }, new int[] { R.id.title, R.id.text,
-						R.id.image });
 		gridView.setAdapter(simpleAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+
 				Toast.makeText(MyNoteActivity.this, "你点击了" + arg2 + "个",
 						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(MyNoteActivity.this, detail.class);
@@ -86,5 +92,54 @@ public class MyNoteActivity extends Activity {
 
 			}
 		});
+	}
+	private void getData() {
+		Bitmap bitmap = null;
+		list.clear();
+		try {	
+			noteDBManger.open();
+			Cursor cursor = noteDBManger.getdiaries();
+			//startManagingCursor(cursor);
+			System.out.println(cursor.getCount());
+			if (cursor.moveToFirst()) {
+				do {
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("title",
+							cursor.getString(cursor
+									.getColumnIndex(Constants.NotesListTable.NOTE_TITLE)));
+					
+					map.put("text",
+							cursor.getString(cursor
+									.getColumnIndex(Constants.NotesListTable.ADDNOTE_DETAILS)));
+					bitmap = BitMapTools
+							.getBitmap(
+									cursor.getBlob(cursor
+											.getColumnIndex(Constants.NotesListTable.ADDNOTE_PICTURE)),
+									40, 40);
+					map.put("image", bitmap);
+					list.add(map);
+					Log.i(TAG,cursor.getBlob(cursor
+							.getColumnIndex(Constants.NotesListTable.ADDNOTE_PAINTING)).toString());
+					
+				} while (cursor.moveToNext());
+
+			}
+			noteDBManger.close();
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		getData();
+		gridView.setAdapter(simpleAdapter);
 	}
 }

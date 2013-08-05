@@ -1,5 +1,7 @@
 package com.example.database;
 
+import java.io.Console;
+
 public class Note {
 	
 	/**ID*/
@@ -8,7 +10,7 @@ public class Note {
 	public String user_name;
 
 	//心情
-	public String mood;
+	public int mood;
 	
 	/**标题*/
 	public String noteTitle;
@@ -17,7 +19,7 @@ public class Note {
 	//录音
 	public byte[] addnote_record;
 	//语音
-	public String addnote_recordinput;
+	public String addnote_details;
 	//涂鸦
 	public byte[] addnote_painting;
 	//附件名称
@@ -49,11 +51,11 @@ public class Note {
 		this.user_name = user_name;
 	}
 
-	public String getMood() {
+	public int getMood() {
 		return mood;
 	}
-
-	public void setMood(String mood) {
+	
+	public void setMood(int mood) {
 		this.mood = mood;
 	}
 
@@ -81,12 +83,12 @@ public class Note {
 		this.addnote_record = addnote_record;
 	}
 
-	public String getAddnote_recordinput() {
-		return addnote_recordinput;
+	public String getAddnote_details() {
+		return addnote_details;
 	}
 
-	public void setAddnote_recordinput(String addnote_recordinput) {
-		this.addnote_recordinput = addnote_recordinput;
+	public void setAddnote_details(String addnote_details) {
+		this.addnote_details = addnote_details;
 	}
 
 	public byte[] getAddnote_painting() {

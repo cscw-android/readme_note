@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import com.example.database.BitMapTools;
 import com.example.database.Note;
 import com.example.database.NoteDBManger;
 
@@ -63,7 +65,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewNoteActivity extends Activity {
-
+	
+	String tag = "NewNoteActivity";
 	Context context = this;
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
@@ -98,7 +101,7 @@ public class NewNoteActivity extends Activity {
 	String res = null;// 语音文本
 	String name_appendix = null;// 附件名称
 	String path_appendix = null;// 附件路径
-	String imageId = null;// 心情图标id
+	String imageId = "0";// 心情图标id
 	Bitmap bitmap = null;// 照片    Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
 	Bitmap bitmap_painting = null;// 涂鸦图片
 	EditText user_detail, user_title;
@@ -215,6 +218,7 @@ public class NewNoteActivity extends Activity {
 		addnote_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				SqliteTask sqliteTask = new SqliteTask(NewNoteActivity.this);
 				sqliteTask.execute(note);
 			}
@@ -705,15 +709,18 @@ public class NewNoteActivity extends Activity {
 		protected Object doInBackground(Object... arg0) {
 			// TODO Auto-generated method stub
 			Note note = (Note) arg0[0];
-			int id = 1;
+			String detail = user_detail.getText().toString();
+			Log.i(tag, detail);
 			String result;
-			note.setNote_id(id++);
-			note.setAddnote_painting(NewNoteActivity.this
-					.changeBitmap(bitmap_painting));
-			note.setAddnote_picture(NewNoteActivity.this.changeBitmap(bitmap));
+			int mood_number = addnote_moodTagging_itemSource[Integer
+			                     							.parseInt(imageId)];
+			if(bitmap_painting != null)
+				note.setAddnote_painting(BitMapTools.changeBitmap(bitmap_painting));
+			if(bitmap != null)
+				note.setAddnote_picture(BitMapTools.changeBitmap(bitmap));
 			note.setAddnote_record(null);
-			note.setAddnote_recordinput(res);
-			note.setMood(imageId);
+			note.setAddnote_details(detail);
+			note.setMood(mood_number);
 			note.setName_appendix(name_appendix);
 			note.setNoteSummary(null);
 			note.setNoteTime(null);
@@ -736,12 +743,7 @@ public class NewNoteActivity extends Activity {
 
 	}
 
-	public byte[] changeBitmap(Bitmap bmp) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bmp.compress(CompressFormat.JPEG, 85, baos);
-		byte[] bytes = baos.toByteArray();
-		return bytes;
-	}
+	
 
 	private void button_gone() {// 按钮初始化及设置不可见
 		record_button1 = (Button) findViewById(R.id.record_button_1);

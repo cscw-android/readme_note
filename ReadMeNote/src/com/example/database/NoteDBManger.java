@@ -61,13 +61,12 @@ public class NoteDBManger {
 
 		try {
 			ContentValues contentValues = new ContentValues();
-			contentValues.put(Constants.NotesListTable.ID, note.getNote_id());
 			contentValues.put(Constants.NotesListTable.USER_NAME, note.getUser_name());
 			contentValues.put(Constants.NotesListTable.MOOD, note.getMood());
 			contentValues.put(Constants.NotesListTable.NOTE_TITLE, note.getNoteTitle());
 			contentValues.put(Constants.NotesListTable.ADDNOTE_PICTURE, note.getAddnote_picture());
 			contentValues.put(Constants.NotesListTable.ADDNOTE_RECORD, note.getAddnote_record());
-			contentValues.put(Constants.NotesListTable.ADDNOTE_RECORDINPUT, note.getAddnote_recordinput());
+			contentValues.put(Constants.NotesListTable.ADDNOTE_DETAILS, note.getAddnote_details());
 			contentValues.put(Constants.NotesListTable.ADDNOTE_PAINTING, note.getAddnote_painting());
 			contentValues.put(Constants.NotesListTable.NAME_APPENDIX, note.getName_appendix());
 			contentValues.put(Constants.NotesListTable.PATH_APPENDIX, note.getPath_appendix());

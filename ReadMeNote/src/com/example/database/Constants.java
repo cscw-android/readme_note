@@ -44,7 +44,7 @@ public class Constants {
 			//录音
 			public static final String ADDNOTE_RECORD = "addnote_record";
 			//语音
-			public static final String ADDNOTE_RECORDINPUT = "addnote_recordinput";
+			public static final String ADDNOTE_DETAILS = "addnote_details";
 			//涂鸦
 			public static final String ADDNOTE_PAINTING = "addnote_painting";
 			//附件名称
