@@ -358,7 +358,8 @@ public class NewNoteActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == THING && resultCode == THING) {
 			i++;//判断一共10次中的第几次
-			if(i>=11){
+			if(i>=10){
+				addnote_record.setClickable(false);
 				Toast record_toast = Toast.makeText(getApplicationContext(),
 						"只能添加10个附件或者录音哦~！", 7000);
 				record_toast.show();
@@ -443,7 +444,8 @@ public class NewNoteActivity extends Activity {
 		}
 		if (requestCode == RECORD) {
 			i++;//判断一共10次中的第几次
-			if(i>=11){
+			if(i>=10){
+				addnote_record.setClickable(false);
 				Toast record_toast = Toast.makeText(getApplicationContext(),
 						"只能添加10个附件或者录音哦~！", 7000);
 				record_toast.show();
