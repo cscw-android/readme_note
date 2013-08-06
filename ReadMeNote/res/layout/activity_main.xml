@@ -3,7 +3,8 @@
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+     >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -44,7 +45,7 @@
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" 
-                android:background="#FFFFFF"/>
+                />
 
             <!-- 标签内容 -->
 
@@ -52,7 +53,8 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
                 android:layout_height="0.0dip"
-                android:layout_weight="1.0" >
+                android:layout_weight="1.0" 
+                >
 
                 <RadioGroup
                     android:id="@+id/tab_group"

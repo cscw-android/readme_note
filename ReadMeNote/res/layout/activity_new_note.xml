@@ -51,7 +51,8 @@
                             android:drawable="@drawable/new_note_edittext"
                             android:gravity="top"
                             android:hint="请输入标题"
-                            android:scrollbars="vertical" >
+                            android:scrollbars="vertical"
+                            android:background="@drawable/ed_title_show" >
                         </EditText>
                     </LinearLayout>
                 </LinearLayout>
