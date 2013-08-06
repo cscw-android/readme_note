@@ -152,9 +152,9 @@
             <ScrollView
                 android:id="@+id/ScrollView1"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:scrollbars="vertical" >
-
+                android:layout_height="wrap_content"
+                
+                 >
                 <LinearLayout
                     android:id="@+id/main_radio"
                     android:layout_width="50dp"
@@ -198,12 +198,14 @@
                         android:layout_marginTop="35.0dip"
                         android:background="@drawable/gallery_menu_painting" />
 
-                    <ImageButton
+                        <ImageButton
                         android:id="@+id/gallery_menu_add_thing"
                         android:layout_width="match_parent"
                         android:layout_height="35.0dip"
                         android:layout_marginTop="35.0dip"
-                        android:background="@drawable/gallery_menu_add_thing" />
+                        android:background="@drawable/gallery_menu_add_thing" 
+                        android:layout_marginBottom="50dp"
+                        />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

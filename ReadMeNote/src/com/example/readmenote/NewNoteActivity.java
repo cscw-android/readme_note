@@ -12,7 +12,6 @@ import com.example.database.BitMapTools;
 import com.example.database.Note;
 import com.example.database.NoteDBManger;
 
-
 import com.iflytek.speech.ErrorCode;
 import com.iflytek.speech.ISpeechModule;
 import com.iflytek.speech.InitListener;
@@ -65,7 +64,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewNoteActivity extends Activity {
-	
+
 	String tag = "NewNoteActivity";
 	Context context = this;
 	TextView addnote_time_textview;
@@ -76,8 +75,8 @@ public class NewNoteActivity extends Activity {
 	final int RECORD = 3;
 	final int CAMERA = 98;
 	final int PICTURE = 99;
-	String[] items={"删除","打开"};//附件弹出的对话框的数组
-	int indexx = 0;//附件弹出的对话框的判断选择了第几个
+	String[] items = { "打开", "删除" };// 附件弹出的对话框的数组
+	int indexx = 0;// 附件弹出的对话框的判断选择了第几个
 
 	Button record_button1, record_button2, record_button3, record_button4,
 			record_button5, record_button6, record_button7, record_button8,
@@ -91,8 +90,7 @@ public class NewNoteActivity extends Activity {
 			record_filename3, record_filename4, record_filename5,
 			record_filename6, record_filename7, record_filename8,
 			record_filename9, record_filename10;
-	File file1,file2,file3,file4,file5,file6,file7,file8,file9,file10;
-	
+	File file1, file2, file3, file4, file5, file6, file7, file8, file9, file10;
 
 	Note note = new Note();
 
@@ -102,7 +100,7 @@ public class NewNoteActivity extends Activity {
 	String name_appendix = null;// 附件名称
 	String path_appendix = null;// 附件路径
 	String imageId = "0";// 心情图标id
-	Bitmap bitmap = null;// 照片    Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
+	Bitmap bitmap = null;// 照片 Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
 	Bitmap bitmap_painting = null;// 涂鸦图片
 	EditText user_detail, user_title;
 
@@ -175,7 +173,7 @@ public class NewNoteActivity extends Activity {
 		initialize_button_variables();
 		// 关于按键的设置
 		button_set();
-		//让 录音附件按钮 
+		// 让 录音附件按钮
 		button_gone();
 		// 设置申请到的应用appid
 		SpeechUtility.getUtility(this).setAppid("51ece17f");
@@ -218,10 +216,10 @@ public class NewNoteActivity extends Activity {
 		addnote_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				SqliteTask sqliteTask = new SqliteTask(NewNoteActivity.this);
 				sqliteTask.execute(note);
-				
+
 			}
 		});
 
@@ -357,8 +355,8 @@ public class NewNoteActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == THING && resultCode == THING) {
-			i++;//判断一共10次中的第几次
-			if(i>=10){
+			i++;// 判断一共10次中的第几次
+			if (i >= 10) {
 				addnote_record.setClickable(false);
 				Toast record_toast = Toast.makeText(getApplicationContext(),
 						"只能添加10个附件或者录音哦~！", 7000);
@@ -371,46 +369,70 @@ public class NewNoteActivity extends Activity {
 			name_appendix = bundle.getString("name");// 附件名称
 			path_appendix = bundle.getString("path");// 附件路径
 			File file_get = (File) bundle.getSerializable("file");
-			record_or_add = false;//判断为附件
-			switch (i){
-			case 1 : record_filename1 = name_appendix;file1 = file_get; break;
-			case 2 : record_filename2 = name_appendix;file2 = file_get;break;
-			case 3 : record_filename3 = name_appendix;file3 = file_get;break;
-			case 4 : record_filename4 = name_appendix;file4 = file_get;break;
-			case 5 : record_filename5 = name_appendix;file5 = file_get;break;
-			case 6 : record_filename6 = name_appendix;file6 = file_get;break;
-			case 7 : record_filename7 = name_appendix;file7 = file_get;break;
-			case 8 : record_filename8 = name_appendix;file8 = file_get;break;
-			case 9 : record_filename9 = name_appendix;file9= file_get;break;
-			case 10 : record_filename10 = name_appendix;file10 = file_get;break;
-			default :break;
+			record_or_add = false;// 判断为附件
+			switch (i) {
+			case 1:
+				record_filename1 = name_appendix;
+				file1 = file_get;
+				break;
+			case 2:
+				record_filename2 = name_appendix;
+				file2 = file_get;
+				break;
+			case 3:
+				record_filename3 = name_appendix;
+				file3 = file_get;
+				break;
+			case 4:
+				record_filename4 = name_appendix;
+				file4 = file_get;
+				break;
+			case 5:
+				record_filename5 = name_appendix;
+				file5 = file_get;
+				break;
+			case 6:
+				record_filename6 = name_appendix;
+				file6 = file_get;
+				break;
+			case 7:
+				record_filename7 = name_appendix;
+				file7 = file_get;
+				break;
+			case 8:
+				record_filename8 = name_appendix;
+				file8 = file_get;
+				break;
+			case 9:
+				record_filename9 = name_appendix;
+				file9 = file_get;
+				break;
+			case 10:
+				record_filename10 = name_appendix;
+				file10 = file_get;
+				break;
+			default:
+				break;
 			}
-			record_button(i, name_appendix,file_get);
-			/*// 设置字体的颜色
-			SpannableString ss = new SpannableString("你所添加的文件名字是:"
-					+ name_appendix);
-			ss.setSpan(new ForegroundColorSpan(Color.RED), 0, ss.length(),
-					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			SpannableString ss1 = new SpannableString("你所添加的文件路径是"
-					+ path_appendix);
-			ss1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, ss1.length(),
-					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			// 将选择的图片追加到EditText中光标所在位置
-			int index = user_detail.getSelectionStart(); // 获取光标所在位置
-			Editable edit_text = user_detail.getEditableText();
-			if (index < 0 || index >= edit_text.length()) {
-				edit_text.append(ss);
-			} else {
-				edit_text.insert(index, ss);
-			}
-			int index1 = user_detail.getSelectionStart(); // 获取光标所在位置
-			Editable edit_text1 = user_detail.getEditableText();
-			if (index1 < 0 || index1 >= edit_text1.length()) {
-				edit_text1.append(ss1);
-			} else {
-				edit_text1.insert(index, ss1);
-			}*/
+			record_button(i, name_appendix, file_get);
+			/*
+			 * // 设置字体的颜色 SpannableString ss = new SpannableString("你所添加的文件名字是:"
+			 * + name_appendix); ss.setSpan(new ForegroundColorSpan(Color.RED),
+			 * 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 * SpannableString ss1 = new SpannableString("你所添加的文件路径是" +
+			 * path_appendix); ss1.setSpan(new ForegroundColorSpan(Color.BLUE),
+			 * 0, ss1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 * 
+			 * // 将选择的图片追加到EditText中光标所在位置 int index =
+			 * user_detail.getSelectionStart(); // 获取光标所在位置 Editable edit_text =
+			 * user_detail.getEditableText(); if (index < 0 || index >=
+			 * edit_text.length()) { edit_text.append(ss); } else {
+			 * edit_text.insert(index, ss); } int index1 =
+			 * user_detail.getSelectionStart(); // 获取光标所在位置 Editable edit_text1
+			 * = user_detail.getEditableText(); if (index1 < 0 || index1 >=
+			 * edit_text1.length()) { edit_text1.append(ss1); } else {
+			 * edit_text1.insert(index, ss1); }
+			 */
 		}
 
 		if (requestCode == MOOD) {
@@ -443,34 +465,55 @@ public class NewNoteActivity extends Activity {
 
 		}
 		if (requestCode == RECORD) {
-			record_or_add = true;//判断为录音
-			 Bundle b = data.getExtras();
-			 String filename = b.getString("file");
-			 boolean a = b.getBoolean("record_or_not");
-			 if(a){
-			i++;//判断一共10次中的第几次
-			if(i>=10){
-				addnote_record.setClickable(false);
-				Toast record_toast = Toast.makeText(getApplicationContext(),
-						"只能添加10个附件或者录音哦~！", 7000);
-				record_toast.show();
+			record_or_add = true;// 判断为录音
+			Bundle b = data.getExtras();
+			String filename = b.getString("file");
+			boolean a = b.getBoolean("record_or_not");
+			if (a) {
+				i++;// 判断一共10次中的第几次
+				if (i >= 10) {
+					addnote_record.setClickable(false);
+					Toast record_toast = Toast.makeText(
+							getApplicationContext(), "只能添加10个附件或者录音哦~！", 7000);
+					record_toast.show();
+				}
+
+				switch (i) {
+				case 1:
+					record_filename1 = b.getString("file");
+					break;
+				case 2:
+					record_filename2 = b.getString("file");
+					break;
+				case 3:
+					record_filename3 = b.getString("file");
+					break;
+				case 4:
+					record_filename4 = b.getString("file");
+					break;
+				case 5:
+					record_filename5 = b.getString("file");
+					break;
+				case 6:
+					record_filename6 = b.getString("file");
+					break;
+				case 7:
+					record_filename7 = b.getString("file");
+					break;
+				case 8:
+					record_filename8 = b.getString("file");
+					break;
+				case 9:
+					record_filename9 = b.getString("file");
+					break;
+				case 10:
+					record_filename10 = b.getString("file");
+					break;
+				default:
+					break;
+				}
+				record_button(i, filename, null);
 			}
-			
-			switch (i){
-			case 1 : record_filename1 = b.getString("file");break;
-			case 2 : record_filename2 = b.getString("file");break;
-			case 3 : record_filename3 = b.getString("file");break;
-			case 4 : record_filename4 = b.getString("file");break;
-			case 5 : record_filename5 = b.getString("file");break;
-			case 6 : record_filename6 = b.getString("file");break;
-			case 7 : record_filename7 = b.getString("file");break;
-			case 8 : record_filename8 = b.getString("file");break;
-			case 9 : record_filename9 = b.getString("file");break;
-			case 10 : record_filename10 = b.getString("file");break;
-			default :break;
-			}
-			record_button(i, filename,null);
-			 }
 		}
 
 		if (resultCode == RESULT_OK) {
@@ -720,10 +763,11 @@ public class NewNoteActivity extends Activity {
 			Log.i(tag, detail);
 			String result;
 			int mood_number = addnote_moodTagging_itemSource[Integer
-			                     							.parseInt(imageId)];
-			if(bitmap_painting != null)
-				note.setAddnote_painting(BitMapTools.changeBitmap(bitmap_painting));
-			if(bitmap != null)
+					.parseInt(imageId)];
+			if (bitmap_painting != null)
+				note.setAddnote_painting(BitMapTools
+						.changeBitmap(bitmap_painting));
+			if (bitmap != null)
 				note.setAddnote_picture(BitMapTools.changeBitmap(bitmap));
 			note.setAddnote_record(null);
 			note.setAddnote_details(detail);
@@ -750,8 +794,6 @@ public class NewNoteActivity extends Activity {
 
 	}
 
-	
-
 	private void button_gone() {// 按钮初始化及设置不可见
 		record_button1 = (Button) findViewById(R.id.record_button_1);
 		record_button2 = (Button) findViewById(R.id.record_button_2);
@@ -776,7 +818,7 @@ public class NewNoteActivity extends Activity {
 
 	}
 
-	private void record_button(int i, String filename,File file_get) {// 判断是在哪个按钮
+	private void record_button(int i, String filename, File file_get) {// 判断是在哪个按钮
 
 		switch (i) {
 		case 1: {
@@ -789,8 +831,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button1, filename);
 			} else {
 				addthing_int++;
-				record_button1.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button1, filename,file_get);
+				record_button1
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button1, filename, file_get);
 			}
 			break;
 		}
@@ -804,8 +847,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button2, filename);
 			} else {
 				addthing_int++;
-				record_button2.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button2, filename,file_get);
+				record_button2
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button2, filename, file_get);
 			}
 			break;
 		}
@@ -819,8 +863,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button3, filename);
 			} else {
 				addthing_int++;
-				record_button3.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button3, filename,file_get);
+				record_button3
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button3, filename, file_get);
 			}
 			break;
 		}
@@ -834,8 +879,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button4, filename);
 			} else {
 				addthing_int++;
-				record_button4.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button4, filename,file_get);
+				record_button4
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button4, filename, file_get);
 			}
 			break;
 		}
@@ -849,8 +895,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button5, filename);
 			} else {
 				addthing_int++;
-				record_button5.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button5, filename,file_get);
+				record_button5
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button5, filename, file_get);
 			}
 			break;
 		}
@@ -864,8 +911,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button6, filename);
 			} else {
 				addthing_int++;
-				record_button6.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button6, filename,file_get);
+				record_button6
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button6, filename, file_get);
 			}
 			break;
 		}
@@ -879,8 +927,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button7, filename);
 			} else {
 				addthing_int++;
-				record_button7.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button7, filename,file_get);
+				record_button7
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button7, filename, file_get);
 			}
 			break;
 		}
@@ -894,8 +943,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button8, filename);
 			} else {
 				addthing_int++;
-				record_button8.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button8, filename,file_get);
+				record_button8
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button8, filename, file_get);
 			}
 			break;
 		}
@@ -909,8 +959,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button9, filename);
 			} else {
 				addthing_int++;
-				record_button9.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button9, filename,file_get);
+				record_button9
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button9, filename, file_get);
 			}
 			break;
 		}
@@ -924,8 +975,9 @@ public class NewNoteActivity extends Activity {
 				add_record(record_button10, filename);
 			} else {
 				addthing_int++;
-				record_button10.setBackgroundResource(R.drawable.attach_document);
-				add_thing(record_button10, filename,file_get);
+				record_button10
+						.setBackgroundResource(R.drawable.attach_document);
+				add_thing(record_button10, filename, file_get);
 			}
 			break;
 		}
@@ -935,85 +987,108 @@ public class NewNoteActivity extends Activity {
 		}
 	}
 
-	private void add_thing(Button button, String filename,final File file_get) {
+	private void add_thing(Button button, String filename, final File file_get) {
 		// TODO Auto-generated method stub
 		final String name = filename;
-		
+
 		button.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new AlertDialog.Builder(NewNoteActivity.this).
-				setTitle(name).setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						indexx = 0;
-						indexx = which;
-						
-					}
-				}).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						Toast.makeText(NewNoteActivity.this, "你选择了"+items[indexx], Toast.LENGTH_SHORT).show();
-						if(indexx == 1){
-							openFile(file_get);
-							//我也想打开，可是不会传递File文件
-						}else{
-							Toast.makeText(NewNoteActivity.this, "要传递什么东西才能删除？", Toast.LENGTH_SHORT).show();
-						}
-						
-					}
+				new AlertDialog.Builder(NewNoteActivity.this)
+						.setTitle(name)
+						.setSingleChoiceItems(items, 0,
+								new DialogInterface.OnClickListener() {
 
-					
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+										indexx = 0;
+										indexx = which;
 
-					private void openFile(File f) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.setAction(android.content.Intent.ACTION_VIEW);
-				String type  = getMINEType(f);
-				intent.setDataAndType(Uri.fromFile(f), type);
-				startActivity(intent);
-				
-			}
-private String getMINEType(File f) {
-				// TODO Auto-generated method stub
-			    String type = "";
-				String fName = f.getName();
-				
-				String end  = fName.substring(fName.lastIndexOf(".")+1,fName.length()).toLowerCase();
-			
-				if(end.equals("m4a")||end.equals("mp3")||end.equals("mid")||end.equals("xmf")||
-						end.equals("ogg")||end.equals("wav"))
-				{
-					type = "audio";
-				}else if(end.equals("mp4")||end.equals("3gp"))
-				{
-						type = "video";
-					}else if(end.equals("jpg")||end.equals("gif")||end.equals("png")||
-								end.equals("bmp")||end.equals("jpeg"))
-					{
-							type = "image";
-						}else{
-						
-							type="*";
-						}
-				type+="/*";
-				return type;
-					}
-				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						Toast.makeText(NewNoteActivity.this, "你什么都未选择", Toast.LENGTH_SHORT).show();
-					}
-				}).show();
+									}
+								})
+						.setPositiveButton("确定",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+										// Toast.makeText(NewNoteActivity.this,
+										// "你选择了"+items[indexx],
+										// Toast.LENGTH_SHORT).show();
+										if (indexx == 0) {
+											openFile(file_get);
+											// 我也想打开，可是不会传递File文件
+										} else {
+											Toast.makeText(
+													NewNoteActivity.this,
+													"传递名字去删除！",
+													Toast.LENGTH_SHORT).show();
+										}
+
+									}
+
+									private void openFile(File f) {
+										// TODO Auto-generated method stub
+										Intent intent = new Intent();
+										intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+										intent.setAction(android.content.Intent.ACTION_VIEW);
+										String type = getMINEType(f);
+										intent.setDataAndType(Uri.fromFile(f),
+												type);
+										startActivity(intent);
+
+									}
+
+									private String getMINEType(File f) {
+										// TODO Auto-generated method stub
+										String type = "";
+										String fName = f.getName();
+
+										String end = fName.substring(
+												fName.lastIndexOf(".") + 1,
+												fName.length()).toLowerCase();
+
+										if (end.equals("m4a")
+												|| end.equals("mp3")
+												|| end.equals("mid")
+												|| end.equals("xmf")
+												|| end.equals("ogg")
+												|| end.equals("wav")) {
+											type = "audio";
+										} else if (end.equals("mp4")
+												|| end.equals("3gp")) {
+											type = "video";
+										} else if (end.equals("jpg")
+												|| end.equals("gif")
+												|| end.equals("png")
+												|| end.equals("bmp")
+												|| end.equals("jpeg")) {
+											type = "image";
+										} else {
+
+											type = "*";
+										}
+										type += "/*";
+										return type;
+									}
+								})
+						.setNegativeButton("取消",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+										Toast.makeText(NewNoteActivity.this,
+												"你未选择", Toast.LENGTH_SHORT)
+												.show();
+									}
+								}).show();
 			}
 		});
 
