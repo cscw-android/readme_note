@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
-
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -47,7 +45,7 @@ public class AddNote_record extends Activity {
 				// TODO Auto-generated method stub
 				start_record_button.setText("录音中...");
 				U = true;
-				
+
 				start_record_button.setEnabled(false);
 				startRecording();
 			}
@@ -64,22 +62,19 @@ public class AddNote_record extends Activity {
 				stopRecording();
 				Bundle b = new Bundle();
 				b.putString("file", mFileName);
+				b.putBoolean("record_or_not", U);
 				Intent intent = getIntent();
 				intent.putExtras(b);
 				AddNote_record.this.setResult(3, intent);
 				AddNote_record.this.finish();
-				
+
 			}
 		});
 
 	}
 
-
-
-	
-
 	private void startRecording() {
-		
+
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -101,38 +96,39 @@ public class AddNote_record extends Activity {
 				"文件以ReadMe开头以时间命名，保存在sd卡根目录下", 7000);
 		record_toast.show();
 	}
+
 	public AddNote_record() {
 		mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-		mFileName += "/"
-				+ "ReadMe"
-				+ new DateFormat().format("yyyyMMdd_hhmmss",//以ReadMe+时间命名保存在根目录
+		mFileName += "/" + "ReadMe"
+				+ new DateFormat().format("yyyyMMdd_hhmmss",// 以ReadMe+时间命名保存在根目录
 						Calendar.getInstance(Locale.CHINA)) + ".amr";
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			
-			stopRecording();
+			if(U){
+			stopRecording();}
 			Bundle b = new Bundle();
 			b.putString("file", mFileName);
+			b.putBoolean("record_or_not", U);
 			Intent intent = getIntent();
-			
-			
-			
-			
 			intent.putExtras(b);
 			AddNote_record.this.setResult(3, intent);
+			
 			AddNote_record.this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		if (mRecorder != null) {
 			mRecorder.release();
 			mRecorder = null;
-		}}
-	
+		}
+	}
+
 }
