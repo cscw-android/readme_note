@@ -62,6 +62,7 @@ public class AddNote_record extends Activity {
 				stopRecording();
 				Bundle b = new Bundle();
 				b.putString("file", mFileName);
+				b.putBoolean("record_or_not", U);
 				Intent intent = getIntent();
 				intent.putExtras(b);
 				AddNote_record.this.setResult(3, intent);
@@ -107,19 +108,16 @@ public class AddNote_record extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-			if (mFileName == null) {
-				AddNote_record.this.finish();
-			} else {
-				stopRecording();
-				Bundle b = new Bundle();
-				b.putString("file", mFileName);
-				Intent intent = getIntent();
-
-				intent.putExtras(b);
-				AddNote_record.this.setResult(3, intent);
-				AddNote_record.this.finish();
-			}
+			if(U){
+			stopRecording();}
+			Bundle b = new Bundle();
+			b.putString("file", mFileName);
+			b.putBoolean("record_or_not", U);
+			Intent intent = getIntent();
+			intent.putExtras(b);
+			AddNote_record.this.setResult(3, intent);
+			
+			AddNote_record.this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}

@@ -443,6 +443,11 @@ public class NewNoteActivity extends Activity {
 
 		}
 		if (requestCode == RECORD) {
+			record_or_add = true;//判断为录音
+			 Bundle b = data.getExtras();
+			 String filename = b.getString("file");
+			 boolean a = b.getBoolean("record_or_not");
+			 if(a){
 			i++;//判断一共10次中的第几次
 			if(i>=10){
 				addnote_record.setClickable(false);
@@ -450,9 +455,7 @@ public class NewNoteActivity extends Activity {
 						"只能添加10个附件或者录音哦~！", 7000);
 				record_toast.show();
 			}
-			record_or_add = true;//判断为录音
-			 Bundle b = data.getExtras();
-			 String filename = b.getString("file");
+			
 			switch (i){
 			case 1 : record_filename1 = b.getString("file");break;
 			case 2 : record_filename2 = b.getString("file");break;
@@ -467,6 +470,7 @@ public class NewNoteActivity extends Activity {
 			default :break;
 			}
 			record_button(i, filename,null);
+			 }
 		}
 
 		if (resultCode == RESULT_OK) {
