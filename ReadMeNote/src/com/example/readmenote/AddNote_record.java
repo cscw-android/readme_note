@@ -56,17 +56,23 @@ public class AddNote_record extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				start_record_button.setText("录音");
-				start_record_button.setEnabled(true);
-				stopRecording();
-				Bundle b = new Bundle();
-				b.putString("file", mFileName);
-				b.putBoolean("record_or_not", U);
-				Intent intent = getIntent();
-				intent.putExtras(b);
-				AddNote_record.this.setResult(3, intent);
-				AddNote_record.this.finish();
+				if(U){
+					// TODO Auto-generated method stub
+					start_record_button.setText("录音");
+					start_record_button.setEnabled(true);
+					stopRecording();
+					Bundle b = new Bundle();
+					b.putString("file", mFileName);
+					b.putBoolean("record_or_not", U);
+					Intent intent = getIntent();
+					intent.putExtras(b);
+					AddNote_record.this.setResult(3, intent);
+					AddNote_record.this.finish();}
+					else{
+						Toast record_toast = Toast.makeText(
+								getApplicationContext(), "没有录音哦~亲~", 7000);
+						record_toast.show();
+					}
 
 			}
 		});

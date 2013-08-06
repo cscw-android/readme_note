@@ -25,7 +25,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,33 +36,41 @@
         <activity
             android:name="com.example.readmenote.MyNoteActivity"
             android:label="@string/title_activity_my_note"
+            android:screenOrientation="portrait"
            >
         </activity>
         <activity
             android:name="com.example.readmenote.NewNoteActivity"
             android:label="@string/title_activity_new_note"
+            android:screenOrientation="portrait"
            >
         </activity>
-        <activity android:name="com.example.readmenote.AddNote_moodtagging" >
+        <activity android:name="com.example.readmenote.AddNote_moodtagging" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.example.readmenote.detail" >
+        <activity android:name="com.example.readmenote.detail" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.readmenote.ShareActivity"
-            android:label="@string/title_activity_share" >
+            android:label="@string/title_activity_share" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.readmenote.ThingDetail"
             android:label="@string/title_activity_share" 
+            android:screenOrientation="portrait"
            >
         </activity>
         <activity
             android:name="com.example.readmenote.AddNote_painting"
-            android:theme="@android:style/Theme.Translucent" >
+            android:theme="@android:style/Theme.Translucent" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.readmenote.AddNote_record"
-            android:theme="@android:style/Theme.Translucent" >
+            android:theme="@android:style/Theme.Translucent" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
