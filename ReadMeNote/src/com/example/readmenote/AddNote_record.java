@@ -122,7 +122,6 @@ public class AddNote_record extends Activity {
 			Intent intent = getIntent();
 			intent.putExtras(b);
 			AddNote_record.this.setResult(3, intent);
-			
 			AddNote_record.this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
