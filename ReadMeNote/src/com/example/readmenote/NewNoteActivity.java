@@ -76,13 +76,13 @@ public class NewNoteActivity extends Activity {
 		setContentView(R.layout.activity_new_note);
 		}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	//@Override
+	//public boolean onTouchEvent(MotionEvent event) {
 		// TODO Auto-generated method stub
-		Intent intent = new Intent(NewNoteActivity.this,AddNoteActivity.class);
-		startActivity(intent);
-		return true;
-	}
+		//Intent intent = new Intent(NewNoteActivity.this,AddNoteActivity.class);
+		//startActivity(intent);
+		//return true;
+	//}
 }
 
 		

@@ -3,8 +3,7 @@
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-     >
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -41,57 +40,76 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <!-- 将tabhost的tabcontent隐藏，用viewPage填充 -->
+
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" 
-                />
-
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
+            </TabWidget>
             <!-- 标签内容 -->
+
+            <RadioGroup
+                android:id="@+id/tab_group"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/tab1"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@id/tab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/tabhost_show"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/my_note"
+                    android:gravity="center"
+                    android:text="我的笔记" />
+                <!--
+                      android:button="@null"将默认的RadioButton图标给隐藏，
+                                                   然后再用android:drawableRight="@android:drawable/btn_radio"
+                                                   在右边再生成一个图标，再用android:text="文字内容"在隐藏图标的位置显示文字。
+                -->
+
+                <RadioButton
+                    android:id="@+id/tab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/tabhost_show"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/new_note"
+                    android:gravity="center"
+                    android:text="添加笔记" />
+
+                <RadioButton
+                    android:id="@+id/tab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:background="@drawable/tabhost_show"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/share"
+                    android:text="分享" />
+            </RadioGroup>
+
+            <!-- 将tabhost的tabcontent隐藏，用viewPage填充 -->
+            <!-- 配置文件页面文件 -->
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
                 android:layout_height="0.0dip"
-                android:layout_weight="1.0" 
-                >
-
-                <RadioGroup
-                    android:id="@+id/tab_group"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:checkedButton="@+id/tab1"
-                    android:orientation="horizontal"
-                    android:visibility="gone" >
-
-                    <RadioButton
-                        android:id="@id/tab1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="1.0dip"
-                        android:layout_weight="1.0"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:tag="tab1" />
-
-                    <RadioButton
-                        android:id="@+id/tab2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="1.0dip"
-                        android:layout_weight="1.0"
-                        android:button="@null"
-                        android:gravity="center" />
-
-                    <RadioButton
-                        android:id="@+id/tab3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="1.0dip"
-                        android:layout_weight="1.0"
-                        android:button="@null"
-                        android:gravity="center" />
-                </RadioGroup>
+                android:layout_weight="1.0"
+                android:visibility="gone" >
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
