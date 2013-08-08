@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.readmenote" >
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" >
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
 
     <application
         android:allowBackup="true"
@@ -24,9 +23,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" 
-            android:screenOrientation="portrait">
+            android:name="com.example.readmenote.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,41 +35,44 @@
         <activity
             android:name="com.example.readmenote.MyNoteActivity"
             android:label="@string/title_activity_my_note"
-            android:screenOrientation="portrait"
-           >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.readmenote.NewNoteActivity"
             android:label="@string/title_activity_new_note"
-            android:screenOrientation="portrait"
-           >
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.example.readmenote.AddNote_moodtagging" 
-            android:screenOrientation="portrait">
+        <activity
+            android:name="com.example.readmenote.AddNote_moodtagging"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.example.readmenote.detail" 
-            android:screenOrientation="portrait">
+        <activity
+            android:name="com.example.readmenote.detail"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.readmenote.ShareActivity"
-            android:label="@string/title_activity_share" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_activity_share"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.readmenote.ThingDetail"
-            android:label="@string/title_activity_share" 
-            android:screenOrientation="portrait"
-           >
+            android:label="@string/title_activity_share"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.readmenote.AddNote_painting"
-            android:theme="@android:style/Theme.Translucent" 
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent" >
         </activity>
         <activity
             android:name="com.example.readmenote.AddNote_record"
-            android:theme="@android:style/Theme.Translucent" 
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+        <activity
+            android:name="com.example.readmenote.AddNoteActivity"
+            android:label="@string/title_activity_add_note" >
         </activity>
     </application>
 
