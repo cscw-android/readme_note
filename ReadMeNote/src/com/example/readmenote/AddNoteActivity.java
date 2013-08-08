@@ -110,7 +110,7 @@ public class AddNoteActivity extends Activity {
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
 	private ImageButton addnote_painting, addnote_addthing;
-
+	
 	protected static final String TAG = "IatDemo";
 	// 这是语音部分的请求码
 	private static final int REQUEST_CODE_SEARCH = 817;
@@ -171,6 +171,7 @@ public class AddNoteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_add_note);
+		
 
 		// 初始化变量button变量
 		initialize_button_variables();
@@ -190,11 +191,33 @@ public class AddNoteActivity extends Activity {
 		mIat.stopListening(mRecognizerListener);
 		// 转写会话取消
 		mIat.cancel(mRecognizerListener);
-	}
-	
+		// 从picture传来判断事件
+		picture picture = new picture();
+		int label = picture.getlabel();
+		if (label == 2) {
+			Intent camera = new Intent(
+					MediaStore.ACTION_IMAGE_CAPTURE);
+			startActivityForResult(camera, CAMERA);
+		} else if (label == 3) {
+			Intent intent = new Intent();
+			intent.setType("image/*");
+			intent.setAction(Intent.ACTION_GET_CONTENT);
+			// 取得照片后返回本界面
+			startActivityForResult(intent, PICTURE);
+		} else if (label == 4) {
+			addnote_record.performClick();
+		} else if (label == 5) {
+			addnote_recordinput.performClick();
+		} else if (label == 6) {
+			addnote_painting.performClick();
+		} else if (label == 7) {
+			addnote_addthing.performClick();
 
+		}
+	}
 
 	public void initialize_button_variables() {
+		
 		addnote_moodTagging = (ImageButton) findViewById(R.id.addnote_moodTagging);
 		user_title = (EditText) findViewById(R.id.user_title);
 		user_detail = (EditText) findViewById(R.id.user_detail);
@@ -234,8 +257,10 @@ public class AddNoteActivity extends Activity {
 		addnote_picture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final Dialog choose = new Dialog(AddNoteActivity.this,
-						R.style.draw_dialog);
+				// 声明dialog里面的两个按钮
+				ImageButton choose_camera, choose_picture;
+				final Dialog choose = new Dialog(AddNoteActivity.this, R.style.draw_dialog);
+
 				choose.setContentView(R.layout.addnote_picture);
 				// 设置背景模糊参数
 				WindowManager.LayoutParams winlp = choose.getWindow()
@@ -243,13 +268,9 @@ public class AddNoteActivity extends Activity {
 				winlp.alpha = 0.9f; // 0.0-1.0
 				choose.getWindow().setAttributes(winlp);
 				choose.show();// 显示弹出框
-				// 声明dialog里面的两个按钮
-				ImageButton choose_camera, choose_picture;
+				choose_camera = (ImageButton) choose.findViewById(R.id.choose_camera);
+				choose_picture = (ImageButton) choose.findViewById(R.id.choose_picture);
 
-				choose_camera = (ImageButton) choose
-						.findViewById(R.id.choose_camera);
-				choose_picture = (ImageButton) choose
-						.findViewById(R.id.choose_picture);
 				// 分别设置监听器
 				choose_camera.setOnClickListener(new OnClickListener() {
 
@@ -1158,17 +1179,13 @@ public class AddNoteActivity extends Activity {
 		}
 	}
 
-
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		if(keyCode==KeyEvent.KEYCODE_BACK){
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			AddNoteActivity.this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
-	
-	
+
 }

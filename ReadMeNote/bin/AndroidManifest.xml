@@ -72,7 +72,13 @@
         </activity>
         <activity
             android:name="com.example.readmenote.AddNoteActivity"
-            android:label="@string/title_activity_add_note" >
+            android:label="@string/title_activity_add_note" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.example.readmenote.picture"
+            android:label="@string/title_activity_add_note" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
