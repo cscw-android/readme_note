@@ -1,6 +1,5 @@
 package com.example.readmenote;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +20,7 @@ public class ThingDetail extends ListActivity {
 	List<String> paths = null;// 文件的路径
 	String rootPath = "/mnt";
 	TextView mPath;
-	final  int THING = 56;
+	final int THING = 56;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class ThingDetail extends ListActivity {
 
 	private void getFileDir(String filePath) {
 		// 目前所在路径
-		mPath.setText("当前路径为："+filePath);
+		mPath.setText("当前路径为：" + filePath);
 		items = new ArrayList<String>();
 		paths = new ArrayList<String>();
 		// f 是当前文件的父文件夹
@@ -76,64 +76,56 @@ public class ThingDetail extends ListActivity {
 
 				}
 			} else {
-				//Toast.makeText(ThingDetail.this, "文件选择是否添加", Toast.LENGTH_SHORT).show();
-				addThing(file);//弹出对话框选择文件是否添加，并向笔记本界面传递数据
+				// Toast.makeText(ThingDetail.this, "文件选择是否添加",
+				// Toast.LENGTH_SHORT).show();
+				addThing(file);// 弹出对话框选择文件是否添加，并向笔记本界面传递数据
 			}
 		}
 
 	}
 
 	private void addThing(final File file) {
-		
-				// TODO Auto-generated method stub
-				new AlertDialog.Builder(ThingDetail.this)
-						.setIcon(R.drawable.super_mono_3d_part2_42)
-						.setTitle("确定添加此附件？")
-						.setPositiveButton("确定",
-								new DialogInterface.OnClickListener() {
 
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										// 得到添加的附件的名字和路径
+		// TODO Auto-generated method stub
+		new AlertDialog.Builder(ThingDetail.this)
+				.setIcon(R.drawable.super_mono_3d_part2_42)
+				.setTitle("确定添加此附件？")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
-										String name = file.getName();
-										String path = file.getPath();
-										Toast.makeText(ThingDetail.this,
-												"你已经成功添加" + file.getName(),
-												Toast.LENGTH_SHORT).show();
-										Intent intent = getIntent();
-										// 将要传递的内容放在bundle里面
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 得到添加的附件的名字和路径
 
-										Bundle bundle = new Bundle();
-										bundle.putString("name", name);
-										bundle.putString("path", path);
-										bundle.putSerializable("file", file);
-										intent.putExtras(bundle);
-										ThingDetail.this.setResult(THING,
-												intent);
-										ThingDetail.this.finish();
+						String name = file.getName();
+						String path = file.getPath();
+						Toast.makeText(ThingDetail.this,
+								"你已经成功添加" + file.getName(), Toast.LENGTH_SHORT)
+								.show();
+						Intent intent = getIntent();
+						// 将要传递的内容放在bundle里面
 
-									}
-								})
-						.setNegativeButton("取消",
-								new DialogInterface.OnClickListener() {
+						Bundle bundle = new Bundle();
+						bundle.putString("name", name);
+						bundle.putString("path", path);
+						bundle.putSerializable("file", file);
+						intent.putExtras(bundle);
+						ThingDetail.this.setResult(THING, intent);
+						ThingDetail.this.finish();
 
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										// TODO Auto-generated method stub
-										Toast.makeText(ThingDetail.this,
-												"你未添加" + file.getName(),
-												Toast.LENGTH_SHORT).show();
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
-									}
-								}).show();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Toast.makeText(ThingDetail.this,
+								"你未添加" + file.getName(), Toast.LENGTH_SHORT)
+								.show();
 
-			}
+					}
+				}).show();
 
-
+	}
 
 }
-
-

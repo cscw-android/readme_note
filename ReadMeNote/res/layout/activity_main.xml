@@ -93,7 +93,7 @@
                     android:background="@drawable/tabhost_show"
                     android:button="@null"
                     android:drawableLeft="@drawable/share"
-                    android:text="分享" />
+                    android:text="分享笔记" />
             </RadioGroup>
 
             <!-- 将tabhost的tabcontent隐藏，用viewPage填充 -->

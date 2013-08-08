@@ -80,7 +80,7 @@ public class MainActivity extends TabActivity implements OnClickListener {
 		tabhost.setup(manager);
 		// 这里新建3个的Intent用于Activity的切换
 		my_note_intent = new Intent(this, MyNoteActivity.class);
-		new_note_intent = new Intent(this, picture.class);
+		new_note_intent = new Intent(this, NewNoteActivity.class);
 		share_intent = new Intent(this, ShareActivity.class);
 		//这里的listview用于装载各个activity对应的视图，即界面
 		listViews.add(getView("MyNoteActivity", my_note_intent));

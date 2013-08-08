@@ -173,16 +173,16 @@ public final class R {
         public static final int text_letter_t_icon=0x7f020095;
     }
     public static final class id {
-        public static final int RelativeLayout_Item=0x7f080024;
+        public static final int RelativeLayout_Item=0x7f080031;
         public static final int ScrollView1=0x7f080003;
         public static final int action_settings=0x7f08003f;
-        public static final int add_thing=0x7f080032;
+        public static final int add_thing=0x7f08002c;
         public static final int addnote_moodTagging=0x7f080000;
-        public static final int camera=0x7f08002d;
-        public static final int choose_camera=0x7f080027;
-        public static final int choose_picture=0x7f080028;
-        public static final int choose_text=0x7f080026;
-        public static final int edittext=0x7f08002c;
+        public static final int camera=0x7f080027;
+        public static final int choose_camera=0x7f080034;
+        public static final int choose_picture=0x7f080035;
+        public static final int choose_text=0x7f080033;
+        public static final int edittext=0x7f080026;
         public static final int filesname=0x7f080038;
         public static final int gallery_menu_add_thing=0x7f080015;
         public static final int gallery_menu_painting=0x7f080014;
@@ -192,23 +192,23 @@ public final class R {
         public static final int gallery_menu_sound_import=0x7f080013;
         public static final int gesture=0x7f080036;
         public static final int gridView1=0x7f080022;
-        public static final int gridview=0x7f080023;
+        public static final int gridview=0x7f080030;
         public static final int image=0x7f08003b;
         public static final int imageView1=0x7f080016;
         public static final int image_name=0x7f080037;
-        public static final int item_image=0x7f080025;
-        public static final int linearLayout1=0x7f080029;
+        public static final int item_image=0x7f080032;
+        public static final int linearLayout1=0x7f080023;
         public static final int linearLayout2=0x7f080020;
-        public static final int linearLayout3=0x7f080033;
-        public static final int linearLayout4=0x7f080030;
-        public static final int linearLayout5=0x7f08002b;
-        public static final int linearLayout6=0x7f08002e;
-        public static final int linearLayout7=0x7f080031;
+        public static final int linearLayout3=0x7f08002d;
+        public static final int linearLayout4=0x7f08002a;
+        public static final int linearLayout5=0x7f080025;
+        public static final int linearLayout6=0x7f080028;
+        public static final int linearLayout7=0x7f08002b;
         public static final int listView1=0x7f08003d;
         public static final int main_radio=0x7f08000f;
-        public static final int painting=0x7f08002f;
-        public static final int picture=0x7f08002a;
-        public static final int record=0x7f080034;
+        public static final int painting=0x7f080029;
+        public static final int picture=0x7f080024;
+        public static final int record=0x7f08002e;
         public static final int record_button_1=0x7f080005;
         public static final int record_button_10=0x7f08000e;
         public static final int record_button_2=0x7f080006;
@@ -219,7 +219,7 @@ public final class R {
         public static final int record_button_7=0x7f08000b;
         public static final int record_button_8=0x7f08000c;
         public static final int record_button_9=0x7f08000d;
-        public static final int record_input=0x7f080035;
+        public static final int record_input=0x7f08002f;
         public static final int record_listview=0x7f080004;
         public static final int start_record_button=0x7f080017;
         public static final int stop_rocord_button=0x7f080018;
@@ -248,12 +248,11 @@ public final class R {
         public static final int addnote_moodtagging=0x7f030006;
         public static final int addnote_mt_single=0x7f030007;
         public static final int addnote_picture=0x7f030008;
-        public static final int addnote_pitcure_choose=0x7f030009;
-        public static final int gesture_dialog=0x7f03000a;
-        public static final int lines=0x7f03000b;
-        public static final int note_show=0x7f03000c;
-        public static final int path_test=0x7f03000d;
-        public static final int tabmim=0x7f03000e;
+        public static final int gesture_dialog=0x7f030009;
+        public static final int lines=0x7f03000a;
+        public static final int note_show=0x7f03000b;
+        public static final int path_test=0x7f03000c;
+        public static final int tabmim=0x7f03000d;
     }
     public static final class menu {
         public static final int add_note=0x7f070000;

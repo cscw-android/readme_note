@@ -192,7 +192,7 @@ public class AddNoteActivity extends Activity {
 		// 转写会话取消
 		mIat.cancel(mRecognizerListener);
 		// 从picture传来判断事件
-		picture picture = new picture();
+		NewNoteActivity picture = new NewNoteActivity();
 		int label = picture.getlabel();
 		if (label == 2) {
 			Intent camera = new Intent(
