@@ -14,21 +14,28 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ Constants.UserTable.TABLE_NAME + " (" + Constants.UserTable.ID
 			+ " integer primary key, " + Constants.UserTable.USER_NAME
 			+ " text, " + Constants.UserTable.PASSWORD + " text, "
-			+ Constants.UserTable.MARK + " integer)";
-	private final String NotesListTable = "create table "
-			+ Constants.NotesListTable.TABLE_NAME + " ("
-			+ Constants.NotesListTable.ID + " integer primary key, "
-			+ Constants.NotesListTable.USER_NAME + " text, "
-			+ Constants.NotesListTable.MOOD + " integer, "
-			+ Constants.NotesListTable.NOTE_TITLE + " text, "
-			+ Constants.NotesListTable.ADDNOTE_PICTURE + " blog, "
-			+ Constants.NotesListTable.ADDNOTE_RECORD + " blog, "
-			+ Constants.NotesListTable.ADDNOTE_DETAILS + " text, "
-			+ Constants.NotesListTable.ADDNOTE_PAINTING + " blog, "
-			+ Constants.NotesListTable.NAME_APPENDIX + " text, "
-			+ Constants.NotesListTable.PATH_APPENDIX + " text, "
-			+ Constants.NotesListTable.NOTE_SUMMARY + " text, "
-			+ Constants.NotesListTable.NOTE_TIME + " text)";
+			+ Constants.UserTable.TIME + " text)";
+	private final String NoteListTable = "create table "
+			+ Constants.NoteListTable.TABLE_NAME + " ("
+			+ Constants.NoteListTable.ID + " integer primary key, "
+			+ Constants.NoteListTable.USER_NAME + " text, "
+			+ Constants.NoteListTable.MOOD + " integer, "
+			+ Constants.NoteListTable.NOTE_TITLE + " text, "
+			+ Constants.NoteListTable.ADDNOTE_DETAILS + " text, "
+			+ Constants.NoteListTable.NOTE_TIME + " text)";
+	private final String PictureTable = "create table "
+			+ Constants.PictureTable.TABLE_NAME + " ("
+			+ Constants.PictureTable.ID + " integer primary key, "
+			+ Constants.PictureTable.USER_NAME + " text, "
+			+ Constants.PictureTable.PICTURE + " text, "
+			+ Constants.PictureTable.NOTE_TIME + " text)";
+	private final String RecordAppendixTable = "create table "
+			+ Constants.RecordAppendixTable.TABLE_NAME + " ("
+			+ Constants.RecordAppendixTable.ID + " integer primary key, "
+			+ Constants.RecordAppendixTable.USER_NAME + " text, "
+			+ Constants.RecordAppendixTable.TYPE + " text, "
+			+ Constants.RecordAppendixTable.PATH + " text, "
+			+ Constants.RecordAppendixTable.NOTE_TIME + " text)";
 
 	public DBHelper(Context context, String name, CursorFactory factory,
 			int version) {
@@ -41,7 +48,9 @@ public class DBHelper extends SQLiteOpenHelper {
 		try {
 			
 			db.execSQL(USER_TABLE);
-			db.execSQL(NotesListTable);
+			db.execSQL(NoteListTable);
+			db.execSQL(PictureTable);
+			db.execSQL(RecordAppendixTable);
 			System.out.println("created successfully");
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
@@ -54,9 +63,13 @@ public class DBHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		Log.w(TAG, "Upgrading from version " + oldVersion + " to" + newVersion
 				+ ",which will destroy all old data");
-		db.execSQL("drop table if exists " + Constants.NotesListTable.TABLE_NAME);
+		db.execSQL("drop table if exists " + Constants.NoteListTable.TABLE_NAME);
 		
 		db.execSQL("drop table if exists " + Constants.UserTable.TABLE_NAME);
+		
+		db.execSQL("drop table if exists " + Constants.PictureTable.TABLE_NAME);
+		
+		db.execSQL("drop table if exists " + Constants.RecordAppendixTable.TABLE_NAME);
 		onCreate(db);
 		System.out.println("update successfully");
 	}

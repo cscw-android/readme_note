@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.database.BitMapTools;
-import com.example.database.Note;
 import com.example.database.NoteDBManger;
-
+import com.example.model.Note;
+import com.example.model.Picture;
+import com.example.model.RecordAppendix;
 import com.iflytek.speech.ErrorCode;
 import com.iflytek.speech.ISpeechModule;
 import com.iflytek.speech.InitListener;
@@ -22,7 +24,6 @@ import com.iflytek.speech.SpeechRecognizer;
 import com.iflytek.speech.SpeechUtility;
 import com.iflytek.speech.util.ApkInstaller;
 import com.iflytek.speech.util.JsonParser;
-
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
@@ -69,6 +70,8 @@ import android.widget.Toast;
 public class AddNoteActivity extends Activity {
 
 	String tag = "NewNoteActivity";
+	String APPENDIX = "appendix";
+	String RECORDS = "record";
 	Context context = this;
 	TextView addnote_time_textview;
 	ImageButton addnote_moodTagging;
@@ -78,35 +81,38 @@ public class AddNoteActivity extends Activity {
 	final int RECORD = 3;
 	final int CAMERA = 98;
 	final int PICTURE = 99;
-	String[] items = { "打开", "删除" };// 附件弹出的对话框的数组
-	int indexx = 0;// 附件弹出的对话框的判断选择了第几个
+	String[] items={"删除","打开"};//附件弹出的对话框的数组
+	int indexx = 0;//附件弹出的对话框的判断选择了第几个
 
 	Button record_button1, record_button2, record_button3, record_button4,
-			record_button5, record_button6, record_button7, record_button8,
-			record_button9, record_button10;
+	record_button5, record_button6, record_button7, record_button8,
+	record_button9, record_button10;
 	boolean record_or_add = false; // ture代表是 录音，flase是添加附件
 	int i = 0;// 用来判断 是第几个按钮
 	int record_int = 0;// 判断是第几个录音
 	int addthing_int = 0;// 判断是第几个附件
 	MediaPlayer mPlayer = null;
 	private static String record_filename1 = null, record_filename2 = null,
-			record_filename3, record_filename4, record_filename5,
-			record_filename6, record_filename7, record_filename8,
-			record_filename9, record_filename10;
-	File file1, file2, file3, file4, file5, file6, file7, file8, file9, file10;
-
+		record_filename3, record_filename4, record_filename5,
+		record_filename6, record_filename7, record_filename8,
+		record_filename9, record_filename10;
+	File file1,file2,file3,file4,file5,file6,file7,file8,file9,file10;
+	
 	Note note = new Note();
-
+	List<RecordAppendix> record_appendix_list = new ArrayList<RecordAppendix>();
+	List<Picture> picture_list = new ArrayList<Picture>();
+	String user_name = "zhangsan";
+	String note_time = "2013-8-8";
 	final int THING = 56;
-
+	
 	String res = null;// 语音文本
 	String name_appendix = null;// 附件名称
 	String path_appendix = null;// 附件路径
 	String imageId = "0";// 心情图标id
-	Bitmap bitmap = null;// 照片 Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
+	Bitmap bitmap = null;// 照片    Bitmap是Android系统中的图像处理的最重要类之一,用于后面的图片按钮处理(选择图片)
 	Bitmap bitmap_painting = null;// 涂鸦图片
 	EditText user_detail, user_title;
-
+	
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
 	private ImageButton addnote_painting, addnote_addthing;
@@ -115,6 +121,7 @@ public class AddNoteActivity extends Activity {
 	// 这是语音部分的请求码
 	private static final int REQUEST_CODE_SEARCH = 817;
 	private Toast mToast;
+
 
 	int[] addnote_moodTagging_itemSource = new int[] { R.drawable.appkefu_f000,
 			R.drawable.appkefu_f011, R.drawable.appkefu_f001,
@@ -395,7 +402,16 @@ public class AddNoteActivity extends Activity {
 			name_appendix = bundle.getString("name");// 附件名称
 			path_appendix = bundle.getString("path");// 附件路径
 			File file_get = (File) bundle.getSerializable("file");
-			record_or_add = false;// 判断为附件
+			
+			/**把附件加到list里*/
+			RecordAppendix appendix = new RecordAppendix();
+			appendix.setUser_name(user_name);
+			appendix.setPath(path_appendix);
+			appendix.setType(APPENDIX);
+			appendix.setnote_time(note_time);
+			record_appendix_list.add(appendix);
+			
+			record_or_add = false;//判断为附件
 			switch (i) {
 			case 1:
 				record_filename1 = name_appendix;
@@ -473,6 +489,14 @@ public class AddNoteActivity extends Activity {
 		if (requestCode == GESTURE) {
 			AddNote_painting painting = new AddNote_painting();
 			bitmap_painting = painting.getBitmap();// 涂鸦的图片
+			
+			/** 把图片加到list里，存表用*/
+			Picture picture = new Picture();
+			picture.setUser_name(user_name);
+			picture.setPicture(bitmap_painting);
+			picture.setNote_time(note_time);
+			picture_list.add(picture);
+			
 			// 接下来的代码跟上面的注释是一样的，不累赘注释
 			ImageSpan imageSpan = new ImageSpan(AddNoteActivity.this,
 					bitmap_painting);
@@ -491,9 +515,16 @@ public class AddNoteActivity extends Activity {
 
 		}
 		if (requestCode == RECORD) {
-			record_or_add = true;// 判断为录音
-			Bundle b = data.getExtras();
-			String filename = b.getString("file");
+			record_or_add = true;//判断为录音
+			 Bundle b = data.getExtras();
+			 String filename = b.getString("file");
+			 
+			 RecordAppendix record = new RecordAppendix();
+			 record.setUser_name(user_name);
+			 record.setPath(filename);
+			 record.setType(RECORDS);
+			 record.setnote_time(note_time);
+			 record_appendix_list.add(record);
 			boolean a = b.getBoolean("record_or_not");
 			if (a) {
 				i++;// 判断一共10次中的第几次
@@ -563,6 +594,14 @@ public class AddNoteActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				/** 把图片加到list里，存表用*/
+				Picture picture = new Picture();
+				picture.setUser_name(user_name);
+				picture.setPicture(bitmap);
+				picture.setNote_time(note_time);
+				picture_list.add(picture);
+				
 				// 在EditText中显示图片的方法ImageSpan
 				// 根据Bitmap对象创建ImageSpan对象
 				ImageSpan imageSpan = new ImageSpan(AddNoteActivity.this,
@@ -593,6 +632,14 @@ public class AddNoteActivity extends Activity {
 				Bitmap bitmapfirst1 = (Bitmap) extras.get("data");
 				// 跟上面的一样
 				bitmap = resizeImage(bitmapfirst1, 200, 200);// 照相后图像的缩略图
+				
+				/** 把图片加到list里，存表用*/
+				Picture picture = new Picture();
+				picture.setUser_name(user_name);
+				picture.setPicture(bitmap);
+				picture.setNote_time(note_time);
+				picture_list.add(picture);
+				
 				ImageSpan imageSpan = new ImageSpan(AddNoteActivity.this,
 						bitmap);
 				SpannableString spannableString = new SpannableString("[local]"
@@ -600,6 +647,7 @@ public class AddNoteActivity extends Activity {
 				spannableString.setSpan(imageSpan, 0,
 						"[local]1[local]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				System.out.println("..................");
 				// 将选择的图片追加到EditText中光标所在位置
 				int index = user_detail.getSelectionStart(); // 获取光标所在位置
 				Editable edit_text = user_detail.getEditableText();
@@ -784,27 +832,21 @@ public class AddNoteActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... arg0) {
 			// TODO Auto-generated method stub
-			Note note = (Note) arg0[0];
+			//Note note = (Note) arg0[0];
 			String detail = user_detail.getText().toString();
 			Log.i(tag, detail);
 			String result;
 			int mood_number = addnote_moodTagging_itemSource[Integer
-					.parseInt(imageId)];
-			if (bitmap_painting != null)
-				note.setAddnote_painting(BitMapTools
-						.changeBitmap(bitmap_painting));
-			if (bitmap != null)
-				note.setAddnote_picture(BitMapTools.changeBitmap(bitmap));
-			note.setAddnote_record(null);
+			                     							.parseInt(imageId)];
 			note.setAddnote_details(detail);
 			note.setMood(mood_number);
-			note.setName_appendix(name_appendix);
-			note.setNoteSummary(null);
-			note.setNoteTime(null);
-			note.setNoteTitle(user_title.getText().toString());
-			note.setPath_appendix(path_appendix);
-			note.setUser_name(null);
-
+			
+			note.setnote_time(note_time);
+			note.setNote_title(user_title.getText().toString());
+			
+			note.setUser_name(user_name);
+			note.setPicture_list(picture_list);
+			note.setRecord_appendix_list(record_appendix_list);
 			try {
 				NoteDBManger noteDBManger = new NoteDBManger(context);
 				noteDBManger.open();
