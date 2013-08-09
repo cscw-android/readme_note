@@ -13,6 +13,7 @@
     <string name="editext_title">请输入标题</string>
     <string name="editext_user_dital">请输入内容</string>
     <string name="desc"></string>
+
     <style name="draw_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
         <!-- activity 不变暗 -->
@@ -27,5 +28,6 @@
     </style>
 
     <string name="title_activity_add_note">AddNoteActivity</string>
+    <string name="title_activity_my_note_detail">MyNoteDetailActivity</string>
 
 </resources>

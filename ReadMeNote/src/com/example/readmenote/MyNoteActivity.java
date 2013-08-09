@@ -71,7 +71,7 @@ public class MyNoteActivity extends Activity {
 
 				Toast.makeText(MyNoteActivity.this, "你点击了" + arg2 + "个",
 						Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(MyNoteActivity.this, detail.class);
+				Intent intent = new Intent(MyNoteActivity.this, MyNoteDetailActivity.class);
 				startActivity(intent);
 			}
 		});

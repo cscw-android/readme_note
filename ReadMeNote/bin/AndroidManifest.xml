@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.readmenote" >
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" >
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
@@ -75,7 +75,10 @@
             android:label="@string/title_activity_add_note"
             android:screenOrientation="portrait" >
         </activity>
-       
+        <activity
+            android:name="com.example.readmenote.MyNoteDetailActivity"
+            android:label="@string/title_activity_my_note_detail" >
+        </activity>
     </application>
 
 </manifest>

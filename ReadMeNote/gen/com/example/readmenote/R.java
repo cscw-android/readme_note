@@ -243,23 +243,25 @@ public final class R {
         public static final int activity_add_note_record_=0x7f030001;
         public static final int activity_main=0x7f030002;
         public static final int activity_my_note=0x7f030003;
-        public static final int activity_new_note=0x7f030004;
-        public static final int activity_share=0x7f030005;
-        public static final int addnote_moodtagging=0x7f030006;
-        public static final int addnote_mt_single=0x7f030007;
-        public static final int addnote_picture=0x7f030008;
-        public static final int gesture_dialog=0x7f030009;
-        public static final int lines=0x7f03000a;
-        public static final int note_show=0x7f03000b;
-        public static final int path_test=0x7f03000c;
-        public static final int tabmim=0x7f03000d;
+        public static final int activity_my_note_detail=0x7f030004;
+        public static final int activity_new_note=0x7f030005;
+        public static final int activity_share=0x7f030006;
+        public static final int addnote_moodtagging=0x7f030007;
+        public static final int addnote_mt_single=0x7f030008;
+        public static final int addnote_picture=0x7f030009;
+        public static final int gesture_dialog=0x7f03000a;
+        public static final int lines=0x7f03000b;
+        public static final int note_show=0x7f03000c;
+        public static final int path_test=0x7f03000d;
+        public static final int tabmim=0x7f03000e;
     }
     public static final class menu {
         public static final int add_note=0x7f070000;
         public static final int main=0x7f070001;
         public static final int my_note=0x7f070002;
-        public static final int new_note=0x7f070003;
-        public static final int share=0x7f070004;
+        public static final int my_note_detail=0x7f070003;
+        public static final int new_note=0x7f070004;
+        public static final int share=0x7f070005;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -273,6 +275,7 @@ public final class R {
         public static final int hello_world=0x7f050002;
         public static final int title_activity_add_note=0x7f05000c;
         public static final int title_activity_my_note=0x7f050003;
+        public static final int title_activity_my_note_detail=0x7f05000d;
         public static final int title_activity_new_note=0x7f050004;
         public static final int title_activity_share=0x7f050005;
     }
