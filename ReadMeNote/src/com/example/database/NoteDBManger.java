@@ -1,11 +1,20 @@
 package com.example.database;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.example.model.Note;
+import com.example.model.Picture;
+import com.example.model.RecordAppendix;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -57,29 +66,49 @@ public class NoteDBManger {
 	 * @return long 如果是正数则表示增加成功，反之不成功
 	 * 
 	 */
-	public long addnote(Note note) {
+	public void addnote(Note note) {
 
 		try {
 			ContentValues contentValues = new ContentValues();
-			contentValues.put(Constants.NotesListTable.USER_NAME, note.getUser_name());
-			contentValues.put(Constants.NotesListTable.MOOD, note.getMood());
-			contentValues.put(Constants.NotesListTable.NOTE_TITLE, note.getNoteTitle());
-			contentValues.put(Constants.NotesListTable.ADDNOTE_PICTURE, note.getAddnote_picture());
-			contentValues.put(Constants.NotesListTable.ADDNOTE_RECORD, note.getAddnote_record());
-			contentValues.put(Constants.NotesListTable.ADDNOTE_DETAILS, note.getAddnote_details());
-			contentValues.put(Constants.NotesListTable.ADDNOTE_PAINTING, note.getAddnote_painting());
-			contentValues.put(Constants.NotesListTable.NAME_APPENDIX, note.getName_appendix());
-			contentValues.put(Constants.NotesListTable.PATH_APPENDIX, note.getPath_appendix());
-			contentValues.put(Constants.NotesListTable.NOTE_SUMMARY, note.getNoteSummary());
-			contentValues.put(Constants.NotesListTable.NOTE_TIME, note.getNoteTime());
-			
-			
-			return db.insert(Constants.NotesListTable.TABLE_NAME, null,
-					contentValues);
+			contentValues.put(Constants.NoteListTable.USER_NAME,
+					note.getUser_name());
+			contentValues.put(Constants.NoteListTable.MOOD, note.getMood());
+			contentValues.put(Constants.NoteListTable.NOTE_TITLE,
+					note.getNote_title());
+			contentValues.put(Constants.NoteListTable.ADDNOTE_DETAILS,
+					note.getAddnote_details());
+			contentValues.put(Constants.NoteListTable.NOTE_TIME,
+					note.getnote_time());
+			db.insert(Constants.NoteListTable.TABLE_NAME, null, contentValues);
+			for (Picture picture : note.getPicture_list()) {
+				contentValues.clear();
+				contentValues.put(Constants.PictureTable.USER_NAME,
+						picture.getUser_name());
+				contentValues.put(Constants.PictureTable.PICTURE,
+						BitMapTools.changeBitmap(picture.getPicture()));
+				contentValues.put(Constants.PictureTable.NOTE_TIME,
+						picture.getNote_time());
+				db.insert(Constants.PictureTable.TABLE_NAME, null,
+						contentValues);
+			}
+			for (RecordAppendix record_appendix : note
+					.getRecord_appendix_list()) {
+				contentValues.clear();
+				contentValues.put(Constants.RecordAppendixTable.USER_NAME,
+						record_appendix.getUser_name());
+				contentValues.put(Constants.RecordAppendixTable.PATH,
+						record_appendix.getPath());
+				contentValues.put(Constants.RecordAppendixTable.TYPE,
+						record_appendix.getType());
+				contentValues.put(Constants.RecordAppendixTable.NOTE_TIME,
+						record_appendix.getnote_time());
+				db.insert(Constants.RecordAppendixTable.TABLE_NAME, null,
+						contentValues);
+			}
 
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
-			return -1;
+
 		}
 
 	}
@@ -94,16 +123,16 @@ public class NoteDBManger {
 	 * @return 返回删除的条数 也可以作为判断值，如果是正数则表示删除成功，反之不成功
 	 */
 	public int deletenote(String whereClause, String[] whereArgs) {
-		return db.delete(Constants.NotesListTable.TABLE_NAME, whereClause,
+		return db.delete(Constants.NoteListTable.TABLE_NAME, whereClause,
 				whereArgs);
 	}
 
 	/**
 	 * 查找表中记录
 	 * 
-	 * @return Cursor
+	 * @return List<Note>
 	 */
-	public Cursor getdiaries() {
+	public List<Note> getdiaries() {
 		/**
 		 * 查询数据
 		 * 
@@ -118,10 +147,77 @@ public class NoteDBManger {
 		 * @param orderBy
 		 *            排序 如：id desc
 		 * @return 返回Cursor
+		 *  String[] columns={"kind","textnum","region"};
+		 *  //你要的数据 String 条件字段="NUMWEEK=? and YEAR=?", String[] selectionArgs={”星期一"，"2013"}；
 		 */
-		Cursor c = db.query(Constants.NotesListTable.TABLE_NAME, null, null,
-				null, null, null, null);
-		return c;
+		List<Note> list = new ArrayList<Note>();
+		List<Picture> picture_list = new ArrayList<Picture>();
+		List<RecordAppendix> record_appendix_list = new ArrayList<RecordAppendix>();
+		Cursor cn = db.query(Constants.NoteListTable.TABLE_NAME, null, "user_name=?", new String[]{"zhangsan"},
+				 null, null, null);
+		if (cn.moveToFirst()) {
+			do {
+				Note note = new Note();
+				
+				String note_time = cn.getString(cn
+						.getColumnIndex(Constants.NoteListTable.NOTE_TIME));
+				String user_name = cn.getString(cn
+						.getColumnIndex(Constants.NoteListTable.USER_NAME));
+				
+				note.setNote_id(cn.getInt(cn.getColumnIndex(Constants.NoteListTable.ID)));
+				note.setUser_name(user_name);
+				note.setMood(cn.getInt(cn.getColumnIndex(Constants.NoteListTable.MOOD)));
+				note.setNote_title(cn.getString(cn
+						.getColumnIndex(Constants.NoteListTable.NOTE_TITLE)));
+				note.setAddnote_details(cn.getString(cn
+						.getColumnIndex(Constants.NoteListTable.NOTE_TITLE)));
+				note.setnote_time(note_time);
+				
+				Cursor cp = db.query(Constants.PictureTable.TABLE_NAME, null, "user_name=? and note_time=?",
+						new String[]{user_name,note_time}, null, null, "picture_id asc");
+				if (cp.moveToFirst()) {
+					do {
+						Picture picture = new Picture();
+						Bitmap bitmap = BitMapTools
+								.getBitmap(
+										cp.getBlob(cp
+												.getColumnIndex(Constants.PictureTable.PICTURE)),
+										40, 40);
+						picture.setPicture_id(cp.getInt(cp.getColumnIndex(Constants.PictureTable.ID)));
+						picture.setUser_name(user_name);
+						picture.setNote_time(note_time);
+						picture.setPicture(bitmap);
+						picture_list.add(picture);
+						
+					}while (cp.moveToNext());
+				}
+					
+				Cursor cra = db.query(Constants.RecordAppendixTable.TABLE_NAME, null, "user_name=? and note_time=?",
+						new String[]{user_name,note_time}, null, null, "record_appendix_id asc");
+				if (cra.moveToFirst()) {
+					do {
+						RecordAppendix recordAppendix = new RecordAppendix();
+						recordAppendix.setRecord_appendix_id(cra
+								.getInt(cra.getColumnIndex(Constants.RecordAppendixTable.ID)));
+						recordAppendix.setUser_name(user_name);
+						recordAppendix.setPath(cra.getString(cra.
+								getColumnIndex(Constants.RecordAppendixTable.PATH)));
+						recordAppendix.setType(cra.getString(cra.
+								getColumnIndex(Constants.RecordAppendixTable.TYPE)));
+						recordAppendix.setnote_time(note_time);
+						record_appendix_list.add(recordAppendix);
+					}while (cra.moveToNext());
+				}
+				note.setPicture_list(picture_list);
+				note.setRecord_appendix_list(record_appendix_list);
+				list.add(note);
+			} while (cn.moveToNext());
+			
+		}
+		Log.i(TAG, String.valueOf(list.size()));
+		System.out.println(list.size());
+		return list;
+		
 	}
 
 	/**
@@ -138,17 +234,16 @@ public class NoteDBManger {
 	 * 
 	 * @return 返回修改的条数 也可以作为判断值，如果是正数则表示更改成功，反之不成功
 	 */
-	public int updatenote(Note note, String whereClause,
-			String[] whereArgs) {
+	public int updatenote(Note note, String whereClause, String[] whereArgs) {
 
 		try {
 			ContentValues contentValues = new ContentValues();
-			contentValues.put(Constants.NotesListTable.ID, note.getNote_id());
-			contentValues.put(Constants.NotesListTable.ADDNOTE_PICTURE,
-					note.getAddnote_picture());
-			contentValues.put(Constants.NotesListTable.NOTE_SUMMARY, note.getNoteSummary());
-			return db.update(Constants.NotesListTable.TABLE_NAME, contentValues,
-					Constants.NotesListTable.ADDNOTE_PICTURE+"=?", whereArgs);
+
+			contentValues.put(Constants.NoteListTable.NOTE_TITLE,
+					note.getNote_title());
+
+			return db.update(Constants.NoteListTable.TABLE_NAME, contentValues,
+					Constants.NoteListTable.NOTE_TITLE + "=?", whereArgs);
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 			return -1;

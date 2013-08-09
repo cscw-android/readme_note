@@ -16,8 +16,9 @@ import java.util.Map;
 
 import com.example.database.BitMapTools;
 import com.example.database.Constants;
-import com.example.database.Note;
+import com.example.database.MyAdapter;
 import com.example.database.NoteDBManger;
+import com.example.model.Note;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -41,9 +42,9 @@ public class MyNoteActivity extends Activity {
 	private SearchView sv;
 	private final String TAG = "MyNoteActivity";
 	private NoteDBManger noteDBManger;
-	
-	SimpleAdapter simpleAdapter = null;
-	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	Activity context = this;
+	MyAdapter myAdapter;
+	List<Note> list = new ArrayList<Note>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +59,8 @@ public class MyNoteActivity extends Activity {
 		sv.setSubmitButtonEnabled(true);
 		sv.setQueryHint(" 查找");
 		getData();
-		simpleAdapter = new SimpleAdapter(MyNoteActivity.this, list,
-				R.layout.note_show, new String[] { "title", "text", "image"},
-				new int[] { R.id.title, R.id.text, R.id.image });
-
-		gridView.setAdapter(simpleAdapter);
+		myAdapter = new MyAdapter(context,list);
+		gridView.setAdapter(myAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -94,43 +92,14 @@ public class MyNoteActivity extends Activity {
 		});
 	}
 	private void getData() {
-		Bitmap bitmap = null;
 		list.clear();
 		try {	
 			noteDBManger.open();
-			Cursor cursor = noteDBManger.getdiaries();
+		    list = noteDBManger.getdiaries();
 			//startManagingCursor(cursor);
-			System.out.println(cursor.getCount());
-			if (cursor.moveToFirst()) {
-				do {
-					
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("title",
-							cursor.getString(cursor
-									.getColumnIndex(Constants.NotesListTable.NOTE_TITLE)));
-					
-					map.put("text",
-							cursor.getString(cursor
-									.getColumnIndex(Constants.NotesListTable.ADDNOTE_DETAILS)));
-					bitmap = BitMapTools
-							.getBitmap(
-									cursor.getBlob(cursor
-											.getColumnIndex(Constants.NotesListTable.ADDNOTE_PICTURE)),
-									40, 40);
-					map.put("image", bitmap);
-					list.add(map);
-					Log.i(TAG,cursor.getBlob(cursor
-							.getColumnIndex(Constants.NotesListTable.ADDNOTE_PAINTING)).toString());
-					
-				} while (cursor.moveToNext());
-
-			}
 			noteDBManger.close();
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 	}
 
@@ -138,8 +107,7 @@ public class MyNoteActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
 		getData();
-		gridView.setAdapter(simpleAdapter);
+		gridView.setAdapter(myAdapter);
 	}
 }
