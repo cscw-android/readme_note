@@ -1,45 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+<!-- 第一个大的linearlayout -->
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignLeft="@+id/linearLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayout1"
-        android:background="@drawable/a12345"
-        android:orientation="vertical"
-         >
-          <LinearLayout 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
-            android:orientation="horizontal" 
-            
-            >
-        <ImageButton
-            android:id="@+id/picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/picture_icon" 
-           
-            android:layout_gravity="center_vertical"/>
+        android:layout_weight="2" >
+        
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2" 
+         android:orientation="vertical"
+        android:background="@drawable/a12345">
 
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-         android:background="@drawable/a12345"
-        android:orientation="vertical"
-         >
-	 <LinearLayout 
+           <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -51,24 +29,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/text_letter_t_icon" 
-           
             android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
-
+        
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/linearLayout5"
-         android:background="@drawable/a12345"
-        android:orientation="vertical" 
-        >
-        <LinearLayout 
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="3" 
+       >
+         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" 
+        android:background="@drawable/a12345"
+         android:orientation="vertical">
+         <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -85,24 +63,51 @@
             
             android:layout_gravity="center_vertical"/>
 	</LinearLayout>
+        
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="120dp"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout5"
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" 
         android:background="@drawable/a12345"
-        android:orientation="vertical" 
-        >
-		 <LinearLayout 
+         android:orientation="vertical">
+         <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal" 
-            
+            >
+        <ImageButton
+            android:id="@+id/picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/picture_icon" 
+            android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+        
+    </LinearLayout>
+        
+    </LinearLayout>
+    </LinearLayout>
+<!--     下面那个大的linearlayout   -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="3" >
+     <!--    左边那个linearlayout -->
+         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="@drawable/a12345"
+         android:orientation="vertical" >
+     <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" 
             >
         <ImageButton
             android:id="@+id/painting"
@@ -112,20 +117,28 @@
             android:layout_gravity="center_vertical" />
 
     </LinearLayout>
-     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_above="@+id/linearLayout7"
-        android:layout_alignLeft="@+id/linearLayout7"
-        android:layout_alignTop="@+id/linearLayout6"
-        android:layout_toLeftOf="@+id/linearLayout2"
-         android:background="@drawable/a12345"
+        
+    </LinearLayout>
+ <!--    右边那个，还要分成两个 -->
+         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        >
-		 <LinearLayout 
+        android:layout_weight="2" >
+<!--      分成两个之后的上半个 -->
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="2" 
+       >
+         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2" 
+        android:background="@drawable/a12345">
+         <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -138,20 +151,15 @@
              android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
-     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignBottom="@+id/linearLayout4"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_toRightOf="@+id/linearLayout4"
-         android:background="@drawable/a12345"
+        
+    </LinearLayout>
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-         >
- <LinearLayout 
+        android:layout_weight="2" 
+        android:background="@drawable/a12345">
+        <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -164,17 +172,19 @@
              android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
-      </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout7"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-       android:orientation="vertical"
-        android:background="@drawable/a12345" >
- 		<LinearLayout 
+        
+    </LinearLayout>
+        
+        
+    </LinearLayout>
+ <!--    分成两个之后的下半个 -->
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="3" 
+         android:background="@drawable/a12345">
+     <LinearLayout 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -187,6 +197,11 @@
              android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
+        
+        
     </LinearLayout>
+     
+   </LinearLayout>
+   </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
