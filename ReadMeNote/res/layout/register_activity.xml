@@ -59,6 +59,7 @@
             android:ems="10" 
              android:layout_marginLeft="5dp"
             android:hint="请输入密码"
+            android:password="true"
              android:padding="5dp"
              android:background="@drawable/ed2"/>
 
@@ -83,6 +84,7 @@
             android:ems="10" 
              android:layout_marginLeft="5dp"
             android:hint="请再次输入密码"
+            android:password="true"
             android:padding="5dp"
             android:background="@drawable/ed2"/>
 

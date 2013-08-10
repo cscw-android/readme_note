@@ -3,23 +3,18 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@drawable/log" >
+    android:background="@drawable/log3" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Read Me !"
-        android:paddingTop="50dp"
-        android:textSize="30dp"
-        android:typeface="sans"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+   
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="100dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +30,7 @@
             android:layout_weight="1"
             android:layout_margin="5dp"
             android:hint="请输入用户名"
-            android:ems="10" 
+            android:ems="8" 
              android:padding="5dp"
             android:background="@drawable/ed">
 
@@ -65,7 +60,8 @@
              android:padding="5dp"
             android:layout_margin="5dp"
             android:background="@drawable/ed"
-            android:ems="10" />
+            android:password="true"
+            android:ems="8" />
 
     </LinearLayout>
 

@@ -14,16 +14,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.database.BitMapTools;
 import com.example.database.Constants;
-import com.example.database.MyAdapter;
 import com.example.database.NoteDBManger;
 import com.example.model.Note;
+import com.example.tools.BitMapTools;
+import com.example.tools.MyAdapter;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.view.Menu;
@@ -45,13 +46,18 @@ public class MyNoteActivity extends Activity {
 	Activity context = this;
 	MyAdapter myAdapter;
 	List<Note> list = new ArrayList<Note>();
-
+	String user_name;
+	SharedPreferences preferences;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_note);
 		gridView = (GridView) findViewById(R.id.gridView1);
 		noteDBManger = new NoteDBManger(this);
+		preferences = getSharedPreferences("count", MODE_PRIVATE);
+	    user_name = preferences.getString("name", null);
+	    Log.i(TAG, user_name);
 		sv = (SearchView) findViewById(R.id.sv);
 		// 设置该searchview是否缩小为图标
 		sv.setIconifiedByDefault(true);
@@ -59,7 +65,7 @@ public class MyNoteActivity extends Activity {
 		sv.setSubmitButtonEnabled(true);
 		sv.setQueryHint(" 查找");
 		getData();
-		myAdapter = new MyAdapter(context,list);
+		
 		gridView.setAdapter(myAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -95,9 +101,10 @@ public class MyNoteActivity extends Activity {
 		list.clear();
 		try {	
 			noteDBManger.open();
-		    list = noteDBManger.getdiaries();
+		    list = noteDBManger.getdiaries(user_name);
 			//startManagingCursor(cursor);
 			noteDBManger.close();
+			myAdapter = new MyAdapter(context,list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

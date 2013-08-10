@@ -8,6 +8,7 @@ import java.util.Map;
 import com.example.model.Note;
 import com.example.model.Picture;
 import com.example.model.RecordAppendix;
+import com.example.tools.BitMapTools;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -132,7 +133,7 @@ public class NoteDBManger {
 	 * 
 	 * @return List<Note>
 	 */
-	public List<Note> getdiaries() {
+	public List<Note> getdiaries(String user_name) {
 		/**
 		 * 查询数据
 		 * 
@@ -151,18 +152,18 @@ public class NoteDBManger {
 		 *  //你要的数据 String 条件字段="NUMWEEK=? and YEAR=?", String[] selectionArgs={”星期一"，"2013"}；
 		 */
 		List<Note> list = new ArrayList<Note>();
-		List<Picture> picture_list = new ArrayList<Picture>();
-		List<RecordAppendix> record_appendix_list = new ArrayList<RecordAppendix>();
-		Cursor cn = db.query(Constants.NoteListTable.TABLE_NAME, null, "user_name=?", new String[]{"zhangsan"},
+		
+		
+		Cursor cn = db.query(Constants.NoteListTable.TABLE_NAME, null, "user_name=?", new String[]{user_name},
 				 null, null, null);
 		if (cn.moveToFirst()) {
 			do {
 				Note note = new Note();
-				
+				List<Picture> picture_list = new ArrayList<Picture>();
+				List<RecordAppendix> record_appendix_list = new ArrayList<RecordAppendix>();
 				String note_time = cn.getString(cn
 						.getColumnIndex(Constants.NoteListTable.NOTE_TIME));
-				String user_name = cn.getString(cn
-						.getColumnIndex(Constants.NoteListTable.USER_NAME));
+				
 				
 				note.setNote_id(cn.getInt(cn.getColumnIndex(Constants.NoteListTable.ID)));
 				note.setUser_name(user_name);
@@ -170,7 +171,7 @@ public class NoteDBManger {
 				note.setNote_title(cn.getString(cn
 						.getColumnIndex(Constants.NoteListTable.NOTE_TITLE)));
 				note.setAddnote_details(cn.getString(cn
-						.getColumnIndex(Constants.NoteListTable.NOTE_TITLE)));
+						.getColumnIndex(Constants.NoteListTable.ADDNOTE_DETAILS)));
 				note.setnote_time(note_time);
 				
 				Cursor cp = db.query(Constants.PictureTable.TABLE_NAME, null, "user_name=? and note_time=?",
@@ -211,6 +212,8 @@ public class NoteDBManger {
 				note.setPicture_list(picture_list);
 				note.setRecord_appendix_list(record_appendix_list);
 				list.add(note);
+				/*picture_list.clear();
+				record_appendix_list.clear();*/
 			} while (cn.moveToNext());
 			
 		}
@@ -251,4 +254,38 @@ public class NoteDBManger {
 
 	}
 
+	public boolean check(String user_name){
+		Cursor cursor = db.query(Constants.UserTable.TABLE_NAME, null, "user_name=?", new String[]{user_name},
+				 null, null, null);
+		
+		if (!cursor.moveToFirst()) {
+			
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean check(String user_name,String password){
+		Cursor cursor = db.query(Constants.UserTable.TABLE_NAME, null, "user_name=? and password=?", new String[]{user_name,password},
+				 null, null, null);
+		if (!cursor.moveToFirst()) {
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public void addUser(String user_name,String register_time,String password) {
+
+		try {
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(Constants.UserTable.USER_NAME,user_name);
+			contentValues.put(Constants.UserTable.TIME,register_time);
+			contentValues.put(Constants.UserTable.PASSWORD, password);
+			db.insert(Constants.UserTable.TABLE_NAME, null, contentValues);
+		}catch(Exception e){
+			Log.e(TAG, e.getMessage());
+		}
+	}
 }

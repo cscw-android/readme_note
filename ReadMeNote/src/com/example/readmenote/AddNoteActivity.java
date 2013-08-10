@@ -9,11 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.database.BitMapTools;
 import com.example.database.NoteDBManger;
 import com.example.model.Note;
 import com.example.model.Picture;
 import com.example.model.RecordAppendix;
+import com.example.tools.BitMapTools;
+import com.example.tools.TimeTools;
 import com.iflytek.speech.ErrorCode;
 import com.iflytek.speech.ISpeechModule;
 import com.iflytek.speech.InitListener;
@@ -39,6 +40,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -69,7 +71,7 @@ import android.widget.Toast;
 
 public class AddNoteActivity extends Activity {
 
-	String tag = "NewNoteActivity";
+	String tag = "AddNoteActivity";
 	String APPENDIX = "appendix";
 	String RECORDS = "record";
 	Context context = this;
@@ -101,8 +103,9 @@ public class AddNoteActivity extends Activity {
 	Note note = new Note();
 	List<RecordAppendix> record_appendix_list = new ArrayList<RecordAppendix>();
 	List<Picture> picture_list = new ArrayList<Picture>();
-	String user_name = "zhangsan";
-	String note_time = "2013-8-8";
+	String user_name ;
+	SharedPreferences preferences;
+	String note_time ;
 	final int THING = 56;
 	
 	String res = null;// 语音文本
@@ -178,8 +181,9 @@ public class AddNoteActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_add_note);
-		
-
+		preferences = getSharedPreferences("count", MODE_PRIVATE);
+	    user_name = preferences.getString("name", null);
+		note_time = TimeTools.getStringDate();
 		// 初始化变量button变量
 		initialize_button_variables();
 		// 关于按键的设置
@@ -819,8 +823,11 @@ public class AddNoteActivity extends Activity {
 		protected void onPostExecute(Object result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			Toast.makeText(AddNoteActivity.this, result.toString(), 4000)
+			Toast.makeText(AddNoteActivity.this, result.toString(), 1000)
 					.show();
+			
+			Intent intent = new Intent(AddNoteActivity.this,MainActivity.class);
+			startActivity(intent);
 		}
 
 		Context context;

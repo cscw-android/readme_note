@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Window;
 
 public class Welcome extends Activity{
     
@@ -19,6 +20,7 @@ public class Welcome extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.activity_welcome);
 		//获得该对象
 		preference = getSharedPreferences("count", MODE_PRIVATE);
