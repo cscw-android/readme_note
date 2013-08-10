@@ -10,6 +10,7 @@ import com.example.readmenote.R;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import android.widget.TextView;
 public class MyAdapter extends BaseAdapter
 {
 
-	
+	String TAG = "MyAdapter";
 		private Activity context;
 		private List<Note> list = new ArrayList<Note>();
 
@@ -34,14 +35,17 @@ public class MyAdapter extends BaseAdapter
 			LayoutInflater inflater = context.getLayoutInflater();
 			View itemView = inflater.inflate(R.layout.note_show, null);
 			Note note = list.get(position);
+			String summry = DealString.cutString(note.getAddnote_details());
 			TextView textView = (TextView) itemView.findViewById(R.id.text);
 			ImageView imageView = (ImageView) itemView
 					.findViewById(R.id.image);
 			TextView titleView = (TextView) itemView.findViewById(R.id.title);
 			titleView.setText(note.getNote_title());
 			if(!note.getPicture_list().isEmpty())
-				imageView.setImageBitmap(note.getPicture_list().get(0).getPicture());
-			textView.setText(note.getAddnote_details());
+				imageView.setImageBitmap(BitMapTools.getBitmap(note.getPicture_list().get(0).getPicture(), 120, 60));
+			textView.setText(summry);
+			Log.i(TAG, summry);
+			Log.i(TAG, note.getAddnote_details());
 			return itemView;
 		}
 

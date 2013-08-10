@@ -163,7 +163,15 @@
                     android:layout_marginTop="25.0dip"
                     android:gravity="center"
                     android:orientation="vertical" >
-
+					
+                    <ImageButton
+                        android:id="@+id/gallery_menu_modify"
+                        android:layout_width="match_parent"
+                        android:layout_height="35.0dip"
+                        android:background="@drawable/detail_modify" 
+                       />
+                    
+                    
                     <ImageButton
                         android:id="@+id/gallery_menu_save"
                         android:layout_width="match_parent"

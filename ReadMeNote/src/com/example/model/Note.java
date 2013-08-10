@@ -1,9 +1,10 @@
 package com.example.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Note {
+public class Note implements Serializable {
 
 	/**ID*/
 	public  int note_id;

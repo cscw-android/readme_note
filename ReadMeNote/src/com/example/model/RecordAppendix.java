@@ -1,6 +1,8 @@
 package com.example.model;
 
-public class RecordAppendix {
+import java.io.Serializable;
+
+public class RecordAppendix implements Serializable{
 	/**ID*/
 	public int record_appendix_id;
 	/**用户名*/

@@ -1,15 +1,17 @@
 package com.example.model;
 
+import java.io.Serializable;
+
 import android.graphics.Bitmap;
 
-public class Picture {
+public class Picture implements Serializable{
 	
 	/**ID*/
 	public  int picture_id;
 	/**用户名*/
 	public String user_name;
 	/**图片内容*/
-	public Bitmap picture;
+	public byte[] picture;
 	/**创建时间*/
 	public String note_time;
 	
@@ -25,10 +27,10 @@ public class Picture {
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-	public Bitmap getPicture() {
+	public byte[] getPicture() {
 		return picture;
 	}
-	public void setPicture(Bitmap picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 	public String getNote_time() {

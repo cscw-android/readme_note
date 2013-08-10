@@ -86,7 +86,7 @@ public class NoteDBManger {
 				contentValues.put(Constants.PictureTable.USER_NAME,
 						picture.getUser_name());
 				contentValues.put(Constants.PictureTable.PICTURE,
-						BitMapTools.changeBitmap(picture.getPicture()));
+						picture.getPicture());
 				contentValues.put(Constants.PictureTable.NOTE_TIME,
 						picture.getNote_time());
 				db.insert(Constants.PictureTable.TABLE_NAME, null,
@@ -179,15 +179,12 @@ public class NoteDBManger {
 				if (cp.moveToFirst()) {
 					do {
 						Picture picture = new Picture();
-						Bitmap bitmap = BitMapTools
-								.getBitmap(
-										cp.getBlob(cp
-												.getColumnIndex(Constants.PictureTable.PICTURE)),
-										40, 40);
+						
 						picture.setPicture_id(cp.getInt(cp.getColumnIndex(Constants.PictureTable.ID)));
 						picture.setUser_name(user_name);
 						picture.setNote_time(note_time);
-						picture.setPicture(bitmap);
+						picture.setPicture(cp.getBlob(cp
+								.getColumnIndex(Constants.PictureTable.PICTURE)));
 						picture_list.add(picture);
 						
 					}while (cp.moveToNext());

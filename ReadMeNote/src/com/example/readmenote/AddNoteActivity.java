@@ -83,7 +83,7 @@ public class AddNoteActivity extends Activity {
 	final int RECORD = 3;
 	final int CAMERA = 98;
 	final int PICTURE = 99;
-	String[] items={"删除","打开"};//附件弹出的对话框的数组
+	String[] items={"打开","删除"};//附件弹出的对话框的数组
 	int indexx = 0;//附件弹出的对话框的判断选择了第几个
 
 	Button record_button1, record_button2, record_button3, record_button4,
@@ -497,7 +497,7 @@ public class AddNoteActivity extends Activity {
 			/** 把图片加到list里，存表用*/
 			Picture picture = new Picture();
 			picture.setUser_name(user_name);
-			picture.setPicture(bitmap_painting);
+			picture.setPicture(BitMapTools.changeBitmap(bitmap_painting));
 			picture.setNote_time(note_time);
 			picture_list.add(picture);
 			
@@ -602,7 +602,7 @@ public class AddNoteActivity extends Activity {
 				/** 把图片加到list里，存表用*/
 				Picture picture = new Picture();
 				picture.setUser_name(user_name);
-				picture.setPicture(bitmap);
+				picture.setPicture(BitMapTools.changeBitmap(bitmap));
 				picture.setNote_time(note_time);
 				picture_list.add(picture);
 				
@@ -640,7 +640,7 @@ public class AddNoteActivity extends Activity {
 				/** 把图片加到list里，存表用*/
 				Picture picture = new Picture();
 				picture.setUser_name(user_name);
-				picture.setPicture(bitmap);
+				picture.setPicture(BitMapTools.changeBitmap(bitmap));
 				picture.setNote_time(note_time);
 				picture_list.add(picture);
 				
@@ -859,7 +859,7 @@ public class AddNoteActivity extends Activity {
 				noteDBManger.open();
 				noteDBManger.addnote(note);
 				result = "保存成功";
-
+				noteDBManger.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				result = "保存失败";
@@ -1080,7 +1080,6 @@ public class AddNoteActivity extends Activity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										// TODO Auto-generated method stub
-										indexx = 0;
 										indexx = which;
 
 									}
