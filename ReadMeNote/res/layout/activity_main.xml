@@ -57,24 +57,15 @@
                 android:checkedButton="@+id/tab1"
                 android:orientation="horizontal" >
 
-                <RadioButton
-                    android:id="@id/tab1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/tabhost_show"
-                    android:button="@null"
-                    android:drawableLeft="@drawable/my_note"
-                    android:gravity="center"
-                    android:text="我的笔记" />
-                <!--
+              
+               <!--android：checked="true"默认被选中
                       android:button="@null"将默认的RadioButton图标给隐藏，
                                                    然后再用android:drawableRight="@android:drawable/btn_radio"
-                                                   在右边再生成一个图标，再用android:text="文字内容"在隐藏图标的位置显示文字。
-                -->
+                                                   在右边再生成一个图标，再用android:text="文字内容"在隐藏图标的位置显示文字。-->
+
 
                 <RadioButton
-                    android:id="@+id/tab2"
+                    android:id="@+id/tab1"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_weight="1.0"
@@ -85,14 +76,26 @@
                     android:text="添加笔记" />
 
                 <RadioButton
+                    android:id="@+id/tab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/tabhost_show"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableLeft="@drawable/my_note"
+                    android:gravity="center"
+                    android:text="我的笔记" />
+
+                <RadioButton
                     android:id="@+id/tab3"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_weight="1.0"
-                    android:gravity="center"
                     android:background="@drawable/tabhost_show"
                     android:button="@null"
                     android:drawableLeft="@drawable/share"
+                    android:gravity="center"
                     android:text="分享笔记" />
             </RadioGroup>
 

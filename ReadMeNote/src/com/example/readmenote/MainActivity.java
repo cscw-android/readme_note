@@ -56,6 +56,10 @@ public class MainActivity extends TabActivity implements OnClickListener {
 		initTabhost();
 		// 初始化viewPager
 		initPager();
+		/**
+		 * 设置默认显示中间的界面，如果不设置就默认显示 pager.setCurrentItem(0)为第一张， 即添加笔记界面
+		 */
+		pager.setCurrentItem(1);
 		// 获取当前时间的方法
 		settime();
 
@@ -82,9 +86,9 @@ public class MainActivity extends TabActivity implements OnClickListener {
 		my_note_intent = new Intent(this, MyNoteActivity.class);
 		new_note_intent = new Intent(this, NewNoteActivity.class);
 		share_intent = new Intent(this, ShareActivity.class);
-		//这里的listview用于装载各个activity对应的视图，即界面
-		listViews.add(getView("MyNoteActivity", my_note_intent));
+		// 这里的listview用于装载各个activity对应的视图，即界面
 		listViews.add(getView("NewNoteActivity", new_note_intent));
+		listViews.add(getView("MyNoteActivity", my_note_intent));
 		listViews.add(getView("ShareActivity", share_intent));
 
 		// 每一个标签的样子
@@ -109,13 +113,15 @@ public class MainActivity extends TabActivity implements OnClickListener {
 		 * img2.setImageResource(R.drawable.share);
 		 */
 
-		// 向tabhost里添加tab，里面的 中文部分也已不起作用，但作为完整的添加方法，这部分还是要写的
-		tabhost.addTab(tabhost.newTabSpec("TAB1").setIndicator("我的笔记")
-				.setContent(my_note_intent));
-		tabhost.addTab(tabhost.newTabSpec("TAB2").setIndicator("添加笔记")
-				.setContent(new_note_intent));
-		tabhost.addTab(tabhost.newTabSpec("TAB3").setIndicator("分享")
-				.setContent(share_intent));
+		// 向tabhost里添加tab，这部分已经不起作用了，tabHost 已经被隐藏
+		/**
+		 * tabhost.addTab(tabhost.newTabSpec("TAB1").setIndicator("添加笔记")
+		 * .setContent(new_note_intent));
+		 * tabhost.addTab(tabhost.newTabSpec("TAB2").setIndicator("我的笔记")
+		 * .setContent(my_note_intent));
+		 * tabhost.addTab(tabhost.newTabSpec("TAB3").setIndicator("分享")
+		 * .setContent(share_intent));
+		 */
 	}
 
 	// 初始化viewPager
@@ -150,12 +156,16 @@ public class MainActivity extends TabActivity implements OnClickListener {
 				}
 			}
 
+			//默示在前一个页面滑动到后一个页面的时辰，在前一个页面滑动前调用的办法
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				// TODO Auto-generated method stub
 
 			}
 
+			/**arg0 ==1的时辰默示正在滑动，
+			 * arg0==2的时辰默示滑动完毕了，
+			 * arg0==0的时辰默示什么都没做，就是停在那*/
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				// TODO Auto-generated method stub

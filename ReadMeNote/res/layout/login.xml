@@ -5,63 +5,57 @@
     android:orientation="vertical"
     android:background="@drawable/log3" >
 
-   
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:orientation="horizontal"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="100dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:textSize="15dp"
-            android:text="用户名" />
+            android:text="用户名:"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/name_ed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="5dp"
+            android:layout_weight="0.58"
+            android:background="@drawable/ed"
+            android:ems="8"
             android:hint="请输入用户名"
-            android:ems="8" 
-             android:padding="5dp"
-            android:background="@drawable/ed">
-
-            <requestFocus />
-        </EditText>
-        
+            android:padding="5dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:layout_margin="10dp">
+        android:layout_width="272dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:layout_margin="5dp"
-            android:text="密码    " />
+            android:text="  密码  :" />
 
         <EditText
             android:id="@+id/key_ed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="请输入密码"
-             android:padding="5dp"
             android:layout_margin="5dp"
+            android:layout_weight="0.22"
             android:background="@drawable/ed"
-            android:password="true"
-            android:ems="8" />
+            android:ems="8"
+            android:hint="请输入密码"
+            android:padding="5dp"
+            android:password="true" />
 
     </LinearLayout>
 
