@@ -56,10 +56,10 @@ public class Note implements Serializable {
 	public void setAddnote_details(String addnote_details) {
 		this.addnote_details = addnote_details;
 	}
-	public String getnote_time() {
+	public String getNote_time() {
 		return note_time;
 	}
-	public void setnote_time(String note_time) {
+	public void setNote_time(String note_time) {
 		this.note_time = note_time;
 	}
 	

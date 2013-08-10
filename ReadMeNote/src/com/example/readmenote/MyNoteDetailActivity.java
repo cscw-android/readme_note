@@ -191,11 +191,9 @@ public class MyNoteDetailActivity extends Activity {
 
 		Intent intent1 = getIntent();
 		from_mynote = (Note) intent1.getSerializableExtra("note");
-		
-		
-		preferences = getSharedPreferences("count", MODE_PRIVATE);
-		user_name = preferences.getString("name", null);
-		note_time = TimeTools.getStringDate();
+		user_name = from_mynote.getUser_name();
+		note_time = from_mynote.getNote_time();
+
 		// 初始化变量button变量
 		initialize_button_variables();
 		// 关于按键的设置
@@ -931,10 +929,11 @@ public class MyNoteDetailActivity extends Activity {
 			String result;
 			int mood_number = addnote_moodTagging_itemSource[Integer
 					.parseInt(imageId)];
+			note.setNote_id(from_mynote.getNote_id());
 			note.setAddnote_details(detail);
 			note.setMood(mood_number);
 
-			note.setnote_time(note_time);
+			note.setNote_time(note_time);
 			note.setNote_title(user_title.getText().toString());
 
 			note.setUser_name(user_name);
@@ -943,9 +942,10 @@ public class MyNoteDetailActivity extends Activity {
 			try {
 				NoteDBManger noteDBManger = new NoteDBManger(context);
 				noteDBManger.open();
-				noteDBManger.addnote(note);
+				noteDBManger.updatenote(note, "user_name=? and note_time=?",
+						new String[]{user_name,note_time});
 				result = "保存成功";
-
+				noteDBManger.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				result = "保存失败";

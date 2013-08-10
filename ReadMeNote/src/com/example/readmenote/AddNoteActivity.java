@@ -848,7 +848,7 @@ public class AddNoteActivity extends Activity {
 			note.setAddnote_details(detail);
 			note.setMood(mood_number);
 			
-			note.setnote_time(note_time);
+			note.setNote_time(note_time);
 			note.setNote_title(user_title.getText().toString());
 			
 			note.setUser_name(user_name);

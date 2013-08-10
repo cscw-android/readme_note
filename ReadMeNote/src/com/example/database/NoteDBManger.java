@@ -71,6 +71,9 @@ public class NoteDBManger {
 
 		try {
 			ContentValues contentValues = new ContentValues();
+			if(note.getNote_id() != 0)
+				contentValues.put(Constants.NoteListTable.USER_NAME,
+						note.getNote_id());
 			contentValues.put(Constants.NoteListTable.USER_NAME,
 					note.getUser_name());
 			contentValues.put(Constants.NoteListTable.MOOD, note.getMood());
@@ -79,7 +82,7 @@ public class NoteDBManger {
 			contentValues.put(Constants.NoteListTable.ADDNOTE_DETAILS,
 					note.getAddnote_details());
 			contentValues.put(Constants.NoteListTable.NOTE_TIME,
-					note.getnote_time());
+					note.getNote_time());
 			db.insert(Constants.NoteListTable.TABLE_NAME, null, contentValues);
 			for (Picture picture : note.getPicture_list()) {
 				contentValues.clear();
@@ -172,7 +175,7 @@ public class NoteDBManger {
 						.getColumnIndex(Constants.NoteListTable.NOTE_TITLE)));
 				note.setAddnote_details(cn.getString(cn
 						.getColumnIndex(Constants.NoteListTable.ADDNOTE_DETAILS)));
-				note.setnote_time(note_time);
+				note.setNote_time(note_time);
 				
 				Cursor cp = db.query(Constants.PictureTable.TABLE_NAME, null, "user_name=? and note_time=?",
 						new String[]{user_name,note_time}, null, null, "picture_id asc");
@@ -237,13 +240,16 @@ public class NoteDBManger {
 	public int updatenote(Note note, String whereClause, String[] whereArgs) {
 
 		try {
-			ContentValues contentValues = new ContentValues();
+			deletenote(whereClause, whereArgs);
+			addnote(note);
+			/*ContentValues contentValues = new ContentValues();
 
 			contentValues.put(Constants.NoteListTable.NOTE_TITLE,
 					note.getNote_title());
 
-			return db.update(Constants.NoteListTable.TABLE_NAME, contentValues,
-					Constants.NoteListTable.NOTE_TITLE + "=?", whereArgs);
+			db.update(Constants.NoteListTable.TABLE_NAME, contentValues,
+					Constants.NoteListTable.NOTE_TITLE + "=?", whereArgs);*/
+			return 1;
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 			return -1;
