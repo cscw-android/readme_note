@@ -1,5 +1,6 @@
 package com.example.readmenote;
 
+import android.opengl.Visibility;
 import android.os.Build;
 
 import android.os.Bundle;
@@ -154,11 +155,14 @@ public class MyNoteActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
-			getData();
-			gridView.setAdapter(myAdapter);
-			System.out.println("jijiyy");
-			return true;
-			
+			if(isCheckBox == true){
+				getData();
+				gridView.setAdapter(myAdapter);
+				//System.out.println("jijiyy");
+				return true;
+			}else{
+				finish();
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -167,6 +171,7 @@ public class MyNoteActivity extends Activity {
 	private void getData() {
 		list.clear();
 		isCheckBox = false;
+		but_upload.setVisibility(View.GONE);
 		try {	
 			noteDBManger.open();
 		    list = noteDBManger.getdiaries(user_name);
