@@ -14,7 +14,16 @@ public class DBHelper extends SQLiteOpenHelper {
 			+ Constants.UserTable.TABLE_NAME + " (" + Constants.UserTable.ID
 			+ " integer primary key, " + Constants.UserTable.USER_NAME
 			+ " text, " + Constants.UserTable.PASSWORD + " text, "
+			+ Constants.YoudaoTable.YOUDAO
+			+ " text, " + Constants.YoudaoTable.Access_Token + " text, "
+			+ Constants.YoudaoTable.Access_Token_Secret + " text, "
 			+ Constants.UserTable.TIME + " text)";
+	private final String YoudaoTable = "create table "
+			+ Constants.YoudaoTable.TABLE_NAME + " (" + Constants.YoudaoTable.ID
+			+ " integer primary key, " + Constants.YoudaoTable.YOUDAO
+			+ " text, " + Constants.YoudaoTable.Access_Token + " text, "
+			+ Constants.YoudaoTable.Access_Token_Secret + " text, "
+			+ Constants.YoudaoTable.CONDITION + " text default 0)";
 	private final String NoteListTable = "create table "
 			+ Constants.NoteListTable.TABLE_NAME + " ("
 			+ Constants.NoteListTable.ID + " integer primary key, "
@@ -48,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		try {
 			
 			db.execSQL(USER_TABLE);
+			db.execSQL(YoudaoTable);
 			db.execSQL(NoteListTable);
 			db.execSQL(PictureTable);
 			db.execSQL(RecordAppendixTable);

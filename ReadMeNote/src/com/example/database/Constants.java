@@ -23,9 +23,32 @@ public class Constants {
 			public static final String PASSWORD = "password";
 			/**注册时间*/
 			public static final String TIME = "time";
+			/**有道通行证*/
+			public static final String YOUDAO = "youdao";
+			/**Access Token*/
+			public static final String Access_Token = "access_token";
+			/**Access Token Secret*/
+			public static final String Access_Token_Secret = "access_token_secret";
 			
 
 		}
+		
+		/**有道通行证表*/
+		public static class YoudaoTable{
+			/**表名*/
+			public static final String TABLE_NAME = "youdao";
+			/**ID*/
+			public static final String ID = "youdao_id";
+			/**有道通行证*/
+			public static final String YOUDAO = "youdao";
+			/**Access Token*/
+			public static final String Access_Token = "access_token";
+			/**Access Token Secret*/
+			public static final String Access_Token_Secret = "access_token_secret";
+			/**使用状态*/
+			public static final String CONDITION = "condition";
+		}
+		
 		/**笔记表*/
 		public static class NoteListTable {
 			/**表名*/

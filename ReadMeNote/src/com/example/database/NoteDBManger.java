@@ -8,6 +8,7 @@ import java.util.Map;
 import com.example.model.Note;
 import com.example.model.Picture;
 import com.example.model.RecordAppendix;
+import com.example.model.Youdao;
 import com.example.tools.BitMapTools;
 
 import android.content.ContentValues;
@@ -280,15 +281,44 @@ public class NoteDBManger {
 	}
 	
 	public void addUser(String user_name,String register_time,String password) {
-
+       // Youdao youdao = getYoudao();
 		try {
 			ContentValues contentValues = new ContentValues();
 			contentValues.put(Constants.UserTable.USER_NAME,user_name);
 			contentValues.put(Constants.UserTable.TIME,register_time);
 			contentValues.put(Constants.UserTable.PASSWORD, password);
+			contentValues.put(Constants.UserTable.YOUDAO, "");
+			contentValues.put(Constants.UserTable.Access_Token, "");
+			contentValues.put(Constants.UserTable.Access_Token_Secret, "");
 			db.insert(Constants.UserTable.TABLE_NAME, null, contentValues);
 		}catch(Exception e){
 			Log.e(TAG, e.getMessage());
 		}
+	}
+
+	private Youdao getYoudao() {
+		// TODO Auto-generated method stub
+
+		Cursor cursor = db.query(Constants.YoudaoTable.TABLE_NAME, null, "condition=?", new String[]{"0"},
+				 null, null, null);
+		
+		Youdao youdao = new Youdao();
+		
+		youdao.setYoudao_id(cursor.getInt(cursor
+				.getColumnIndex(Constants.YoudaoTable.ID)));
+		youdao.setYoudao(cursor.getString(cursor
+				.getColumnIndex(Constants.YoudaoTable.YOUDAO)));
+		youdao.setAccess_token(cursor.getString(cursor
+				.getColumnIndex(Constants.YoudaoTable.Access_Token)));
+		youdao.setAccess_token_secret(cursor.getString(cursor
+				.getColumnIndex(Constants.YoudaoTable.Access_Token_Secret)));
+		
+		deleteYoudao( "youdao=?", new String[]{youdao.getYoudao()});
+		return youdao;
+	}
+	
+	public int deleteYoudao(String whereClause, String[] whereArgs) {
+		return db.delete(Constants.YoudaoTable.TABLE_NAME, whereClause,
+				whereArgs);
 	}
 }
