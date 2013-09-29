@@ -1,32 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="#F0FFFF"
-        android:orientation="horizontal" >
-
-        <SearchView
-            android:id="@+id/sv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/but_delete"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:visibility="gone" />
 
     <GridView
         android:id="@+id/gridView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout2"
-        android:horizontalSpacing="10sp"
         android:numColumns="2"
-        android:verticalSpacing="10sp" >
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
     </GridView>
 
-</RelativeLayout>
+</LinearLayout>
