@@ -2,6 +2,7 @@ package com.example.tools;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,44 +10,121 @@ import com.example.model.Note;
 import com.example.readmenote.R;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MyAdapter extends BaseAdapter
 {
 
-	String TAG = "MyAdapter";
+	
 		private Activity context;
 		private List<Note> list = new ArrayList<Note>();
+		LayoutInflater myLayoutInflater;
+		public Note note;
+		public boolean isCheckBox;
+		private int position_checked;
+		public List<Boolean> mChecked;//记住选中的状态
+		
+		HashMap<Integer, View> map = new HashMap<Integer, View>();
 
-		public MyAdapter(Activity context, List<Note> list) {
+		/*LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+		View itemView = inflater.inflate(R.layout.note_show, null);*/
+		public MyAdapter(Activity context, List<Note> list,
+				boolean isCheckBox) {
 			this.context = context;
 			this.list = list;
+			this.isCheckBox = isCheckBox;
+
+			this.myLayoutInflater = LayoutInflater.from(context);
+			mChecked = new ArrayList<Boolean>();
+			for (int i = 0; i < list.size(); i++) {
+				mChecked.add(false);
+			}
+
+			
+		}
+		public MyAdapter(Activity context, List<Note> list,
+				boolean isCheckBox,int position_checked) {
+			this.context = context;
+			this.list = list;
+			this.isCheckBox = isCheckBox;
+	        this.position_checked = position_checked;
+			this.myLayoutInflater = LayoutInflater.from(context);
+
+			mChecked = new ArrayList<Boolean>();
+			for (int i = 0; i < list.size(); i++) {
+				mChecked.add(false);
+			}
+			mChecked.set(position_checked, true);
+		}
+
+		
+		static class ViewHolder {
+			public ImageView image;
+			public TextView title;
+			public TextView body;
+			public CheckBox check;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = context.getLayoutInflater();
-			View itemView = inflater.inflate(R.layout.note_show, null);
-			Note note = list.get(position);
-			String summry = DealString.cutString(note.getAddnote_details());
-			TextView textView = (TextView) itemView.findViewById(R.id.text);
-			ImageView imageView = (ImageView) itemView
-					.findViewById(R.id.image);
-			TextView titleView = (TextView) itemView.findViewById(R.id.title);
-			titleView.setText(note.getNote_title());
+			// TODO Auto-generated method stub
+			ViewHolder holder = null;
+
+			if (convertView == null) {
+				holder = new ViewHolder();
+				convertView = myLayoutInflater.inflate(R.layout.note_show, null);
+				note = list.get(position);
+				holder.image = (ImageView) convertView
+						.findViewById(R.id.imageView1);
+				holder.title = (TextView) convertView.findViewById(R.id.textView1);
+				holder.body = (TextView) convertView.findViewById(R.id.textView2);
+				holder.check = (CheckBox) convertView.findViewById(R.id.check);
+				// 将设置好的布局保存到缓存中，并将其设置在Tag里，以便后面方便取出Tag
+
+				final int p = position;
+				map.put(position, convertView);
+				if (isCheckBox == false) {
+					holder.check.setVisibility(View.GONE);
+				} else {
+					holder.check.setVisibility(View.VISIBLE);
+					
+					holder.check.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							CheckBox cb = (CheckBox) v;
+							mChecked.set(p, cb.isChecked());// 如果点击的话就将原来false的变成true
+						}
+					});
+
+				}
+
+				convertView.setTag(holder);
+			} else {
+				convertView = map.get(position);
+				holder = (ViewHolder) convertView.getTag();
+			}
+			
+			// 现在可以设置了
+			holder.body.setText(note.getAddnote_details());
+			holder.title.setText(note.getNote_title());
 			if(!note.getPicture_list().isEmpty())
-				imageView.setImageBitmap(BitMapTools.getBitmap(note.getPicture_list().get(0).getPicture(), 120, 60));
-			textView.setText(summry);
-			Log.i(TAG, summry);
-			Log.i(TAG, note.getAddnote_details());
-			return itemView;
+				{BitMapTools bitMapTools = new BitMapTools();
+				Bitmap bitmap = bitMapTools.getBitmap(note.getPicture_list().get(0).getPicture(), 150, 150);
+				holder.image.setImageBitmap(bitmap);}
+			holder.check.setChecked(mChecked.get(position) == false ? false : true);
+
+			return convertView;
 		}
 
 		@Override
