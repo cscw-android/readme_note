@@ -58,12 +58,7 @@ public class MyNoteActivity extends Activity {
 		preferences = getSharedPreferences("count", MODE_PRIVATE);
 	    user_name = preferences.getString("name", null);
 	    Log.i(TAG, user_name);
-		sv = (SearchView) findViewById(R.id.sv);
-		// 设置该searchview是否缩小为图标
-		sv.setIconifiedByDefault(true);
-		// 设置该searchview是否显示搜索按钮
-		sv.setSubmitButtonEnabled(true);
-		sv.setQueryHint(" 查找");
+		
 		getData();
 		
 		gridView.setAdapter(myAdapter);
