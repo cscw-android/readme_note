@@ -1,4 +1,4 @@
-package com.example.readmenote;
+﻿package com.example.readmenote;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -826,7 +826,14 @@ public class AddNoteActivity extends Activity {
 			Toast.makeText(AddNoteActivity.this, result.toString(), 1000)
 					.show();
 			
-			Intent intent = new Intent(AddNoteActivity.this,MainActivity.class);
+			Intent intent = new Intent();
+			
+		
+			intent.setClass(AddNoteActivity.this,MainActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			//添加的flag，这样启动MainActivity时会关闭AddNoteActivity
+		
+
 			startActivity(intent);
 		}
 
@@ -1231,7 +1238,30 @@ public class AddNoteActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			AddNoteActivity.this.finish();
+			
+			new AlertDialog.Builder(this)
+			.setIcon(R.drawable.beauty_live)
+			.setTitle("退出时是否保存？")
+			
+			.setNegativeButton("不保存", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					System.exit(0);
+				}
+			})
+			.setPositiveButton("保存", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					addnote_save.performClick();
+					
+				}
+			}).show();
+			return true;
+			
 		}
 		return super.onKeyDown(keyCode, event);
 	}

@@ -1,4 +1,4 @@
-package com.example.readmenote;
+﻿package com.example.readmenote;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,9 @@ import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Window;
+import android.widget.Toast;
 
 public class AddNote_painting extends Activity {
 	GestureOverlayView gestureView; //相关内容在 疯狂android讲义  435页
@@ -35,7 +37,7 @@ public class AddNote_painting extends Activity {
 		 				bitmap = gesture.toBitmap(128,128, 10, 0xffff0000);
 		 				//跳转回添加笔记页面
 		 				Intent intent1 = new Intent(AddNote_painting.this,NewNoteActivity.class);
-		 					
+		 				intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		 				AddNote_painting.this.setResult(2, intent1);
 		 				AddNote_painting.this.finish();
 		 			}
@@ -45,6 +47,7 @@ public class AddNote_painting extends Activity {
 	public static Bitmap getBitmap(){
         return bitmap;
     }
+	
 	
 }
 

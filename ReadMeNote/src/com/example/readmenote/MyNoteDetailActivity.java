@@ -1,4 +1,4 @@
-package com.example.readmenote;
+﻿package com.example.readmenote;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -911,6 +911,7 @@ public class MyNoteDetailActivity extends Activity {
 
 			Intent intent = new Intent(MyNoteDetailActivity.this,
 					MainActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		}
 

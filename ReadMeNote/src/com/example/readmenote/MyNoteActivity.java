@@ -1,4 +1,4 @@
-package com.example.readmenote;
+﻿package com.example.readmenote;
 
 import android.opengl.Visibility;
 import android.os.Build;
@@ -60,6 +60,8 @@ public class MyNoteActivity extends Activity {
 	private boolean isCheckBox = false;
 	private List<Integer> listItem_ID = new ArrayList<Integer>();//判断有多少个被选中
 	
+	 private long mExitTime;// 按两次返回，退出，时间长度
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,9 +87,11 @@ public class MyNoteActivity extends Activity {
 
 				Note note = (Note)myAdapter.getItem(arg2);
 				Intent intent = new Intent(MyNoteActivity.this, MyNoteDetailActivity.class);
+				
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("note", note);
 				intent.putExtras(bundle);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 
 			}
@@ -158,13 +162,21 @@ public class MyNoteActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
-			if(isCheckBox == true){
+			if(isCheckBox == true){//如果有长按被选择，则跳出选择
 				getData();
 				gridView.setAdapter(myAdapter);
 				//System.out.println("jijiyy");
 				return true;
 			}else{
-				finish();
+				 if ((System.currentTimeMillis() - mExitTime) > 2000) {//判断时间尝过2s,则弹出toast，没有则finish
+                     Object mHelperUtils;
+                     Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                     mExitTime = System.currentTimeMillis();
+
+             } else {
+            	 System.exit(0);
+             }
+             return true;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
@@ -193,4 +205,6 @@ public class MyNoteActivity extends Activity {
 		getData();
 		gridView.setAdapter(myAdapter);
 	}
-}
+	 
+ }
+
