@@ -83,10 +83,13 @@ public class MyNoteActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 
-				Toast.makeText(MyNoteActivity.this, "你点击了" + arg2 + "个",
-						Toast.LENGTH_SHORT).show();
-				//Intent intent = new Intent(MyNoteActivity.this, MyNoteDetailActivity.class);
-				//startActivity(intent);
+				Note note = (Note)myAdapter.getItem(arg2);
+				Intent intent = new Intent(MyNoteActivity.this, MyNoteDetailActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("note", note);
+				intent.putExtras(bundle);
+				startActivity(intent);
+
 			}
 		});
 		gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
