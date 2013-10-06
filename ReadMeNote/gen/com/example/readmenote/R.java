@@ -252,10 +252,10 @@ public final class R {
         public static final int gallery_menu_save=0x7f080010;
         public static final int gallery_menu_share=0x7f080015;
         public static final int gallery_menu_sound_import=0x7f080013;
-        public static final int gesture=0x7f080040;
-        public static final int gesture_blue=0x7f080042;
-        public static final int gesture_green=0x7f080043;
-        public static final int gesture_red=0x7f080041;
+        public static final int gesture=0x7f080043;
+        public static final int gesture_blue=0x7f080041;
+        public static final int gesture_green=0x7f080042;
+        public static final int gesture_red=0x7f080040;
         public static final int gridView1=0x7f080028;
         public static final int gridview=0x7f08003a;
         public static final int imageView1=0x7f080017;
