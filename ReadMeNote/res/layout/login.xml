@@ -3,87 +3,87 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@drawable/log3" >
+    android:background="@drawable/huaerhuer" >
+
+   <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read Me 笔记"
+        android:textSize="40sp"
+        android:paddingTop="50dp"
+        android:layout_gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
-        android:layout_width="273dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_margin="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="用户名:"
-            android:textSize="15dp" />
-
+       
         <EditText
             android:id="@+id/name_ed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="0.58"
-            android:background="@drawable/ed"
-            android:ems="8"
-            android:hint="请输入用户名"
-            android:padding="5dp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:ems="10"
+            android:layout_marginLeft="5dp"
+            android:hint="请输入Read Me账号" 
+             android:padding="5dp"
+             android:background="@drawable/ed">
 
-    <LinearLayout
-        android:layout_width="272dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:layout_margin="5dp"
-            android:text="  密码  :" />
-
-        <EditText
-            android:id="@+id/key_ed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="0.22"
-            android:background="@drawable/ed"
-            android:ems="8"
-            android:hint="请输入密码"
-            android:padding="5dp"
-            android:password="true" />
+            <requestFocus />
+        </EditText>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:layout_margin="10dp">
+        android:layout_height="wrap_content"
+       android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         >
+
+      
+
+        <EditText
+            android:id="@+id/key_ed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10" 
+             android:layout_marginLeft="5dp"
+            android:hint="请输入密码"
+            android:password="true"
+             android:padding="5dp"
+             android:background="@drawable/ed"/>
+
+    </LinearLayout>
+
+   
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/but_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="登入" 
+            android:text="登陆"
+            android:layout_gravity="center" 
             android:background="@drawable/but"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-             android:layout_weight="1"/>
-
+            />
         <Button
             android:id="@+id/but_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册" 
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:text="注册"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center" 
             android:background="@drawable/but"
-            android:layout_weight="1"
-           />
+            /> 
 
     </LinearLayout>
 

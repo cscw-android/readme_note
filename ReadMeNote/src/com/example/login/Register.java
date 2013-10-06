@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -19,7 +20,7 @@ import android.widget.Toast;
 
 public class Register extends Activity{
 	private final String TAG = "Register"; 
-	Button register;
+	Button register, register_back;
 	EditText key_ed,name_ed,key_again_ed;
 	private NoteDBManger noteDBManger;
 	Activity context = this;
@@ -34,6 +35,7 @@ public class Register extends Activity{
 		key_again_ed = (EditText)findViewById(R.id.key_again_register);
 		name_ed = (EditText)findViewById(R.id.name_register);
 		register = (Button)findViewById(R.id.register_register);
+		register_back = (Button)findViewById(R.id.register_back);
 		
 		register.setOnClickListener(new OnClickListener() {
 				
@@ -77,6 +79,30 @@ public class Register extends Activity{
 				
 				}
 		});
+		register_back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(Register.this,Login.class);
+				startActivity(intent);
+			}
+		});
+		
+		
+		
 	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			Intent intent = new Intent(Register.this,Login.class);
+			startActivity(intent);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
  
 }
