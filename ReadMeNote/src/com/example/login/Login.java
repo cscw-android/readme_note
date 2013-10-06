@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -114,6 +115,15 @@ public class Login extends Activity{
 		name_ed = (EditText)findViewById(R.id.name_ed);
 		key_ed = (EditText)findViewById(R.id.key_ed);
 		
+	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			//这个由喵神做    finish();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 	
 	

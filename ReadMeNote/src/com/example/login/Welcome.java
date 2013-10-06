@@ -16,6 +16,7 @@ public class Welcome extends Activity{
 	private int count;//记录使用的次数
 	
 	SharedPreferences preference;
+	String name = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -36,14 +37,15 @@ public class Welcome extends Activity{
 			@Override
 			public void run() {
 				//如果count == 1，即第一次使用
-				if(count == 1)
+				if(count == 1 || name == null)
 				{//跳转到登入界面
 				Intent intent = new Intent(Welcome.this,Login.class);
 				startActivity(intent);
 				Welcome.this.finish();
 				}else{
+					
 					//获得上一次登入的用户的用户名，到时候可以传递，通过用户名打开数据库里面的笔记
-					String name = preference.getString("name", null);
+					name = preference.getString("name", null);
 					System.out.println(name);
 					//不是第一次登入，直接跳转到主界面
 					Intent intent = new Intent(Welcome.this,MainActivity.class);
