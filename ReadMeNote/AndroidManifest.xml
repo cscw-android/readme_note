@@ -79,6 +79,11 @@
             android:name="com.example.readmenote.ShareActivity"
             android:label="@string/title_activity_share"
             android:screenOrientation="portrait" >
+             </activity>
+             <activity
+            android:name="com.example.readmenote.Cloud_sharing_activity"
+            android:label="@string/title_activity_share"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.readmenote.ThingDetail"

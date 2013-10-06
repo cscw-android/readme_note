@@ -117,7 +117,7 @@ public class AddNoteActivity extends Activity {
 	EditText user_detail, user_title;
 	
 	private ImageButton addnote_save, addnote_picture, addnote_record,
-			addnote_recordinput;
+			addnote_recordinput,addnote_share;
 	private ImageButton addnote_painting, addnote_addthing;
 	
 	protected static final String TAG = "IatDemo";
@@ -238,6 +238,7 @@ public class AddNoteActivity extends Activity {
 		addnote_recordinput = (ImageButton) findViewById(R.id.gallery_menu_sound_import);
 		addnote_painting = (ImageButton) findViewById(R.id.gallery_menu_painting);
 		addnote_addthing = (ImageButton) findViewById(R.id.gallery_menu_add_thing);
+		addnote_share= (ImageButton) findViewById(R.id.gallery_menu_share);
 	}
 
 	public void button_set() {
@@ -374,7 +375,25 @@ public class AddNoteActivity extends Activity {
 				startActivityForResult(intent, GESTURE);
 			}
 		});
+		addnote_share.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast share_toast = Toast.makeText(getApplicationContext(),
+						"这是分享按钮", 7000);
+				share_toast.show();
+				String string_user_detail = user_detail.getText().toString();
+				Bundle user_detail_data = new Bundle();
+				user_detail_data.putString("string_user_detail", string_user_detail);
+				Intent intent = new Intent(AddNoteActivity.this,
+						ShareActivity.class);
+				intent.putExtras(user_detail_data);
+				startActivity(intent);
 
+
+				
+			}
+		});
 		addnote_addthing.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

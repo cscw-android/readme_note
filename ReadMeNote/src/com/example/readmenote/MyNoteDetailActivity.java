@@ -249,8 +249,10 @@ public class MyNoteDetailActivity extends Activity {
 		String string = user_detail.getText().toString();
 		int i = 0;//判断一共多少张图片 
 		int a = 0, c = 0, d = 0;//
+		int e = 0;//e是用来判断是时候是第一张图片
 		boolean b = false;
 		while(i<from_mynote.getPicture_list().size()){
+			if(i==1){e = 1;}
 			b = false;
 			d = string.indexOf("[local]" + 1 + "[/local]", a);//从a位置开始 找"[local]" + 1 + "[/local]"
 			if (d >= 0) {
@@ -266,10 +268,13 @@ public class MyNoteDetailActivity extends Activity {
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			Editable edit_text = user_detail.getEditableText();
 			if (b) {
-				edit_text.replace(d - i, d + c  - i,
+				
+				edit_text.replace(d - i, d + c  - i +e,
 						spannableString1);
 				i++;
+				
 			} 
+			
 			
 		}
 		

@@ -60,6 +60,7 @@ public class Register extends Activity{
 							noteDBManger.addUser(name, register_time ,key);
 							Toast.makeText(Register.this, "注册成功", Toast.LENGTH_SHORT).show();
 							Intent intent = getIntent();
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							Bundle bundle = new Bundle();
 							bundle.putString("name", name);
 							bundle.putString("key", key);
@@ -98,6 +99,7 @@ public class Register extends Activity{
 		// TODO Auto-generated method stub
 		if(keyCode == KeyEvent.KEYCODE_BACK){
 			Intent intent = new Intent(Register.this,Login.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
 		}
