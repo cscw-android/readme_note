@@ -1,4 +1,4 @@
-package com.example.readmenote;
+﻿package com.example.readmenote;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,9 +23,11 @@ import cn.sharesdk.onekeyshare.ShareAllGird;
 public class ShareActivity extends Activity implements OnClickListener {
 	//定义图片存放的地址
 	public static String TEST_IMAGE;
+	public  String string_user_detail;
 
 	//定义"账号登陆"按钮，"有分享界面按钮"，"无分享界面"按钮，"得到用户资料"按钮
 	private Button authLoginBtn,shareGuiBtn,shareBtn,getInfoBtn;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,20 @@ public class ShareActivity extends Activity implements OnClickListener {
 		
 		initView();
 		
+		 getIntentdata();
+		
 		initData();
 	}
+	/**
+	 * 获得笔记详细内容
+	 */
+	private void getIntentdata() {
+		// TODO Auto-generated method stub
+		Intent intent = getIntent();
+		Bundle b = intent.getExtras();
+		string_user_detail = b.getString("string_user_detail");
+	}
+
 
 	/**
 	 * 初始化组件
@@ -130,13 +144,13 @@ public class ShareActivity extends Activity implements OnClickListener {
 		// title标题，在印象笔记、邮箱、信息、微信（包括好友和朋友圈）、人人网和QQ空间使用，否则可以不提供
 		i.putExtra("title", this.getString(R.string.share));
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供
-		i.putExtra("titleUrl", "http://sharesdk.cn");
+		i.putExtra("titleUrl", "http://sina.weibo.com/qiannianyaorao");
 		// text是分享文本，所有平台都需要这个字段
-		i.putExtra("text", this.getString(R.string.share_content));
+		i.putExtra("text", string_user_detail);
 		// imagePath是本地的图片路径，所有平台都支持这个字段，不提供，则表示不分享图片
 		i.putExtra("imagePath", ShareActivity.TEST_IMAGE);
 		// url仅在微信（包括好友和朋友圈）中使用，否则可以不提供
-		i.putExtra("url", "http://sharesdk.cn");
+		i.putExtra("url", "http://sina.weibo.com/qiannianyaorao");
 		// thumbPath是缩略图的本地路径，仅在微信（包括好友和朋友圈）中使用，否则可以不提供
 		i.putExtra("thumbPath", ShareActivity.TEST_IMAGE);
 		// appPath是待分享应用程序的本地路劲，仅在微信（包括好友和朋友圈）中使用，否则可以不提供
@@ -146,7 +160,7 @@ public class ShareActivity extends Activity implements OnClickListener {
 		// site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供
 		i.putExtra("site", this.getString(R.string.app_name));
 		// siteUrl是分享此内容的网站地址，仅在QQ空间使用，否则可以不提供
-		i.putExtra("siteUrl", "http://sharesdk.cn");
+		i.putExtra("siteUrl", "http://sina.weibo.com/qiannianyaorao");
 
 		// 是否直接分享
 		i.putExtra("silent", silent);

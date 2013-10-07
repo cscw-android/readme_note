@@ -123,7 +123,7 @@ public class MyNoteDetailActivity extends Activity {
 
 	private ImageButton addnote_save, addnote_picture, addnote_record,
 			addnote_recordinput;
-	private ImageButton addnote_painting, addnote_addthing, detail_modify;
+	private ImageButton addnote_painting, addnote_addthing, addnote_share,detail_modify;
 
 	protected static final String TAG = "IatDemo";
 	// 这是语音部分的请求码
@@ -249,27 +249,32 @@ public class MyNoteDetailActivity extends Activity {
 		String string = user_detail.getText().toString();
 		int i = 0;//判断一共多少张图片 
 		int a = 0, c = 0, d = 0;//
+		int e = 0;//e是用来判断是时候是第一张图片
 		boolean b = false;
 		while(i<from_mynote.getPicture_list().size()){
+			if(i==1){e = 1;}
 			b = false;
-			d = string.indexOf("[local]" + 1 + "[/local]", a);//从a位置开始 找"[local]" + 1 + "[/local]"
+			d = string.indexOf("[图]" + 1 + "[/片]", a);//从a位置开始 找"[图]" + 1 + "[/片]"
 			if (d >= 0) {
 				b = true;
 			}
-			c = ("[local]" + 1 + "[/local]").length();
+			c = ("[图]" + 1 + "[/片]").length();
 			a = d + c;
 			Bitmap bitmap = BitMapTools.getBitmap(from_mynote.getPicture_list().get(i).getPicture(), 200, 200);
 			ImageSpan imageSpan = new ImageSpan(MyNoteDetailActivity.this,bitmap);
-			SpannableString spannableString1 = new SpannableString("[local]" + 1 + "[/local]");
+			SpannableString spannableString1 = new SpannableString("[图]" + 1 + "[/片]");
 			spannableString1.setSpan(imageSpan, 0,
-					"[local]1[local]".length() + 1,
+					"[图]1[片]".length() + 1,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			Editable edit_text = user_detail.getEditableText();
 			if (b) {
-				edit_text.replace(d - i, d + c  - i,
+				
+				edit_text.replace(d - i, d + c  - i +e,
 						spannableString1);
 				i++;
+				
 			} 
+			
 			
 		}
 		
@@ -286,7 +291,8 @@ public class MyNoteDetailActivity extends Activity {
 		addnote_recordinput = (ImageButton) findViewById(R.id.gallery_menu_sound_import);
 		addnote_painting = (ImageButton) findViewById(R.id.gallery_menu_painting);
 		addnote_addthing = (ImageButton) findViewById(R.id.gallery_menu_add_thing);
-
+		addnote_share = (ImageButton) findViewById(R.id.gallery_menu_share);
+		
 		addnote_moodTagging.setEnabled(false);
 		user_title.setEnabled(false);
 		user_detail.setEnabled(false);
@@ -296,6 +302,7 @@ public class MyNoteDetailActivity extends Activity {
 		addnote_record.setVisibility(View.GONE);
 		addnote_recordinput.setVisibility(View.GONE);
 		addnote_painting.setVisibility(View.GONE);
+		addnote_share.setVisibility(View.GONE);
 		addnote_addthing.setVisibility(View.GONE);
 	}
 
@@ -312,6 +319,7 @@ public class MyNoteDetailActivity extends Activity {
 				addnote_record.setVisibility(View.VISIBLE);
 				addnote_recordinput.setVisibility(View.VISIBLE);
 				addnote_painting.setVisibility(View.VISIBLE);
+				addnote_share.setVisibility(View.VISIBLE);
 				addnote_addthing.setVisibility(View.VISIBLE);
 				addnote_moodTagging.setEnabled(true);
 				user_title.setEnabled(true);
@@ -457,6 +465,26 @@ public class MyNoteDetailActivity extends Activity {
 				startActivityForResult(intent, GESTURE);
 			}
 		});
+		
+		addnote_share.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast share_toast = Toast.makeText(getApplicationContext(),
+						"这是分享按钮", 7000);
+				share_toast.show();
+				String string_user_detail = user_detail.getText().toString();
+				Bundle user_detail_data = new Bundle();
+				user_detail_data.putString("string_user_detail", string_user_detail);
+				Intent intent = new Intent(MyNoteDetailActivity.this,
+						ShareActivity.class);
+				intent.putExtras(user_detail_data);
+				startActivity(intent);
+
+
+				
+			}
+		});
 
 		addnote_addthing.setOnClickListener(new OnClickListener() {
 			@Override
@@ -587,10 +615,10 @@ public class MyNoteDetailActivity extends Activity {
 			// 接下来的代码跟上面的注释是一样的，不累赘注释
 			ImageSpan imageSpan = new ImageSpan(MyNoteDetailActivity.this,
 					bitmap_painting);
-			SpannableString spannableString = new SpannableString("[local]" + 1
-					+ "[/local]");
+			SpannableString spannableString = new SpannableString("[图]" + 1
+					+ "[/片]");
 			spannableString.setSpan(imageSpan, 0,
-					"[local]1[local]".length() + 1,
+					"[图]1[片]".length() + 1,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			int index = user_detail.getSelectionStart();
 			Editable edit_text = user_detail.getEditableText();
@@ -694,13 +722,13 @@ public class MyNoteDetailActivity extends Activity {
 				ImageSpan imageSpan = new ImageSpan(MyNoteDetailActivity.this,
 						bitmap);
 				// 创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像
-				// (括号里面的我不懂"[local]"+1+"[/local]")
-				SpannableString spannableString = new SpannableString("[local]"
-						+ 1 + "[/local]");
+				// (括号里面的我不懂"[图]"+1+"[/片]")
+				SpannableString spannableString = new SpannableString("[图]"
+						+ 1 + "[/片]");
 				// 用ImageSpan对象替换face 参数（要替换的内容，从第几个开始，第几个结束，[5,10)，包括5
 				// ，不包括10，最后一个是规范的参数）
 				spannableString.setSpan(imageSpan, 0,
-						"[local]1[local]".length() + 1,
+						"[图]1[片]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				// 将选择的图片追加到EditText中光标所在位置
 				int index = user_detail.getSelectionStart(); // 获取光标所在位置
@@ -729,10 +757,10 @@ public class MyNoteDetailActivity extends Activity {
 
 				ImageSpan imageSpan = new ImageSpan(MyNoteDetailActivity.this,
 						bitmap);
-				SpannableString spannableString = new SpannableString("[local]"
-						+ 1 + "[/local]");
+				SpannableString spannableString = new SpannableString("[图]"
+						+ 1 + "[/片]");
 				spannableString.setSpan(imageSpan, 0,
-						"[local]1[local]".length() + 1,
+						"[图]1[片]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				System.out.println("..................");
 				// 将选择的图片追加到EditText中光标所在位置

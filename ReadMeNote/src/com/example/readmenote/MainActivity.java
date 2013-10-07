@@ -1,4 +1,4 @@
-package com.example.readmenote;
+﻿package com.example.readmenote;
 
 import java.sql.Date;
 
@@ -17,6 +17,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends TabActivity implements OnClickListener {
 	private TextView time_textview;
@@ -37,6 +39,8 @@ public class MainActivity extends TabActivity implements OnClickListener {
 	private Intent my_note_intent, new_note_intent, share_intent;
 	private RadioButton button1, button2, button3;
 	private ViewPager pager;
+	
+	
 	// 这个List<View>类型，我查不到
 	List<View> listViews;
 	LocalActivityManager manager = null;
@@ -85,11 +89,11 @@ public class MainActivity extends TabActivity implements OnClickListener {
 		// 这里新建3个的Intent用于Activity的切换
 		my_note_intent = new Intent(this, MyNoteActivity.class);
 		new_note_intent = new Intent(this, NewNoteActivity.class);
-		share_intent = new Intent(this, ShareActivity.class);
+		share_intent = new Intent(this, Cloud_sharing_activity.class);
 		// 这里的listview用于装载各个activity对应的视图，即界面
 		listViews.add(getView("NewNoteActivity", new_note_intent));
 		listViews.add(getView("MyNoteActivity", my_note_intent));
-		listViews.add(getView("ShareActivity", share_intent));
+		listViews.add(getView("Cloud_sharing_activity", share_intent));
 
 		// 每一个标签的样子
 		// 因为把Tabhost隐藏了，所以这段设置TabHost的标题、图片的代码也就起不了作用了，可删掉
@@ -265,5 +269,8 @@ public class MainActivity extends TabActivity implements OnClickListener {
 			break;
 		}
 	}
+		
+
+	
 
 }
