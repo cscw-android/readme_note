@@ -523,10 +523,10 @@ public class AddNoteActivity extends Activity {
 			// 接下来的代码跟上面的注释是一样的，不累赘注释
 			ImageSpan imageSpan = new ImageSpan(AddNoteActivity.this,
 					bitmap_painting);
-			SpannableString spannableString = new SpannableString("[local]" + 1
-					+ "[/local]");
+			SpannableString spannableString = new SpannableString("[图]" + 1
+					+ "[/片]");
 			spannableString.setSpan(imageSpan, 0,
-					"[local]1[local]".length() + 1,
+					"[图]1[片]".length() + 1,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			int index = user_detail.getSelectionStart();
 			Editable edit_text = user_detail.getEditableText();
@@ -630,13 +630,13 @@ public class AddNoteActivity extends Activity {
 				ImageSpan imageSpan = new ImageSpan(AddNoteActivity.this,
 						bitmap);
 				// 创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像
-				// (括号里面的我不懂"[local]"+1+"[/local]")
-				SpannableString spannableString = new SpannableString("[local]"
-						+ 1 + "[/local]");
+				// (括号里面的我不懂"[图]"+1+"[/片]")
+				SpannableString spannableString = new SpannableString("[图]"
+						+ 1 + "[/片]");
 				// 用ImageSpan对象替换face 参数（要替换的内容，从第几个开始，第几个结束，[5,10)，包括5
 				// ，不包括10，最后一个是规范的参数）
 				spannableString.setSpan(imageSpan, 0,
-						"[local]1[local]".length() + 1,
+						"[图]1[片]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				// 将选择的图片追加到EditText中光标所在位置
 				int index = user_detail.getSelectionStart(); // 获取光标所在位置
@@ -665,10 +665,10 @@ public class AddNoteActivity extends Activity {
 				
 				ImageSpan imageSpan = new ImageSpan(AddNoteActivity.this,
 						bitmap);
-				SpannableString spannableString = new SpannableString("[local]"
-						+ 1 + "[/local]");
+				SpannableString spannableString = new SpannableString("[图]"
+						+ 1 + "[/片]");
 				spannableString.setSpan(imageSpan, 0,
-						"[local]1[local]".length() + 1,
+						"[图]1[片]".length() + 1,
 						Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				System.out.println("..................");
 				// 将选择的图片追加到EditText中光标所在位置
