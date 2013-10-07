@@ -32,6 +32,8 @@ public class Welcome extends Activity{
 		//写入数据，然后commit
 		editor.putInt("count", ++count).commit();
 		//使用线程使activity延迟2秒
+		//获得上一次登入的用户的用户名，到时候可以传递，通过用户名打开数据库里面的笔记
+		name = preference.getString("name", null);
 		new Handler().postDelayed(new Runnable(){
 
 			@Override
@@ -40,13 +42,13 @@ public class Welcome extends Activity{
 				if(count == 1 || name == null)
 				{//跳转到登入界面
 				Intent intent = new Intent(Welcome.this,Login.class);
+				//System.out.println(name);
+				System.out.println("count"+count);
 				startActivity(intent);
 				Welcome.this.finish();
-				}else{
+				}else if(name != null){
 					
-					//获得上一次登入的用户的用户名，到时候可以传递，通过用户名打开数据库里面的笔记
-					name = preference.getString("name", null);
-					System.out.println(name);
+					System.out.println("名字是"+name);
 					//不是第一次登入，直接跳转到主界面
 					Intent intent = new Intent(Welcome.this,MainActivity.class);
 					startActivity(intent);
