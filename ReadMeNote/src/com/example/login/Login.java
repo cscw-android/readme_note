@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -68,7 +69,9 @@ public class Login extends Activity{
 							}
 							else{
 								Intent intent = new Intent(Login.this,MainActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
+								Login.this.finish();
 							}
 						}
 						noteDBManger.close();
@@ -84,6 +87,8 @@ public class Login extends Activity{
 			public void onClick(View v) {
 				//跳到注册界面，到时候是否要从注册页面获得数据然后直接把刚注册的用户的用户名和密码填在edittext里面？？
 				Intent intent = new Intent(Login.this,Register.class);
+
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivityForResult(intent,0);
 				
 			}
@@ -114,6 +119,16 @@ public class Login extends Activity{
 		name_ed = (EditText)findViewById(R.id.name_ed);
 		key_ed = (EditText)findViewById(R.id.key_ed);
 		
+	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			
+			System.exit(0);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 	
 	

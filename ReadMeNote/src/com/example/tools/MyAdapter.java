@@ -1,4 +1,4 @@
-package com.example.tools;
+﻿package com.example.tools;
 
 
 import java.util.ArrayList;
@@ -84,14 +84,14 @@ public class MyAdapter extends BaseAdapter
 				convertView = myLayoutInflater.inflate(R.layout.note_show, null);
 				note = list.get(position);
 				holder.image = (ImageView) convertView
-						.findViewById(R.id.imageView1);
-				holder.title = (TextView) convertView.findViewById(R.id.textView1);
-				holder.body = (TextView) convertView.findViewById(R.id.textView2);
-				holder.check = (CheckBox) convertView.findViewById(R.id.check);
+						.findViewById(R.id.mynote_imageView1);
+				holder.title = (TextView) convertView.findViewById(R.id.mynote_textView1);
+				holder.body = (TextView) convertView.findViewById(R.id.mynote_textView2);
+				holder.check = (CheckBox) convertView.findViewById(R.id.mynote_check);
 				// 将设置好的布局保存到缓存中，并将其设置在Tag里，以便后面方便取出Tag
 
 				final int p = position;
-				map.put(position, convertView);
+				//map.put(position, convertView);
 				if (isCheckBox == false) {
 					holder.check.setVisibility(View.GONE);
 				} else {
@@ -111,7 +111,7 @@ public class MyAdapter extends BaseAdapter
 
 				convertView.setTag(holder);
 			} else {
-				convertView = map.get(position);
+				//convertView = map.get(position);
 				holder = (ViewHolder) convertView.getTag();
 			}
 			

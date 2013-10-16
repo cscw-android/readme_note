@@ -31,4 +31,18 @@
     <string name="title_activity_my_note_detail">MyNoteDetailActivity</string>
     <string name="title_activity_api_test">ApiTestActivity</string>
 
+     <string name="not_yet_authorized">尚未授权</string>
+      <string name="sinaweibo">新浪微博</string> 
+      <string name="tencentweibo">腾讯微博</string>
+       <string name="renren">人人网</string> 
+       <string name="qzone">QQ空间</string> 
+       <string name="share_content">Read Me!笔记  带来幸福好心情~</string> 
+       <string name="share">分享</string>
+        <string name="get_user_info_sw">获取新浪微博授权用户资料</string> 
+        <string name="get_user_info_tc">获取腾讯微博授权用户资料</string> 
+        <string name="get_user_info_rr">获取人人网授权用户资料</string> 
+        <string name="get_user_info_qz">获取QQ空间授权用户资料</string>
+         <string name="get_my_info">获取授权用户资料</string> 
+         <string name="get_other_info">获取其他用户资料</string>
+
 </resources>

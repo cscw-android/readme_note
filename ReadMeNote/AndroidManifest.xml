@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.readmenote" >
     android:versionCode="1"
-    android:versionName="1.0" >
+
+    android:versionName="1.0" >
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
@@ -16,6 +17,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
 
     <application
         android:allowBackup="true"
@@ -69,6 +72,11 @@
             android:name="com.example.readmenote.ShareActivity"
             android:label="@string/title_activity_share"
             android:screenOrientation="portrait" >
+             </activity>
+             <activity
+            android:name="com.example.readmenote.Cloud_sharing_activity"
+            android:label="@string/title_activity_share"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.readmenote.ThingDetail"
@@ -94,10 +102,34 @@
             android:name="com.example.readmenote.MyNoteDetailActivity"
             android:label="@string/title_activity_my_note_detail" >
         </activity>
+
         <activity
             android:name="com.readme.demo.ApiTestActivity"
             android:label="@string/title_activity_api_test" >
         </activity>
+
+        <activity android:name="cn.sharesdk.framework.AuthorizeActivity" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+            android:windowSoftInputMode="stateHidden|adjustResize" 
+            android:screenOrientation="portrait" 
+            android:configChanges="keyboardHidden|orientation">
+             </activity> 
+        <activity android:name="com.example.readmenote.AuthActivity">
+             </activity>
+             
+            
+              <activity android:name="cn.sharesdk.onekeyshare.ShareAllGird" 
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+                  android:windowSoftInputMode="adjustPan|stateHidden" 
+                  android:screenOrientation="portrait" 
+                  android:configChanges="keyboardHidden|orientation"/>
+               <activity android:name="cn.sharesdk.onekeyshare.SharePage" 
+                   android:windowSoftInputMode="stateHidden|adjustResize" 
+                   android:screenOrientation="portrait" 
+                   android:configChanges="keyboardHidden|orientation"/> 
+                   <activity android:name="com.example.readmenote.ShowInforActivity"/>
+                    <activity android:name="com.example.readmenote.GetInforActivity"/>
+
     </application>
 
 </manifest>
