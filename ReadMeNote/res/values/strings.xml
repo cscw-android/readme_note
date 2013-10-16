@@ -29,5 +29,6 @@
 
     <string name="title_activity_add_note">AddNoteActivity</string>
     <string name="title_activity_my_note_detail">MyNoteDetailActivity</string>
+    <string name="title_activity_api_test">ApiTestActivity</string>
 
 </resources>
